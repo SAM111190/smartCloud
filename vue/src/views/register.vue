@@ -12,8 +12,12 @@
         <el-form-item prop="confirm">
           <el-input v-model="form.confirm"  show-password :prefix-icon="Lock" placeholder="确认密码"/>
         </el-form-item>
-        <el-form-item>
-          <el-button style="width:100%" type="primary" @click="register">注册</el-button>
+        <el-form-item prop="address">
+          <el-input v-model="form.address" :prefix-icon="Message"  placeholder="邮箱"/>
+        </el-form-item>
+        <el-form-item style="padding: 0px 10%">
+          <el-button style="margin: 10px;width: 40%; float: right; box-sizing: border-box;" type="primary" @click="register">注册</el-button>
+          <el-button style="margin: 10px;width: 40%; float: right; box-sizing: border-box;" type="default" @click="$router.push('/login')">返回登陆</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -21,7 +25,7 @@
 </template>
 
 <script>
-import { Avatar,Lock } from '@element-plus/icons-vue'
+import { Avatar,Lock,Message } from '@element-plus/icons-vue'
 import request from "@/utils/request";
 export default {
   name: "register",
@@ -41,7 +45,8 @@ export default {
         ],
       },
       Avatar,
-      Lock
+      Lock,
+      Message,
     }
   },
   methods:{
