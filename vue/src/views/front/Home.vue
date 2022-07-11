@@ -112,6 +112,17 @@
 <script>
 export default {
   name: "FrontHome",
+  data() {
+    return {
+      search: '',
+      activeIndex: '/front/home',
+      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+    }
+  },
+  created() {
+    let userStr = sessionStorage.getItem("user") || "{}"
+    this.user = JSON.parse(userStr)
+  },
   // data(){
   //   return {
   //     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
@@ -145,5 +156,10 @@ export default {
 .box-card {
   width: 300px;
   margin: 15px 0;
+}
+.notice{
+  text-align: center;
+  margin: 35vh auto;
+  color:grey;
 }
 </style>
