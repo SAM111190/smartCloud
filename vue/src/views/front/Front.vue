@@ -42,7 +42,9 @@
                   <el-dropdown-menu>
                     <el-dropdown-item>个人空间</el-dropdown-item>
                     <el-dropdown-item>通知</el-dropdown-item>
-                    <el-dropdown-item @click="$router.push('/login')">注销</el-dropdown-item>
+                    <el-dropdown-item>
+                      <span @click="logout">注销</span>
+                    </el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -59,23 +61,30 @@
 import {ArrowDown, Avatar} from '@element-plus/icons-vue'
 import {RemoveFilled} from "@element-plus/icons";
 export default {
-  name:"Front",
-  components:{
+  name: "Front",
+  components: {
     RemoveFilled,
     Avatar,
     ArrowDown,
   },
   data() {
-    return{
-      search:'',
-      activeIndex:'/front/home',
-      user:localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+    return {
+      search: '',
+      activeIndex: '/front/home',
+      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
   created() {
     let userStr = sessionStorage.getItem("user") || "{}"
     this.user = JSON.parse(userStr)
   },
+  methods: {
+    logout() {
+      this.$router.push("/login")
+      localStorage.removeItem("user")
+      this.$message.success("退出成功")
+    }
+  }
 }
 </script>
 <style>
