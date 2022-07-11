@@ -78,7 +78,6 @@ export default {
   },
 }
 </script>
-
 <style>
 .header {
   display: flex;
