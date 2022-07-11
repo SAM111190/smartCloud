@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   background-image: linear-gradient(200deg,#3a9bdc,#1260cc);
   height: 100vh;
@@ -84,14 +84,13 @@ export default {
 }
 
 .form {
-  width:550px;
-  height:50vh;
-  margin:180px auto;
+  margin: calc((100vh - 450px)/2) auto;
+  height: 450px;
+  width: 650px;
   border: 1px white solid;
   box-sizing: border-box;
   background-color: white;
   border-radius: 5px;
-  padding:10px 100px;
+  padding: 10px 90px;
 }
-
 </style>

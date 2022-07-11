@@ -9,7 +9,7 @@
         <el-form-item prop="password">
           <el-input v-model="form.password"  show-password :prefix-icon="Lock" placeholder="密码"/>
         </el-form-item>
-        <el-form-item>
+        <el-form-item style="padding: 0px 10%">
           <el-button style="margin: 10px;width: 40%; float:left; box-sizing: border-box;" type="primary" @click="login">登录</el-button>
           <el-button style="margin: 10px;width: 40%; float: right; box-sizing: border-box;" type="default" @click="$router.push('/register')">去注册</el-button>
         </el-form-item>
@@ -65,7 +65,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   background-image: linear-gradient(200deg,#3a9bdc,#1260cc);
   height: 100vh;
@@ -73,13 +73,13 @@ export default {
 }
 
 .form {
-  width:550px;
-  height:350px;
-  margin:200px auto;
+  margin: calc((100vh - 400px)/2) auto;
+  height: 350px;
+  width: 650px;
   border: 1px white solid;
   box-sizing: border-box;
   background-color: white;
   border-radius: 5px;
-  padding:20px 100px;
+  padding: 20px 90px;
 }
 </style>

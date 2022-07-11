@@ -1,5 +1,9 @@
 <template>
   <div style="margin: 10px 0px">
+    <div v-if="!user.username" class="notice">
+      <h1>详细内容请登陆后查看</h1>
+    </div>
+    <div v-else>
     <el-row :gutter="5">
       <el-col :span="6">
         <el-card class="box-card" shadow="hover">
@@ -100,6 +104,7 @@
     <!--        </el-card>-->
     <!--      </el-col>-->
     <!--    </el-row>-->
+    </div>
   </div>
 
 </template>
@@ -109,6 +114,7 @@ export default {
   name: "FrontHome",
   // data(){
   //   return {
+  //     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
   //    files:[]
   //   }
   // },
