@@ -5,7 +5,7 @@
         <div style="flex: 1"></div>
         <div style="width: 100px; padding-top:18px">
             <el-dropdown>
-                <span class="el-dropdown-link" style="color:#1260cc">
+                <span class="el-dropdown-link" style="color:#1260cc;cursor: pointer">
                  {{ user.username }}
                 <el-icon class="el-icon--right">
                     <arrow-down />

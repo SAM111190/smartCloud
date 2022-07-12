@@ -9,6 +9,12 @@
         <el-form-item prop="password">
           <el-input v-model="form.password"  show-password :prefix-icon="Lock" placeholder="密码"/>
         </el-form-item>
+        <el-form-item>
+          <div style="display: flex">
+            <el-input v-model="form.validCode" :prefix-icon="Key" style="width: 50%" placeholder="验证码"/>
+            <ValidCode style="margin-left: 60px" @input="createValidCode"/>
+          </div>
+        </el-form-item>
         <el-form-item style="padding: 0px 10%">
           <el-button style="margin: 10px;width: 40%; float:left; box-sizing: border-box;" type="primary" @click="login">登录</el-button>
           <el-button style="margin: 10px;width: 40%; float: right; box-sizing: border-box;" type="default" @click="$router.push('/register')">去注册</el-button>
@@ -19,10 +25,14 @@
 </template>
 
 <script>
-import { Avatar,Lock } from '@element-plus/icons-vue'
+import { Avatar,Lock,Key } from '@element-plus/icons-vue'
 import request from "@/utils/request";
+import ValidCode from "../components/ValidCode";
 export default {
   name: "login",
+  components: {
+    ValidCode,
+  },
   data(){
     return{
       form:{},
@@ -36,13 +46,27 @@ export default {
         ],
       },
       Avatar,
-      Lock
+      Lock,
+      Key,
+      validCode:'',
     }
   },
   methods:{
+    //接收验证码组件提交的四位验证码
+    createValidCode(data) {
+      this.validCode = data
+    },
     login () {
       this.$refs['form'].validate((valid) => {
         if(valid){   //判断是否满足验证规则，才能进行下面的请求
+          if(!this.form.validCode) {
+            this.$message.error("请填写验证码")
+            return
+          }
+          if(this.form.validCode.toLowerCase() !== this.validCode.toLowerCase()){
+            this.$message.error("验证码错误")
+            return
+          }
           request.post( "/user/login", this.form).then(res =>{
             if(res.code === '0'){
               this.$message({
@@ -74,7 +98,7 @@ export default {
 
 .form {
   margin: calc((100vh - 400px)/2) auto;
-  height: 350px;
+  height: 400px;
   width: 650px;
   border: 1px white solid;
   box-sizing: border-box;

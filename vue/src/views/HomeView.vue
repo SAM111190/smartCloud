@@ -18,8 +18,8 @@
       <el-table-column prop="password" label="密码" />
       <el-table-column prop="age" label="年龄" />
       <el-table-column prop="sex" label="性别" />
-      <el-table-column prop="address" label="地址" />
-      <el-table-column fixed="right" label="Operations" width="120">
+      <el-table-column prop="address" label="邮箱" />
+      <el-table-column fixed="right" label="操作">
         <template #default="scope">
           <el-button   @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm title="确认删除吗？" @confirm="handleDelete(scope.row.id)">
@@ -68,9 +68,9 @@
         </el-form>
         <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="save"
-        >Confirm</el-button
+        >确认</el-button
         >
       </span>
         </template>
@@ -204,3 +204,6 @@ export default {
       }
 }
 </script>
+
+<style scoped>
+</style>

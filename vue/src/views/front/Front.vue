@@ -30,13 +30,13 @@
       </div>
             <div class="nickname" style="text-align: right; padding-right: 30px">
               <div v-if="!user.username">
-                <el-button @click="$router.push('login')">登录</el-button>
-                <el-button @click="$router.push('register')">注册</el-button>
+                <el-button @click="$router.push('/login')">登录</el-button>
+                <el-button @click="$router.push('/register')">注册</el-button>
               </div>
               <div v-else>
               <el-dropdown>
                 <div  class="avatar">
-                  <el-avatar>{{ user.username }}</el-avatar>
+                  <el-avatar>{{ user.username[0] }}{{ user.username[1] }}</el-avatar>
                 </div>
                 <template #dropdown>
                   <el-dropdown-menu>

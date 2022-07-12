@@ -66,7 +66,7 @@ export default {
                 type: "success",
                 message: "注册成功"
               })
-              this.$router.push("/login")  //登录成功后页面跳转到主页
+              this.$router.push("/login")  //登录成功后页面跳转到登录
             }else {
               this.$message({
                 type: "error",
