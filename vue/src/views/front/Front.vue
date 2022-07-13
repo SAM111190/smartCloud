@@ -51,7 +51,7 @@
             </div>
             </div>
     </div>
-    <div style="width:1400px;margin: 15px auto;">
+    <div style="width:90vw;margin: 15px auto;">
       <router-view/>
     </div>
   </div>
