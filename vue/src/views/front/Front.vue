@@ -15,9 +15,9 @@
             mode="horizontal"
             router
         >
-          <el-menu-item index="/front/home">主页</el-menu-item>
-          <el-menu-item index="2">公告</el-menu-item>
-          <el-menu-item index="3">设置</el-menu-item>
+          <el-menu-item index="1" @click="$router.push('/front/home')">主页</el-menu-item>
+          <el-menu-item index="2">讨论</el-menu-item>
+          <el-menu-item index="3">联系我们</el-menu-item>
         </el-menu>
         <div class="search">
           <el-input
@@ -51,7 +51,7 @@
             </div>
             </div>
     </div>
-    <div style="width:90vw;margin: 15px auto;">
+    <div style="width:1400px;margin: 15px auto;">
       <router-view/>
     </div>
   </div>
@@ -69,8 +69,8 @@ export default {
   },
   data() {
     return {
+      activeIndex:'0',
       search: '',
-      activeIndex: '/front/home',
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
@@ -83,11 +83,11 @@ export default {
       this.$router.push("/login")
       localStorage.removeItem("user")
       this.$message.success("退出成功")
-    }
+    },
   }
 }
 </script>
-<style>
+<style scoped>
 .header {
   display: flex;
   height: 60px;

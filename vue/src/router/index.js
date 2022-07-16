@@ -36,9 +36,21 @@ const routes = [
         component: () => import("@/views/front/Home")
       },
       {
-        path: 'list1',
-        name: 'list1',
-        component: () => import("@/views/front/list1")
+        path: 'tab',
+        name: 'Time and back',
+        component: () => import("@/views/front/tab"),
+        children:[
+          {
+            path: 'programming',
+            name: 'programming',
+            component: () => import("@/views/front/Programming")
+          },
+          {
+            path: 'C++',
+            name: 'C++',
+            component: () => import("@/views/front/C++")
+          },
+        ]
       },
     ]
   },
