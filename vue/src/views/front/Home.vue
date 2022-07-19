@@ -124,7 +124,7 @@ export default {
 }
 .img{
   border-radius: 8px;
-  width: 144x;
+  width: 144px;
   height: 192px;
 }
 .img:hover{

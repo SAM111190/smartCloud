@@ -2,16 +2,23 @@ package com.example.demo.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.sql.Wrapper;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -19,6 +26,8 @@ public class UserController {
 
     @Resource
     UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public Result<?> login(@RequestBody User user)//从前端获取数据
@@ -43,39 +52,71 @@ public class UserController {
         userMapper.insert(user);
         return Result.success();
     }
-
+    @GetMapping("/find")
+    public List<User> index()//查询
+    {
+        return userService.list();
+    }
     @PostMapping
-    //用户新增
-    public Result<?> save(@RequestBody User user)
+    public boolean save(@RequestBody User user)
     {
-        userMapper.insert(user);
-        return Result.success();
+        //用户新增或者更新
+        return userService.saveUser(user);
     }
-    @GetMapping
-    //分页查询
-    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,@RequestParam(defaultValue = "10") Integer pageSize,@RequestParam(defaultValue = "") String search)
+    @DeleteMapping("/{id}")//删除
+    public boolean delete(@PathVariable Integer id)
     {
-        LambdaQueryWrapper<User> wrapper=Wrappers.<User>lambdaQuery();
-        if (StrUtil.isNotBlank(search))
+        return userService.removeById(id);
+    }
+    @GetMapping("/page")//分页查询
+    public  IPage<User>  findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam(defaultValue = "") String username)
+    {
+        IPage<User> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
+        if (!"".equals(username))
         {
-            wrapper.like(User::getNickName,search);
+            queryWrapper.like("username",username);
         }
-        Page<User> userPage= userMapper.selectPage(new Page<>(pageNum,pageSize), wrapper);
-        return Result.success( userPage);
+        queryWrapper.orderByDesc("id");
+        IPage<User> userPage=userService.page(page,queryWrapper);
+        return userPage;
     }
-    @PutMapping
+//    public  Map<String,Object> findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam String username)
+//    {
+//       pageNum=(pageNum -1)*pageSize;
+//       username="%"+username+"%";
+//       List<User> data= userMapper.selectPage(pageNum,pageSize,username);
+//       Integer total=userMapper.selectTotal(username);
+//       Map<String,Object> res=new HashMap<>();
+//       res.put("data",data);
+//       res.put("total",total);
+//       return res;
+//    }
+//    @GetMapping
+    //分页查询
+//    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,@RequestParam(defaultValue = "10") Integer pageSize,@RequestParam(defaultValue = "") String search)
+//    {
+//        LambdaQueryWrapper<User> wrapper=Wrappers.<User>lambdaQuery();
+//        if (StrUtil.isNotBlank(search))
+//        {
+//            wrapper.like(User::getNickName,search);
+//        }
+//        Page<User> userPage= userMapper.selectPage(new Page<>(pageNum,pageSize), wrapper);
+//        return Result.success( userPage);
+//    }
+//    @PutMapping
     //用户更新
-    public Result<?> update(@RequestBody User user)
-    {
-        userMapper.updateById(user);
-        return Result.success();
-    }
-    @DeleteMapping("/{id}")
+//    public Result<?> update(@RequestBody User user)
+//    {
+//        userMapper.updateById(user);
+//        return Result.success();
+//    }
+//    @DeleteMapping("/{id}")
     //用户删除
-    public Result<?> update(@PathVariable Long id)
-    {
-        userMapper.deleteById(id);
-        return Result.success();
-    }
+//    public Result<?> update(@PathVariable Long id)
+//    {
+//        userMapper.deleteById(id);
+//        return Result.success();
+//    }
 
 }

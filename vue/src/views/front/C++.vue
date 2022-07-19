@@ -15,7 +15,7 @@
           style="font-size: 12px"
           ref="filterTable"
       >
-        <el-table-column prop="submit_status" label="状态" width="100px"/>
+        <el-table-column prop="submitStatus" label="状态" width="100px"/>
         <el-table-column prop="number" label="序号" width="100px"/>
         <el-table-column prop="difficulty" label="难度" column-key="difficulty" width="100px"
                          :filters="[
@@ -58,52 +58,7 @@
 import { h } from 'vue'
 import { ElMessage } from 'element-plus'
 import {ArrowLeft,Search} from "@element-plus/icons";
-var listJson = {
-      list: [
-        {
-          submit_status:'未通过',
-          number: 'P1001',
-          name: 'Hello World',
-          passrate:100,
-          difficulty:'入门',
-        },
-        {
-          submit_status:'未通过',
-          number: 'P1002',
-          name: '指针',
-          passrate:98.7,
-          difficulty:'简单',
-        },
-        {
-          submit_status:'未通过',
-          number: 'P1003',
-          name: '过河卒',
-          passrate:90,
-          difficulty:'进阶',
-        },
-        {
-          submit_status:'未通过',
-          number: 'P1004',
-          name: '独木桥',
-          passrate:49.7,
-          difficulty:'进阶',
-        },
-        {
-          submit_status:'未通过',
-          number: 'P1005',
-          name: '地球人口承受估计',
-          passrate:20.7,
-          difficulty:'困难',
-        },
-        {
-          submit_status:'未通过',
-          number: 'P1006',
-          name: '排队接水',
-          passrate:50.8,
-          difficulty:'简单',
-        },
-      ]
-    }
+import request from "@/utils/request";
 export default {
   name: "C++",
   data() {
@@ -131,9 +86,18 @@ export default {
       return row[property] === value;
     },
     pageList() {
-      // 发请求拿到数据并暂存全部数据,方便之后操作
-      this.data = listJson.list
-      this.getList()
+      request.get("/question",{
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              searchData: this.searchData
+            }
+      }).then(res=>{
+        console.log(res)
+        this.data = res.data.records
+        this.getList()
+      })
     },
     // 处理数据
     getList() {

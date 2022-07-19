@@ -4,71 +4,24 @@
       <h1>详细内容请登陆后查看</h1>
     </div>
     <div v-else>
+
       <el-row :gutter="5">
-        <el-col :span="6">
+        <el-col :span="6" v-for="course in courses" >
+          <!--              :key="course.id"-->
           <el-card class="box-card" shadow="hover">
             <template #header>
               <div class="card-header">
-                <span class="title">C++</span>
+                <span class="title">{{course.name}}</span>
                 <div class="operation button">
-                  <el-button type="primary" @click="$router.push('/front/tab/C++');">进入题库</el-button>
+                  <el-button type="danger" @click="$router.push('/front/tab/C++');">进入题库</el-button>
                 </div>
               </div>
             </template>
-            <!--                      数据库更改为{{ '开课时间 ' + key }}  key是自己设置值  授课老师同理-->
-            <div class="text item">更新时间：2022/7/7</div>
-            <div class="text item">当前题库题目总数：10</div>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="box-card" shadow="hover">
-            <template #header>
-              <div class="card-header">
-                <span class="title">Java</span>
-                <div class="operation button">
-                  <el-button type="primary" @click="$router.push('/front/list1');">进入题库</el-button>
-                </div>
-              </div>
-            </template>
-            <!--                      数据库更改为{{ '开课时间 ' + key }}  key是自己设置值  授课老师同理-->
-            <div class="text item">更新时间：2022/7/7</div>
-            <div class="text item">当前题库题目总数：10</div>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card class="box-card" shadow="hover">
-            <template #header>
-              <div class="card-header">
-                <span class="title">Python</span>
-                <div class="operation button">
-                  <el-button type="primary" @click="$router.push('/front/list1');">进入题库</el-button>
-                </div>
-              </div>
-            </template>
-            <!--                      数据库更改为{{ '开课时间 ' + key }}  key是自己设置值  授课老师同理-->
-            <div class="text item">更新时间：2022/7/7</div>
-            <div class="text item">当前题库题目总数：10</div>
+            <div class="text item">开课时间： {{course.time}}</div>
+            <div class="text item">当前题库题目总数：{{course.total}}</div>
           </el-card>
         </el-col>
       </el-row>
-      <!--    <el-row :gutter="5">-->
-      <!--      <el-col :span="6" v-for="item in files" :key="item.id">-->
-      <!--        <el-card class="box-card" shadow="hover">-->
-      <!--          <template #header>-->
-      <!--            <div class="card-header">-->
-      <!--              <span class="title">{{item.name}}}</span>-->
-      <!--              <div class="operation button">-->
-      <!--                <el-button type="primary">作业详情</el-button>-->
-      <!--                <el-button type="danger" @click="$router.push('/front/list1');">进入实验</el-button>-->
-      <!--              </div>-->
-      <!--            </div>-->
-      <!--          </template>-->
-      <!--          &lt;!&ndash;                      数据库更改为{{ '开课时间 ' + key }}  key是自己设置值  授课老师同理&ndash;&gt;-->
-      <!--          <div class="text item">开课时间：2022/7/7</div>-->
-      <!--          <div class="text item">授课老师：luoyongjun</div>-->
-      <!--        </el-card>-->
-      <!--      </el-col>-->
-      <!--    </el-row>-->
     </div>
   </div>
 
@@ -76,34 +29,39 @@
 
 <script>
 import {ArrowLeft} from "@element-plus/icons";
+import request from "../../utils/request";
 export default {
   name: "Programming",
+  props: ['course'],
   data() {
     return {
+      courses: [],
       search: '',
+      total: null,
       ArrowLeft,
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
   created() {
+    //判断登录
     let userStr = sessionStorage.getItem("user") || "{}"
     this.user = JSON.parse(userStr)
-  },
-  // data(){
-  //   return {
-  //     user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-  //    files:[]
-  //   }
-  // },
-  // created() {
-  //   this.request.get("/echarts/file/front/all").then(rese => {
-  //     //把id等号右边的字符串改成你们题目类型（如C++，Java），截止时间，授课老师的id
-  //     this.files = res.data.filter(v = > v.id === 'subject' || v.id === 'time' || v.id === 'teacher')
-  //   })
-  // }
+    request.get("/course", {
+      params:
+          {
+            search: this.search
+          }
+    }).then(res => {
+      console.log(res)
+      this.courses = res.data.records
+
+      // request.get("/question",{}).then(res => {
+      //   console.log(res)
+      // this.total = res.data.records.length
+    })
+  }
 }
 </script>
-
 <style scoped>
 .back {
   margin-bottom: 10px;
