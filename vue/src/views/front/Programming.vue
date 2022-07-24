@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 10px 0px">
+  <div style="width:1400px;margin: 15px auto;">
     <div v-if="!user.username" class="notice">
       <h1>详细内容请登陆后查看</h1>
     </div>
@@ -13,12 +13,12 @@
               <div class="card-header">
                 <span class="title">{{course.name}}</span>
                 <div class="operation button">
-                  <el-button type="danger" @click="$router.push('/front/tab/C++');">进入题库</el-button>
+                  <el-button type="primary" @click="$router.push('/front/tab/C++');">进入题库</el-button>
                 </div>
               </div>
             </template>
             <div class="text item">开课时间： {{course.time}}</div>
-            <div class="text item">当前题库题目总数：{{total}}</div>
+            <div class="text item">当前题库题目总数：{{course.total}}</div>
           </el-card>
         </el-col>
       </el-row>
@@ -55,10 +55,9 @@ export default {
       console.log(res)
       this.courses = res.data.records
 
-      request.get("/question", {}).then(res => {
-        console.log(res)
-        this.total = res.data.records.length
-      })
+      // request.get("/question",{}).then(res => {
+      //   console.log(res)
+      // this.total = res.data.records.length
     })
   }
 }

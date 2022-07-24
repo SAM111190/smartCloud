@@ -14,6 +14,7 @@
           stripe
           style="font-size: 12px"
           ref="filterTable"
+          v-loading="loading"
       >
         <el-table-column prop="submitStatus" label="状态" width="100px"/>
         <el-table-column prop="number" label="序号" width="100px"/>
@@ -39,7 +40,7 @@
         <el-table-column label="">
           <template #default="scope">
             <div style="text-align: right;margin-right:100px">
-            <el-button size="small" type="text"
+            <el-button size="small" type="text" @click="$router.push('/front/question')"
             >开始做题</el-button
             >
             </div>
@@ -56,7 +57,7 @@
 
 <script>
 import { h } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage,ElLoading } from 'element-plus'
 import {ArrowLeft,Search} from "@element-plus/icons";
 import request from "@/utils/request";
 export default {
@@ -64,13 +65,15 @@ export default {
   data() {
     return {
       h,
+      loading:"",
       difficulty: '全部',
       select_status: '全部',
       searchData: '',//这是搜索框的内容
       Search,//这是图标
       ArrowLeft,
       ElMessage,
-      limit: 15,
+      ElLoading,
+      limit: 6,
       total: null,
       page: 1,
       list: [],
@@ -78,9 +81,15 @@ export default {
     }
   },
   created() {
-    this.pageList()
+    this.pageList();
+    this.getData();
   },
   methods: {
+    getData(){
+      this.loading = true;
+      setTimeout(() =>{
+        this.loading = false},500)
+    },
     filterHandler(value, row, column) {
       const property = column['property'];
       return row[property] === value;

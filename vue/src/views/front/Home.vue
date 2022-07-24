@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 10px 0px">
+  <div style="width:1400px;margin: 15px auto;">
     <div v-if="!user.username" class="notice">
       <h1>详细内容请登陆后查看</h1>
     </div>

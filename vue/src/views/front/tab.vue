@@ -25,4 +25,8 @@ export default {
 </script>
 
 <style scoped>
+ .back{
+   width:1400px;
+   margin: 15px auto;
+ }
 </style>

@@ -40,7 +40,7 @@
                 </div>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item><router-link to="/person">个人空间</router-link></el-dropdown-item>
+                    <el-dropdown-item @click="$router.push('/front/user')">个人空间</el-dropdown-item>
                     <el-dropdown-item>通知</el-dropdown-item>
                     <el-dropdown-item>
                       <span @click="logout">注销</span>
@@ -101,7 +101,7 @@
         </template>
       </el-result>
     </el-dialog>
-    <div style="width:1400px;margin: 15px auto;">
+    <div>
       <div class="bar">
         <el-tooltip
             class="box-item"
@@ -171,8 +171,9 @@ export default {
         })
     },
     logout() {
+      window.sessionStorage.removeItem('tokenStr')
+      window.sessionStorage.removeItem('user')
       this.$router.push("/login")
-      window.sessionStorage.removeItem("user")
       this.$message.success("退出成功")
     },
   }

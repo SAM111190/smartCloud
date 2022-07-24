@@ -8,8 +8,16 @@ const routes = [
     component: Layout,
     redirect:"/home",
     children:[
-      {path: 'home', name: 'Home',component: () => import("@/views/HomeView")},
-      {path: 'person', name: 'Person',component: () => import("@/views/Person")},
+      {
+        path: 'home',
+        name: 'Home',
+        component: () => import("@/views/HomeView"),
+      },
+      {
+        path: 'person',
+        name: '个人空间',
+        component: () => import("@/views/Person.vue")
+      },
     ]
   },
   {
@@ -22,11 +30,22 @@ const routes = [
     name: 'register',
     component: () => import("@/views/register")
   },
+
   {
     path: '/front',
     name: 'Front',
     component: () => import("@/views/front/Front"),
     children: [
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import("@/views/front/user")
+      },
+      {
+        path: 'question',
+        name: 'Question',
+        component: () => import("@/views/front/question_doing")
+      },
       {
         path: 'home',
         name: 'FrontHome',
@@ -47,6 +66,7 @@ const routes = [
             name: 'C++',
             component: () => import("@/views/front/C++")
           },
+
         ]
       },
     ]

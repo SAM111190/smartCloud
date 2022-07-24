@@ -1,0 +1,162 @@
+<template>
+  <div div style="padding: 15px 0;font-size: large;width: 80%;margin:0 auto;">
+    <div class="top">
+      <div class="top_header">
+        <div class="user_information">
+      <el-avatar :size="50" :src=" 'https://inews.gtimg.com/newsapp_bt/0/14881026322/1000'" />
+      <div class="info">
+      <div class="username">
+        <p>阿尼亚</p>
+      </div>
+      <div class="signature">
+      <p>这个家伙很懒，什么也没有留下</p>
+      </div>
+      </div>
+      </div>
+        <div class="button">
+          <el-button type="info" @click="$router.push('/person')" style="background-color:transparent;backdrop-filter: blur(10px)" :icon="Tools">个人设置</el-button>
+        </div>
+      </div>
+      <div class="top_menu">
+        <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+        >
+          <el-menu-item index="1">主页</el-menu-item>
+          <el-menu-item index="2">动态</el-menu-item>
+          <el-menu-item index="3">讨论</el-menu-item>
+          <el-menu-item index="4">收藏</el-menu-item>
+        </el-menu>
+      </div>
+    </div>
+<!--    左边的内容-->
+    <div class="left_content">
+      <div class="left">
+        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人介绍</h2>
+        <div class="description">
+          <p>わくわく</p>
+        </div>
+      </div>
+      <div class="left">
+      <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">空间文件</h2>
+      <div class="description">
+        <el-empty description="空空如也" :image-size="100" >
+          <el-button type="primary">上传文件</el-button>
+        </el-empty>
+      </div>
+    </div>
+    </div>
+<!--    右边的内容-->
+    <div class="right_content">
+      <div class="right">
+      <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人资料</h2>
+      <div class="description">
+        <p>暂无数据</p>
+      </div>
+      </div>
+      <div class="right">
+        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">空间公告</h2>
+        <div class="description">
+          <el-input type="textarea" v-model="board" placeholder="编辑我的空间公告" style="width: 100%;"/>
+        </div>
+      </div>      <div class="right">
+      <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">题目收藏</h2>
+      <div class="description">
+        <p>暂无数据</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import {Tools} from "@element-plus/icons";
+export default {
+  name: "user",
+  data(){
+    return {
+      activeIndex:'1',
+      Tools,
+      board:'',
+    }
+  }
+}
+</script>
+
+<style scoped>
+  .description{
+    margin-top: 15px;
+    font-size: 10px;
+    color:grey;
+  }
+  .scrollbar-demo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    margin: 10px;
+    text-align: center;
+    border-radius: 4px;
+    background: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
+  }
+  .top {
+    border-radius: 5px;
+    box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.11);
+  }
+  .top_header {
+    background-image: url("https://img.win3000.com/m00/c9/51/72eb0f1bdf16989f2c2970099f46f450.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+  }
+  .user_information {
+    position: relative;
+    top:calc(200px - 65px);
+    left: 15px;
+    display: inline-block;
+  }
+  .button {
+    text-align: right;
+    padding-right: 15px;
+    position: relative;
+    top:calc(200px - 100px);
+  }
+ .info {
+   display: inline-block;
+   position: relative;
+   left: 10px;
+   bottom: 5px;
+   color: white;
+ }
+ .username {
+   margin-bottom: 4px;
+ }
+ .signature {
+   font-size: 10px;
+ }
+ .left_content {
+   float: left;
+   width: 67%;
+ }
+ .left {
+   margin-top: 10px;
+   border-radius: 5px;
+   box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.11);
+   padding:15px
+ }
+ .left p{
+   font-size: 16px;
+ }
+ .right_content{
+   float: right;
+   width: 32%;
+ }
+ .right {
+   margin-top: 10px;
+   border-radius: 5px;
+   box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.11);
+   padding:15px
+ }
+</style>
