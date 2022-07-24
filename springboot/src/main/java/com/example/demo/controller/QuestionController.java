@@ -23,14 +23,14 @@ public class QuestionController {
 
     @PostMapping
     //新增
-    public Result<?> save(@RequestBody Question question)
+    public Result save(@RequestBody Question question)
     {
         questionMapper.insert(question);
         return Result.success();
     }
     @GetMapping
     //分页查询
-    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
+    public Result findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "") String search)
     {
@@ -44,14 +44,14 @@ public class QuestionController {
     }
     @PutMapping
     //更新
-    public Result<?> update(@RequestBody Question question)
+    public Result update(@RequestBody Question question)
     {
         questionMapper.updateById(question);
         return Result.success();
     }
     @DeleteMapping("/{id}")
     //用户删除
-    public Result<?> update(@PathVariable Long id)
+    public Result update(@PathVariable Long id)
     {
         questionMapper.deleteById(id);
         return Result.success();

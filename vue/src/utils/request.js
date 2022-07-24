@@ -10,13 +10,16 @@ const request = axios.create({
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-
-    // config.headers['token'] = user.token;  // 设置请求头
-    //取出sessionStorage里面缓存的用户信息
-    let userJson = sessionStorage.getItem("user")//let变量
-    if(!userJson){
-        router.push("/login")//如果获取的userJson是空，则证明还没有登陆，跳转到登陆界面
+    let user = sessionStorage.getItem("user")?JSON.parse(sessionStorage.getItem("user")):{}
+    if (user)
+    {
+        config.headers['token'] = user.token;  // 设置请求头
     }
+    //取出sessionStorage里面缓存的用户信息
+    // let userJson = sessionStorage.getItem("user")//let变量
+    // if(!userJson){
+    //     router.push("/login")//如果获取的userJson是空，则证明还没有登陆，跳转到登陆界面
+    // }
     return config
 }, error => {
     return Promise.reject(error)
@@ -34,6 +37,13 @@ request.interceptors.response.use(
         // 兼容服务端返回的字符串数据
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
+        }
+        if (res.code === '401') {
+            // ElementUI.Message({
+            //     message: res.msg,
+            //     type: 'error'
+            // });
+            router.push("/login")
         }
         return res;
     },

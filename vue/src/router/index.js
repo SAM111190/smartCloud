@@ -8,11 +8,8 @@ const routes = [
     component: Layout,
     redirect:"/home",
     children:[
-      {
-        path: 'home',
-        name: 'Home',
-        component: () => import("@/views/HomeView"),
-      }
+      {path: 'home', name: 'Home',component: () => import("@/views/HomeView")},
+      {path: 'person', name: 'Person',component: () => import("@/views/Person")},
     ]
   },
   {

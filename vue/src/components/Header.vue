@@ -13,9 +13,9 @@
                 </span>
                 <template #dropdown>
                      <el-dropdown-menu>
-                        <el-dropdown-item>个人空间</el-dropdown-item>
+                       <el-dropdown-item><router-link to="/person">个人空间</router-link></el-dropdown-item>
                         <el-dropdown-item>通知</el-dropdown-item>
-                        <el-dropdown-item @click="$router.push('/login')">注销</el-dropdown-item>
+                        <el-dropdown-item @click="logout">注销</el-dropdown-item>
                       </el-dropdown-menu>
                 </template>
                 </el-dropdown>
@@ -40,6 +40,13 @@ export default {
   },
     components:{
         ArrowDown
+    },
+  methods:{
+    logout() {
+      this.$router.push("/login")
+      window.sessionStorage.removeItem("user")
+      this.$message.success("退出成功")
     }
+  }
 }
 </script>

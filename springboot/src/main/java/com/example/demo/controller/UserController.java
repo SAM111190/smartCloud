@@ -1,24 +1,22 @@
 package com.example.demo.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.common.Constants;
 import com.example.demo.common.Result;
+import com.example.demo.controller.dto.UserDTO;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
-import com.example.demo.service.UserService;
+import com.example.demo.service.IUserService;
+import com.example.demo.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.sql.Wrapper;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -27,47 +25,90 @@ public class UserController {
     @Resource
     UserMapper userMapper;
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
+//    @PostMapping("/login")
+//    public Result<?> login(@RequestBody User user)//从前端获取数据
+//    {
+//        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()).eq(User::getPassword,user.getPassword()));//进行唯一查找
+//        if(res == null ){
+//            return Result.error("-1","用户名或密码错误");
+//        }
+//        return Result.success(res);
+//    }
     @PostMapping("/login")
-    public Result<?> login(@RequestBody User user)//从前端获取数据
+    public Result login(@RequestBody UserDTO userDTO)
     {
-        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()).eq(User::getPassword,user.getPassword()));//进行唯一查找
-        if(res == null ){
-            return Result.error("-1","用户名或密码错误");
+        String username=userDTO.getUsername();
+        String password=userDTO.getPassword();
+        if(StrUtil.isBlank(username) || StrUtil.isBlank(password))
+        {
+            return Result.error(Constants.CODE_400,"参数错误");
         }
-        return Result.success(res);
+        UserDTO dto=userService.login(userDTO);
+        return Result.success(dto);
     }
-
     @PostMapping("/register")
-    public Result<?> register(@RequestBody User user)//从前端获取数据
+    public Result register(@RequestBody UserDTO userDTO)//从前端获取数据
     {
-       User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()));
-        if(res != null ){
-            return Result.error("-1","用户名重复");
+        String username=userDTO.getUsername();
+        String password=userDTO.getPassword();
+        if(StrUtil.isBlank(username) || StrUtil.isBlank(password))
+        {
+            return Result.error(Constants.CODE_400,"参数错误");
         }
-        if(user.getPassword() == null){  //如果没有输入密码，默认123456
-            user.setPassword("123456");
-        }
-        userMapper.insert(user);
-        return Result.success();
+        return Result.success(userService.register(userDTO));
     }
     @GetMapping("/find")
     public List<User> index()//查询
     {
         return userService.list();
     }
+    // 新增或者更新
     @PostMapping
-    public boolean save(@RequestBody User user)
-    {
-        //用户新增或者更新
-        return userService.saveUser(user);
+    public Result save(@RequestBody User user) {
+        if (user.getId() == null && user.getPassword() == null) {  // 新增用户默认密码
+            user.setPassword("123");
+        }
+        return Result.success(userService.saveOrUpdate(user));
     }
-    @DeleteMapping("/{id}")//删除
-    public boolean delete(@PathVariable Integer id)
-    {
-        return userService.removeById(id);
+
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        return Result.success(userService.removeById(id));
     }
+
+    @PostMapping("/del/batch")
+    public Result deleteBatch(@RequestBody List<Integer> ids) {
+        return Result.success(userService.removeByIds(ids));
+    }
+
+    @GetMapping
+    public Result findAll() {
+        return Result.success(userService.list());
+    }
+
+    @GetMapping("/role/{role}")
+    public Result findUsersByRole(@PathVariable String role) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role", role);
+        List<User> list = userService.list(queryWrapper);
+        return Result.success(list);
+    }
+
+    @GetMapping("/{id}")
+    public Result findOne(@PathVariable Integer id) {
+        return Result.success(userService.getById(id));
+    }
+
+    @GetMapping("/username/{username}")
+    public Result findByUsername(@PathVariable String username) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        return Result.success(userService.getOne(queryWrapper));
+    }
+
     @GetMapping("/page")//分页查询
     public  IPage<User>  findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam(defaultValue = "") String username)
     {

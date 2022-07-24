@@ -68,22 +68,18 @@ export default {
             return
           }
           request.post( "/user/login", this.form).then(res =>{
-            if(res.code === '0'){
-              this.$message({
-                type: "success",
-                message: "登录成功"
-              })
+            if(res.code==='200'){
               sessionStorage.setItem("user",JSON.stringify(res.data))
-              this.$router.push("/front/home")  //登录成功后页面跳转到主页
-            }else {
-              this.$message({
-                type: "error",
-                message: res.msg
+              this.$router.push("/front/home")
+              this.$message.success("登录成功")
+                }else {
+              this.$message.error("用户名或密码错误")
+              //登录成功后页面跳转到主页
+                }
               })
             }
           })
-        }
-      })
+
     }
   }
 }

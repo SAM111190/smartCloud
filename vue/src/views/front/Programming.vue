@@ -18,7 +18,7 @@
               </div>
             </template>
             <div class="text item">开课时间： {{course.time}}</div>
-            <div class="text item">当前题库题目总数：{{course.total}}</div>
+            <div class="text item">当前题库题目总数：{{total}}</div>
           </el-card>
         </el-col>
       </el-row>
@@ -55,9 +55,10 @@ export default {
       console.log(res)
       this.courses = res.data.records
 
-      // request.get("/question",{}).then(res => {
-      //   console.log(res)
-      // this.total = res.data.records.length
+      request.get("/question", {}).then(res => {
+        console.log(res)
+        this.total = res.data.records.length
+      })
     })
   }
 }

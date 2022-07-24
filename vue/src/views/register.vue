@@ -61,23 +61,18 @@ export default {
       this.$refs['form'].validate((valid) => {
         if(valid){
           request.post( "/user/register", this.form).then(res =>{
-            if(res.code === '0'){
-              this.$message({
-                type: "success",
-                message: "注册成功"
-              })
-              this.$router.push("/login")  //登录成功后页面跳转到登录
+            if(res.code=='200'){
+              this.$router.push("/login")
+              this.$message.success("注册成功")
             }else {
-              this.$message({
-                type: "error",
-                message: res.msg
-              })
+              this.$message.error("注册失败")
+              //登录成功后页面跳转到主页
+            }
+          })
             }
           })
         }
-      })
     }
-  }
 }
 </script>
 
