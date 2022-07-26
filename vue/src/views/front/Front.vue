@@ -36,6 +36,7 @@
               <div v-else>
               <el-dropdown>
                 <div  class="avatar">
+<!--                  <el-avatar :size="40" :src=" 'https://inews.gtimg.com/newsapp_bt/0/14881026322/1000'" />-->
                   <el-avatar>{{ user.username[0] }}{{ user.username[1] }}</el-avatar>
                 </div>
                 <template #dropdown>

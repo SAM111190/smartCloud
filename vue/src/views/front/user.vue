@@ -1,12 +1,12 @@
 <template>
-  <div div style="padding: 15px 0;font-size: large;width: 80%;margin:0 auto;">
+  <div style="padding: 15px 0;font-size: large;width: 80%;margin:0 auto;">
     <div class="top">
       <div class="top_header">
         <div class="user_information">
       <el-avatar :size="50" :src=" 'https://inews.gtimg.com/newsapp_bt/0/14881026322/1000'" />
       <div class="info">
       <div class="username">
-        <p>阿尼亚</p>
+        <p>{{ user.username }}</p>
       </div>
       <div class="signature">
       <p>这个家伙很懒，什么也没有留下</p>
@@ -14,7 +14,7 @@
       </div>
       </div>
         <div class="button">
-          <el-button type="info" @click="$router.push('/person')" style="background-color:transparent;backdrop-filter: blur(10px)" :icon="Tools">个人设置</el-button>
+          <el-button type="info" @click="$router.push('/front/person')" style="background-color:transparent;backdrop-filter: blur(10px)" :icon="Tools">个人设置</el-button>
         </div>
       </div>
       <div class="top_menu">
@@ -22,6 +22,7 @@
             :default-active="activeIndex"
             class="el-menu-demo"
             mode="horizontal"
+            @select="handSelect"
         >
           <el-menu-item index="1">主页</el-menu-item>
           <el-menu-item index="2">动态</el-menu-item>
@@ -30,42 +31,74 @@
         </el-menu>
       </div>
     </div>
+    <div class="bottom">
+<!--      个人主页-->
+      <div v-if="activeIndex === '1'">
 <!--    左边的内容-->
-    <div class="left_content">
-      <div class="left">
-        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人介绍</h2>
+      <div class="left_content">
+        <div class="left">
+          <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人介绍</h2>
+          <div class="description">
+            <p>わくわく</p>
+          </div>
+        </div>
+        <div class="left">
+        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">空间文件</h2>
         <div class="description">
-          <p>わくわく</p>
+          <el-empty description="空空如也" :image-size="100" >
+            <el-button type="primary">上传文件</el-button>
+          </el-empty>
         </div>
       </div>
-      <div class="left">
-      <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">空间文件</h2>
-      <div class="description">
-        <el-empty description="空空如也" :image-size="100" >
-          <el-button type="primary">上传文件</el-button>
-        </el-empty>
       </div>
-    </div>
-    </div>
-<!--    右边的内容-->
-    <div class="right_content">
-      <div class="right">
-      <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人资料</h2>
-      <div class="description">
-        <p>暂无数据</p>
-      </div>
-      </div>
-      <div class="right">
-        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">空间公告</h2>
+  <!--    右边的内容-->
+      <div class="right_content">
+        <div class="right">
+        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人资料</h2>
         <div class="description">
-          <el-input type="textarea" v-model="board" placeholder="编辑我的空间公告" style="width: 100%;"/>
+          <p>暂无数据</p>
         </div>
-      </div>      <div class="right">
-      <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">题目收藏</h2>
-      <div class="description">
-        <p>暂无数据</p>
+        </div>
+        <div class="right">
+          <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">空间公告</h2>
+          <div class="description">
+            <el-input type="textarea" v-model="board" placeholder="编辑我的空间公告" style="width: 100%;"/>
+          </div>
+        </div>      <div class="right">
+        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">题目收藏</h2>
+        <div class="description">
+          <p>暂无数据</p>
+        </div>
       </div>
-    </div>
+      </div>
+        </div>
+      <div v-else-if="activeIndex === '2'">
+        <div class="bottom_content">
+          <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">动态</h2>
+          <div class="description">
+            <el-empty description="空空如也" :image-size="100" >
+            </el-empty>
+          </div>
+        </div>
+      </div>
+      <div v-else-if="activeIndex === '3'">
+        <div class="bottom_content">
+          <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">讨论</h2>
+          <div class="description">
+            <el-empty description="空空如也" :image-size="100" >
+            </el-empty>
+          </div>
+        </div>
+      </div>
+      <div v-else-if="activeIndex === '4'">
+        <div class="bottom_content">
+          <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">收藏</h2>
+          <div class="description">
+            <el-empty description="空空如也" :image-size="100" >
+            </el-empty>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -79,8 +112,14 @@ export default {
       activeIndex:'1',
       Tools,
       board:'',
+      user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
     }
-  }
+  },
+  methods:{
+    handSelect(key){
+      this.activeIndex = key;
+    },
+  },
 }
 </script>
 
@@ -89,17 +128,6 @@ export default {
     margin-top: 15px;
     font-size: 10px;
     color:grey;
-  }
-  .scrollbar-demo-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    margin: 10px;
-    text-align: center;
-    border-radius: 4px;
-    background: var(--el-color-primary-light-9);
-    color: var(--el-color-primary);
   }
   .top {
     border-radius: 5px;
@@ -154,6 +182,12 @@ export default {
    width: 32%;
  }
  .right {
+   margin-top: 10px;
+   border-radius: 5px;
+   box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.11);
+   padding:15px
+ }
+ .bottom_content {
    margin-top: 10px;
    border-radius: 5px;
    box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.11);
