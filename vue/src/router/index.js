@@ -13,11 +13,6 @@ const routes = [
         name: 'Home',
         component: () => import("@/views/HomeView"),
       },
-      {
-        path: 'person',
-        name: '个人空间',
-        component: () => import("@/views/Person.vue")
-      },
     ]
   },
   {
@@ -50,6 +45,11 @@ const routes = [
         path: 'home',
         name: 'FrontHome',
         component: () => import("@/views/front/Home")
+      },
+      {
+        path: 'person',
+        name: '个人空间',
+        component: () => import("@/views/front/Person.vue")
       },
       {
         path: 'tab',
