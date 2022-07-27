@@ -39,7 +39,7 @@
     <el-row :gutter="0">
       <el-col :span="6" style="margin-bottom: 10px">
         <div>
-          <img class="img" @click="$router.push('/front/tab/programming')" src="https://assets.leetcode.cn/aliyun-lc-upload/leetbook/cover/220410155702/Algorithm__Interview_Skills.jpg?x-oss-process=image%2Fformat%2Cwebp">
+          <img class="img" @click="$router.push('/front/programming')" src="https://assets.leetcode.cn/aliyun-lc-upload/leetbook/cover/220410155702/Algorithm__Interview_Skills.jpg?x-oss-process=image%2Fformat%2Cwebp">
         </div>
           <span class="title">程序设计</span>
       </el-col>

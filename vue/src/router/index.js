@@ -11,7 +11,7 @@ const routes = [
       {
         path: 'home',
         name: 'Home',
-        component: () => import("@/views/HomeView"),
+        component: () => import("@/views/background/HomeView"),
       },
     ]
   },
@@ -29,45 +29,37 @@ const routes = [
   {
     path: '/front',
     name: 'Front',
-    component: () => import("@/views/front/Front"),
+    component: () => import("@/views/front/header/Front_header"),
     children: [
       {
         path: 'user',
         name: 'User',
-        component: () => import("@/views/front/user")
+        component: () => import("@/views/front/user/user")
       },
       {
         path: 'question',
         name: 'Question',
-        component: () => import("@/views/front/question_doing")
+        component: () => import("@/views/front/question/question_doing")
       },
       {
         path: 'home',
         name: 'FrontHome',
-        component: () => import("@/views/front/Home")
+        component: () => import("@/views/front/home/Home")
       },
       {
         path: 'person',
         name: '个人空间',
-        component: () => import("@/views/front/Person.vue")
+        component: () => import("@/views/front/user/Person.vue")
       },
       {
-        path: 'tab',
-        name: 'Time and back',
-        component: () => import("@/views/front/tab"),
-        children:[
-          {
-            path: 'programming',
-            name: 'programming',
-            component: () => import("@/views/front/Programming")
-          },
-          {
-            path: 'C++',
-            name: 'C++',
-            component: () => import("@/views/front/C++")
-          },
-
-        ]
+        path: 'programming',
+        name: 'programming',
+        component: () => import("@/views/front/Programming")
+      },
+      {
+        path: 'C++',
+        name: 'C++',
+        component: () => import("@/views/front/list/C++")
       },
     ]
   },

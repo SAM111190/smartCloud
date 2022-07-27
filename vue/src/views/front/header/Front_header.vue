@@ -4,7 +4,7 @@
     <div class="header">
       <div class="logo">
         <div style="width: 60px">
-          <img src="../../assets/logo1.png" alt="" style="width:40px; position: relative;top: 5px; right: 0">
+          <img src="@/assets/logo1.png" alt="" style="width:40px; position: relative;top: 5px; right: 0">
         </div>
         <div style="flex:1;font-family: 幼圆;color: #1260cc;font-weight: bold">智慧云平台</div>
       </div>
@@ -36,8 +36,7 @@
               <div v-else>
               <el-dropdown>
                 <div  class="avatar">
-<!--                  <el-avatar :size="40" :src=" 'https://inews.gtimg.com/newsapp_bt/0/14881026322/1000'" />-->
-                  <el-avatar>{{ user.username[0] }}{{ user.username[1] }}</el-avatar>
+                    <el-avatar :size="40" v-if="user.avatarUrl" :src="user.avatarUrl" />
                 </div>
                 <template #dropdown>
                   <el-dropdown-menu>

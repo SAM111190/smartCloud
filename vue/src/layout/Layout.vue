@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
-import Aside from "@/components/Aside";
+import Header from "@/components/background/Header";
+import Aside from "@/components/background/Aside";
 export default {
   name:"Layout",
   components:{

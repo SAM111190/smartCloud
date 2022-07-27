@@ -1,4 +1,5 @@
 <template>
+  <tab></tab>
   <div style="width:1400px;margin: 15px auto;">
     <div v-if="!user.username" class="notice">
       <h1>详细内容请登陆后查看</h1>
@@ -13,7 +14,7 @@
               <div class="card-header">
                 <span class="title">{{course.name}}</span>
                 <div class="operation button">
-                  <el-button type="primary" @click="$router.push('/front/tab/C++');">进入题库</el-button>
+                  <el-button type="primary" @click="$router.push('/front/C++');">进入题库</el-button>
                 </div>
               </div>
             </template>
@@ -30,9 +31,13 @@
 <script>
 import {ArrowLeft} from "@element-plus/icons";
 import request from "../../utils/request";
+import tab from "@/components/foreground/tab"
 export default {
   name: "Programming",
   props: ['course'],
+  components:{
+    tab,
+  },
   data() {
     return {
       courses: [],

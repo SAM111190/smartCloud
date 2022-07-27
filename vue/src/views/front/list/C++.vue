@@ -1,4 +1,6 @@
 <template>
+<!--  返回组件-->
+  <tab></tab>
   <div style="padding: 10px 0;font-size: large;width: 80%;margin:0 auto;">
     <div class="operation">
       <el-card shadow="always">
@@ -60,8 +62,12 @@ import { h } from 'vue'
 import { ElMessage,ElLoading } from 'element-plus'
 import {ArrowLeft,Search} from "@element-plus/icons";
 import request from "@/utils/request";
+import tab from "@/components/foreground/tab"
 export default {
   name: "C++",
+  components:{
+    tab,
+  },
   data() {
     return {
       h,

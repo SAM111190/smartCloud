@@ -3,7 +3,7 @@
     <div class="top">
       <div class="top_header">
         <div class="user_information">
-      <el-avatar :size="50" :src=" 'https://inews.gtimg.com/newsapp_bt/0/14881026322/1000'" />
+      <el-avatar :size="50" v-if="user.avatarUrl" :src="user.avatarUrl" />
       <div class="info">
       <div class="username">
         <p>{{ user.username }}</p>
