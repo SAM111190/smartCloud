@@ -53,9 +53,14 @@ public class UserController {
     {
         String username=userDTO.getUsername();
         String password=userDTO.getPassword();
+        String address=userDTO.getAddress();
         if(StrUtil.isBlank(username) || StrUtil.isBlank(password))
         {
             return Result.error(Constants.CODE_400,"参数错误");
+        }
+        if( userDTO.getAvatarUrl()==null)
+        {
+            userDTO.setAvatarUrl("https://inews.gtimg.com/newsapp_bt/0/14881026322/1000");
         }
         return Result.success(userService.register(userDTO));
     }
@@ -69,6 +74,10 @@ public class UserController {
     public Result save(@RequestBody User user) {
         if (user.getId() == null && user.getPassword() == null) {  // 新增用户默认密码
             user.setPassword("123");
+        }
+        if(user.getId() == null && user.getAvatarUrl()==null)
+        {
+            user.setAvatarUrl("https://inews.gtimg.com/newsapp_bt/0/14881026322/1000");
         }
         return Result.success(userService.saveOrUpdate(user));
     }
