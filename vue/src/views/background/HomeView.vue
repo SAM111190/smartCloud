@@ -15,7 +15,8 @@
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="id" label="ID"  sortable />
       <el-table-column prop="username" label="用户名"  />
-      <el-table-column prop="nick_name" label="昵称" />
+      <el-table-column prop="role" label="角色"  />
+      <el-table-column prop="nickName" label="昵称" />
       <el-table-column prop="password" label="密码" />
       <el-table-column prop="age" label="年龄" />
       <el-table-column prop="sex" label="性别" />
@@ -43,14 +44,19 @@
       </el-pagination>
       <el-dialog
           v-model="dialogVisible"
-          title="Tips"
+          title="用户信息"
           width="30%">
         <el-form :model="form" label-width="120px">
           <el-form-item label="用户名">
             <el-input v-model="form.username" style="width: 80%"/>
           </el-form-item>
+          <el-form-item label="角色">
+            <el-select clearable v-model="form.role" placeholder="请选择角色" style="width: 80%">
+              <el-option v-for="item in roles" :key="item.name" :label="item.name" :value="item.flag"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="昵称">
-            <el-input v-model="form.nick_name" style="width: 80%"/>
+            <el-input v-model="form.nickName" style="width: 80%"/>
           </el-form-item>
           <el-form-item label="密码">
             <el-input v-model="form.password" style="width: 80%"/>
@@ -66,6 +72,7 @@
           <el-form-item label="地址">
             <el-input type=“textarea” v-model="form.address" style="width: 80%"/>
           </el-form-item>
+
         </el-form>
         <template #footer>
       <span class="dialog-footer">
@@ -99,7 +106,9 @@ export default {
       currentPage:1,
       pageSize:10,
       total:0,
-      tableData:[]
+      tableData:[],
+      multipleSelection: [],
+      roles: [],
     }
   },
   created() {
@@ -110,17 +119,20 @@ export default {
         load()//显示后台数据
         {
           request.get("/user/page",{
-          params:
-              {
-                pageNum: this.currentPage,
-                pageSize: this.pageSize,
-                search: this.search,
-                username:this.username
-              }
+            params:
+                {
+                  pageNum: this.currentPage,
+                  pageSize: this.pageSize,
+                  search: this.search,
+                  username:this.username
+                }
           }).then(res=>{
             console.log(res)
             this.tableData = res.records
             this.total=res.total
+          })
+          request.get("/role").then(res => {
+            this.roles = res.data
           })
         },
         reset(){
@@ -133,17 +145,17 @@ export default {
         },
         save(){
 
-            //有id更新
-            request.post("/user",this.form).then(res => {
-              if(res) {
-                this.$message.success("保存成功")
-              }else
-              {
-                this.$message.error("保存失败")
-              }
-              this.load()//刷新表格的数据
-              this.dialogVisible=false//关闭弹窗
-            })
+          //有id更新
+          request.post("/user",this.form).then(res => {
+            if(res) {
+              this.$message.success("保存成功")
+            }else
+            {
+              this.$message.error("保存失败")
+            }
+            this.load()//刷新表格的数据
+            this.dialogVisible=false//关闭弹窗
+          })
         },
         handleEdit(row){
           this.form =JSON.parse(JSON.stringify(row))
@@ -174,7 +186,7 @@ export default {
         handLeCurrentChange(pageNum)//改变当前页码触发
         {
           this.currentPage=pageNum
-            this.load()
+          this.load()
         },
       }
 }

@@ -110,7 +110,7 @@ export default {
             }
       }).then(res=>{
         console.log(res)
-        this.data = res.data.records
+        this.data = res.data
         this.getList()
       })
     },

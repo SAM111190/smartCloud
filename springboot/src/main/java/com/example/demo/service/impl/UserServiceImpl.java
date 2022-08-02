@@ -6,15 +6,23 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.common.Constants;
 import com.example.demo.controller.dto.UserDTO;
+import com.example.demo.entity.Menu;
 import com.example.demo.entity.User;
 import com.example.demo.exception.ServiceException;
+import com.example.demo.mapper.RoleMapper;
+import com.example.demo.mapper.RoleMenuMapper;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.IMenuService;
 import com.example.demo.service.IUserService;
 import com.example.demo.utils.TokenUtils;
 import org.apache.el.parser.Token;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.ReactiveListCommands;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -29,23 +37,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private RoleMapper roleMapper;
+    @Resource
+    private RoleMenuMapper roleMenuMapper;
+    @Resource
+    private IMenuService menuService;
     @Override
     public UserDTO login(UserDTO userDTO) {
-        User one=getUserInfo(userDTO);
+        User one = getUserInfo(userDTO);
         if (one != null) {
             BeanUtil.copyProperties(one, userDTO, true);
-            //设置token
+            // 设置token
             String token = TokenUtils.genToken(one.getId().toString(), one.getPassword());
             userDTO.setToken(token);
+
+            String role = one.getRole(); // ROLE_ADMIN
+            // 设置用户的菜单列表
+            List<Menu> roleMenus = getRoleMenus(role);
+            userDTO.setMenus(roleMenus);
             return userDTO;
         } else {
             throw new ServiceException(Constants.CODE_600, "用户名或密码错误");
         }
     }
 
+
     @Override
     public User register(UserDTO userDTO) {
-       User one=getUserInfo(userDTO);
+        User one=getUserInfo(userDTO);
         if(one==null){
             one =new User();
             BeanUtil.copyProperties(userDTO,one,true);
@@ -68,5 +88,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new ServiceException(Constants.CODE_500, "系统错误");
         }
         return one;
+    }
+    /**
+     * 获取当前角色的菜单列表
+     * @param roleFlag
+     * @return
+     */
+    private List<Menu> getRoleMenus(String roleFlag) {
+        Integer roleId = roleMapper.selectByFlag(roleFlag);
+        // 当前角色的所有菜单id集合
+        List<Integer> menuIds = roleMenuMapper.selectByRoleId(roleId);
+
+        // 查出系统所有的菜单(树形)
+        List<Menu> menus = menuService.findMenus("");
+        // new一个最后筛选完成之后的list
+        List<Menu> roleMenus = new ArrayList<>();
+        // 筛选当前用户角色的菜单
+        for (Menu menu : menus) {
+            if (menuIds.contains(menu.getId())) {
+                roleMenus.add(menu);
+            }
+            List<Menu> children = menu.getChildren();
+            // removeIf()  移除 children 里面不在 menuIds集合中的 元素
+            children.removeIf(child -> !menuIds.contains(child.getId()));
+        }
+        return roleMenus;
     }
 }

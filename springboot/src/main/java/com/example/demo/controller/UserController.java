@@ -27,7 +27,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-//    @PostMapping("/login")
+    //    @PostMapping("/login")
 //    public Result<?> login(@RequestBody User user)//从前端获取数据
 //    {
 //        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername,user.getUsername()).eq(User::getPassword,user.getPassword()));//进行唯一查找
