@@ -16,7 +16,7 @@
           <template #header>
             <div class="card-header">
               <span>公告</span>
-              <el-button type="text">查看更多</el-button>
+              <el-button type="text" @click="$router.push('/front/bulletin')">查看更多</el-button>
             </div>
           </template>
           <div>
@@ -27,7 +27,7 @@
           <template #header>
             <div class="card-header">
               <span>讨论区</span>
-              <el-button type="text">查看更多</el-button>
+              <el-button type="text" @click="$router.push('/front/forum')">查看更多</el-button>
             </div>
           </template>
           <div>

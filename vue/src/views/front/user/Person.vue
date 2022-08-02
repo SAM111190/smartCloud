@@ -39,7 +39,6 @@
                   action="http://localhost:9091/file/upload"
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
-
               >
                 <el-button type="primary" style="position: relative;left: 115px;">上传头像</el-button>
               </el-upload>
@@ -118,6 +117,7 @@ import request from "@/utils/request";
 
 export default {
   name: "Person",
+  inject:['reload'],
   data() {
     return {
       form2:{},
@@ -136,24 +136,30 @@ export default {
     async getUser() {
       return (await request.get("/user/username/" + this.user.username)).data
     },
-    save(){
-
-      //有id更新
-      request.post("/user",this.form).then(res => {
-        if(res.code==="200") {
+    save() {
+      request.post("/user", this.form).then(res => {
+        if (res.code === '200') {
           this.$message.success("保存成功")
-        }else
-        {
+
+          // 触发父级更新User的方法
+          this.$emit("refreshUser")
+
+          // 更新浏览器存储的用户信息
+          this.getUser().then(res => {
+            res.token = JSON.parse(sessionStorage.getItem("user")).token
+            sessionStorage.setItem("user", JSON.stringify(res))
+          })
+        } else {
           this.$message.error("保存失败")
         }
-        this.dialogVisible=false//关闭弹窗
       })
     },
+
     handleSelect(key){
       this.activeIndex = key;
     },
     handleAvatarSuccess(res) {
-      this.form.avatarUrl = res
+      this.form.avatarUrl = res;
     }
   },
 }

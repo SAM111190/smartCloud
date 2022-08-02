@@ -42,9 +42,9 @@
         <el-table-column label="">
           <template #default="scope">
             <div style="text-align: right;margin-right:100px">
-            <el-button size="small" type="text" @click="$router.push('/front/question')"
-            >开始做题</el-button
-            >
+              <el-button size="small" type="text"
+              ><router-link :to="{path:'/front/question',query: {index: scope.row.id}}" >开始做题</router-link></el-button
+              >
             </div>
           </template>
         </el-table-column>
@@ -147,10 +147,22 @@ export default {
 </script>
 
 <style scoped>
-.operation{
-  margin:10px auto;
-}
-.list {
-  text-align: center;
-}
+  .operation{
+    margin:10px auto;
+  }
+  .list {
+    text-align: center;
+  }
+  a {
+  text-decoration: none;
+  }
+  a:link {
+    color:#1260cc;
+  }
+  a:visited{
+    color: #1260cc;
+  }
+  a:hover {
+    color: #ccc;
+  }
 </style>

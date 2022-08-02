@@ -3,9 +3,9 @@
     <div class="left" v-loading="loading">
       <el-scrollbar height="100%">
         <div style="margin: 10px">
-        <h1>P1003 铺地毯</h1>
+        <h1>{{questions.number+'    '+questions.name}}</h1>
         <div class="bar">
-          <span style="font-size: 15px;padding-right: 10px;cursor: pointer">难度：<span style="color: red">进阶</span></span>
+          <span style="font-size: 15px;padding-right: 10px;cursor: pointer">难度：<span style="color: red">{{questions.difficulty}}</span></span>
           <button class="button">
             <svg viewBox="0 0 24 24" width="1em" height="1em" class="css-1lc17o4-icon">
               <path
@@ -34,99 +34,99 @@
           <h2>题目描述</h2>
           <div class="description">
             <p>
-              为了准备一个独特的颁奖典礼，组织者在会场的一片矩形区域（可看做是平面直角坐标系的第一象限）铺上一些矩形地毯。一共有 nn 张地毯，编号从 11 到 nn。
-              现在将这些地毯按照编号从小到大的顺序平行于坐标轴先后铺设，后铺的地毯覆盖在前面已经铺好的地毯之上。
-            </p>
-          </div>
-          <div class="description">
-            <p>
-              地毯铺设完成后，组织者想知道覆盖地面某个点的最上面的那张地毯的编号。注意：在矩形地毯边界和四个顶点上的点也算被地毯覆盖。
+              {{questions.details}}
             </p>
           </div>
           <h2>输入格式</h2>
           <div class="description">
             <p>
-              输入共n+2行
-            </p>
-          </div>
-          <div class="description">
-            <p>
-              第一行，一个整数n，表示总共有n张地毯。
-            </p>
-          </div>
-          <div class="description">
-            <p>
-              接下来的n行中，第i+1行表示编号i的地毯的信息，包含四个整数a,b,g,k每两个整数之间用一个空格隔开，分别表示铺设地毯的左下角的坐标(a, b)以及地毯在x轴和y轴方向的长度。
-            </p>
-          </div>
-          <div class="description">
-            <p>
-              第n+2行包含两个整数x和y，表示所求的地面的点的坐标(x,y)。
+              {{questions.input}}
             </p>
           </div>
           <h2>输出格式</h2>
           <div class="description">
             <p>
-              输出共1行，一个整数，表示所求的地毯的编号；若此处没有被地毯覆盖则输出-1。
+              {{questions.output }}
             </p>
           </div>
           <h2>输入输出样例</h2>
           <div class="input_output">
-            输入：<pre>3
-1 0 2 3
-0 2 3 3
-2 1 3 3
-2 2</pre>
-            输出：<pre>3</pre>
+            输入：<pre> {{questions.einput}}</pre>
+            输出：<pre> {{questions.eoutput}}</pre>
           </div>
           <h2>说明/格式</h2>
           <div class="description">
             <p>
-              【样例解释 1】
+              【样例解释】
             </p>
           </div>
           <div class="description">
             <p>
-              如下图，1号地毯用实线表示，2号地毯用虚线表示，3号用双实线表示，覆盖点(2,2)的最上面一张地毯是 33 号地毯。
+              {{questions.tips}}
             </p>
           </div>
-          <img src="https://cdn.luogu.com.cn/upload/pic/100.png">
+          <img  :src="questions.src">
         </div>
         </div>
       </el-scrollbar>
       <div class="bottom_bar">
-        <el-button type="info" size="normal" @click="back">返回</el-button>
-          <el-button type="primary" size="normal">上一题</el-button>
+        <el-button type="info" size="default" @click="back">返回</el-button>
+          <el-button type="primary" size="default">上一题</el-button>
         6/10
-          <el-button type="primary" size="normal">下一题</el-button>
+          <el-button type="primary" size="default">下一题</el-button>
       </div>
     </div>
-    <div class="resize" title="收缩侧边栏">
+    <div class="resize" @mouseup="changeIframeDivStyle('none')" @mousedown="changeIframeDivStyle('')">
       ⋮
     </div>
     <div class="mid">
-      <el-scrollbar height="100%">
-        <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p>
-      </el-scrollbar>
+<!--      遮罩层-->
+      <div  class="iframeDiv"></div>
+      <iframe src="http://localhost:8888/lab"  frameborder="0" width="100%" height="100%"> </iframe>
     </div>
   </div>
 </template>
 
 <script>
+import request from "@/utils/request";
 export default {
   name: "question_doing",
   data() {
     return {
       loading:'',
+      questions:[],
+      id:'',
     }
   },
   created() {
     this.getData();
+    this.load();
   },
   mounted() {
-    this.dragControllerDiv()
+    this.dragControllerDiv();
+    this.changeIframeDivStyle('none');
+
   },
   methods: {
+    load(){
+      this.qid=this.$route.query.index
+      //this.qid=this.$route.query.id
+      request.get("/question/"+this.qid,{
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              searchData: this.searchData
+            }
+      }).then(res=>{
+        console.log(res)
+        this.questions = res.data
+      })
+    },
+    changeIframeDivStyle(display) {
+      var iframeDiv = document.getElementsByClassName('iframeDiv');
+      iframeDiv[0].style.display = display;
+    },
     getData(){
       this.loading = true;
       setTimeout(() =>{
@@ -153,7 +153,7 @@ export default {
             var moveLen = resize[i].left + (endX - startX); // （endx-startx）=移动的距离。resize[i].left+移动的距离=左边区域最后的宽度
             var maxT = box[i].clientWidth - resize[i].offsetWidth; // 容器宽度 - 左边区域的宽度 = 右边区域的宽度
 
-            if (moveLen < 300) moveLen = 0; // 左边区域的最小宽度为300px,若小于300px，自动折叠
+            if (moveLen < 300) moveLen = 300; // 左边区域的最小宽度为300px
             if (moveLen > maxT - 150) moveLen = maxT - 150; //右边区域最小宽度为150px
 
             resize[i].style.left = moveLen; // 设置左侧区域的宽度
@@ -181,17 +181,6 @@ export default {
 </script>
 
 <style scoped>
-  .scrollbar-demo-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    margin: 10px;
-    text-align: center;
-    border-radius: 4px;
-    background: var(--el-color-primary-light-9);
-    color: var(--el-color-primary);
-  }
   .bottom_bar {
     height: 20px;
     border-top: 1px solid #ccc;
@@ -290,5 +279,16 @@ export default {
     height: calc(100vh - 60px);
     background: #fff;
     box-shadow: -1px 4px 5px 3px rgba(0, 0, 0, 0.11);
+  }
+  .iframeDiv {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 1111;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: transparent;
+    margin-top: 30px;
+    /*display: none;*/
   }
 </style>
