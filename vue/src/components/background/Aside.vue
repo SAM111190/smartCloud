@@ -12,7 +12,6 @@
       :collapse="isCollapse"
       router>
     <div style="height: 60px; line-height: 60px; text-align: center">
-      <img src="@/assets/logo1.png" alt="" style="width: 20px; position: relative; top: 5px;">
       <b>后台管理系统</b>
     </div>
     <div v-for="item in menus" :key="item.id">

@@ -5,7 +5,7 @@
         <div style="margin: 10px">
         <h1>{{questions.number+'    '+questions.name}}</h1>
         <div class="bar">
-          <span style="font-size: 15px;padding-right: 10px;cursor: pointer">难度：<span style="color: red">{{questions.difficulty}}</span></span>
+          <span style="font-size: 15px;padding-right: 10px;cursor: pointer">难度：<el-tag :type="(questions.difficulty == '入门'?'':(questions.difficulty == '简单'?'warning':(questions.difficulty == '进阶'?'success':(questions.difficulty == '困难'?'danger':'info'))))" effect="dark">{{questions.difficulty}}</el-tag></span>
           <button class="button">
             <svg viewBox="0 0 24 24" width="1em" height="1em" class="css-1lc17o4-icon">
               <path

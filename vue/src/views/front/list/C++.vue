@@ -6,7 +6,7 @@
       <el-card shadow="always">
           <p style="display: inline-block;line-height:10px;margin-right: 10px">查找题目</p>
           <el-input v-model="searchData" placeholder="请输入题目序号" style="width: 85%;margin-right: 10px"/>
-        <el-button :icon="Search" type="primary" size="normal" @click="search"/>
+        <el-button :icon="Search" type="primary" size="default" @click="search"/>
       </el-card>
     </div>
     <div class="list">
@@ -30,7 +30,7 @@
                          :filter-method="filterHandler"
         >
           <template #default="scope">
-            <el-tag :type="(scope.row.difficulty == '入门'?'primary':(scope.row.difficulty == '简单'?'warning':(scope.row.difficulty == '进阶'?'success':(scope.row.difficulty == '困难'?'danger':'info'))))" effect="dark">{{scope.row.difficulty}}</el-tag>
+            <el-tag :type="(scope.row.difficulty == '入门'?'':(scope.row.difficulty == '简单'?'warning':(scope.row.difficulty == '进阶'?'success':(scope.row.difficulty == '困难'?'danger':'info'))))" effect="dark">{{scope.row.difficulty}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="name" label="题目" width="200px"/>
@@ -42,8 +42,7 @@
         <el-table-column label="">
           <template #default="scope">
             <div style="text-align: right;margin-right:100px">
-              <el-button size="small" type="text"
-              ><router-link :to="{path:'/front/question',query: {index: scope.row.id}}" >开始做题</router-link></el-button
+              <el-button size="small" link><router-link :to="{path:'/front/question',query: {index: scope.row.id}}" >开始做题</router-link></el-button
               >
             </div>
           </template>
@@ -157,12 +156,12 @@ export default {
   text-decoration: none;
   }
   a:link {
-    color:#1260cc;
+    color: #409eff;
   }
   a:visited{
-    color: #1260cc;
+    color: #409eff;
   }
   a:hover {
-    color: #ccc;
+    color: grey;
   }
 </style>

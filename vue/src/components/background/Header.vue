@@ -1,7 +1,10 @@
 <!--头部-->
 <template>
     <div style="height: 50px; line-height: 50px; border-bottom: 1px solid #ccc; display:flex">
-        <div style="width: 200px;padding-left: 30px; font-weight: bold; color: #1260cc">智慧云实验平台</div>
+        <div style="width: 200px;padding-left: 30px; font-weight: bold; color: #1260cc">
+          <img src="@/assets/logo1.png" alt="" style="width: 20px; position: relative; top: 5px;">
+          智慧云实验平台
+        </div>
         <div style="flex: 1"></div>
         <div style="width: 100px; padding-top:18px">
             <el-dropdown>

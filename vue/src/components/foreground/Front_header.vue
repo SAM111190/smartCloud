@@ -15,9 +15,9 @@
             mode="horizontal"
             router
         >
-          <el-menu-item index="1" @click="$router.push('/front/home')">主页</el-menu-item>
-          <el-menu-item index="2" @click="$router.push('/front/forum')">讨论</el-menu-item>
-          <el-menu-item index="3" @click="$router.push('/front/404')">关于</el-menu-item>
+          <el-menu-item index="" @click="$router.push('/front/home')">主页</el-menu-item>
+          <el-menu-item index="" @click="$router.push('/front/forum')">讨论</el-menu-item>
+          <el-menu-item index="" @click="$router.push('/front/404')">关于</el-menu-item>
         </el-menu>
         <div class="search">
           <el-input
@@ -40,6 +40,7 @@
                 </div>
                 <template #dropdown>
                   <el-dropdown-menu>
+                    <el-dropdown-item v-if="user.role === 'ROLE_ADMIN' " @click="$router.push('/home')">后台管理</el-dropdown-item>
                     <el-dropdown-item @click="$router.push('/front/user')">个人空间</el-dropdown-item>
                     <el-dropdown-item>通知</el-dropdown-item>
                     <el-dropdown-item>

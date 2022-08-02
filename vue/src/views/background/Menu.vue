@@ -12,7 +12,13 @@
       <el-button type="primary" style="margin-left: 5px" @click="load">查询</el-button>
       <el-button type="danger"  @click="reset">重置</el-button>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%" row-key="id" default-expand-all>
+    <el-table
+        :data="tableData"
+        stripe
+        style="width: 100%"
+        row-key="id"
+        default-expand-all
+    >
       <el-table-column prop="id" label="ID"  sortable />
       <el-table-column prop="name" label="名称"  />
       <el-table-column prop="path" label="路径" />
@@ -25,7 +31,14 @@
       <el-table-column prop="description" label="描述" />
       <el-table-column fixed="right" label="操作">
         <template #default="scope">
-          <el-button type="primary" @click="handleAdd(scope.row.id)" >新增子菜单 <i class="el-icon-plus"></i></el-button>
+          <el-tooltip
+              class="box-item"
+              effect="light"
+              content="新增子菜单"
+              placement="left-end"
+          >
+          <el-button type="primary" @click="handleAdd(scope.row.id)" ><i class="el-icon-plus"></i></el-button>
+          </el-tooltip>
           <el-button   @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm title="确认删除吗？" @confirm="handleDelete(scope.row.id)">
             <template #reference>
@@ -179,11 +192,12 @@ export default {
       }
 }
 </script>
+
+<style scoped>
 .fontSize18{
-font-size: 18px;
+  font-size: 18px;
 }
 .fontSize12{
-font-size: 12px;
+  font-size: 12px;
 }
-<style scoped>
 </style>
