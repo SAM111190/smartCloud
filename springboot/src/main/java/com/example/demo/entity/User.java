@@ -19,6 +19,8 @@ public class User {
     private String address;
     private String avatarUrl;
     private String  role;
-
+    private String  telephone;
+    private String  introduce;
+    private String  birthday;
 
 }
