@@ -40,8 +40,8 @@
                 </div>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item v-if="user.role === 'ROLE_ADMIN' " @click="$router.push('/home')">后台管理</el-dropdown-item>
                     <el-dropdown-item @click="$router.push('/front/user')">个人空间</el-dropdown-item>
+                    <el-dropdown-item v-if="user.role === 'ROLE_ADMIN' " @click="$router.push('/home')">后台管理</el-dropdown-item>
                     <el-dropdown-item>通知</el-dropdown-item>
                     <el-dropdown-item>
                       <span @click="logout">注销</span>
