@@ -6,7 +6,7 @@
       <el-avatar :size="50" v-if="user.avatarUrl" :src="user.avatarUrl" />
       <div class="info">
       <div class="username">
-        <p>{{ user.username }}</p>
+        <p>{{ user.nickName }}</p>
       </div>
       <div class="signature">
       <p>这个家伙很懒，什么也没有留下</p>
