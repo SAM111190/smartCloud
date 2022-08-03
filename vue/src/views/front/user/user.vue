@@ -5,11 +5,19 @@
         <div class="user_information">
       <el-avatar :size="50" v-if="user.avatarUrl" :src="user.avatarUrl" />
       <div class="info">
+<!--        有昵称则显示昵称，没有则显示用户名-->
       <div class="username">
-        <p>{{ user.nickName }}</p>
+        <p>
+          {{ user.nickName }}
+        </p>
       </div>
       <div class="signature">
-      <p>这个家伙很懒，什么也没有留下</p>
+      <p v-if="user.introduce">
+        {{user.introduce}}
+      </p>
+        <p v-else>
+          这个家伙很懒，什么都没有留下。
+        </p>
       </div>
       </div>
       </div>

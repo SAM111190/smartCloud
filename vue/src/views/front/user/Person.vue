@@ -55,6 +55,8 @@
                   v-model="form.birthday"
                   type="date"
                   :size="'default'"
+                  format="YYYY/MM/DD"
+                  value-format="YYYY-MM-DD"
               />
             </el-form-item>
             <el-form-item label="性别">
