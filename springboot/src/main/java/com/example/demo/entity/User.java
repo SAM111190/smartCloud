@@ -14,12 +14,11 @@ public class User {
     private String username;
     private String password;
     private String nickName;
+    private String birthday;
     private String sex;
     private String address;
+    private String telephone;
+    private String introduce;
     private String avatarUrl;
     private String  role;
-    private String  telephone;
-    private String  introduce;
-    private String  birthday;
-
 }

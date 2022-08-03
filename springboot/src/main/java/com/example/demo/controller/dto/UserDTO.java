@@ -12,10 +12,12 @@ public class UserDTO {
     private Integer id;
     private String username;
     private String password;
-    private String nick_name;
-    private Integer age;
+    private String nickName;
+    private String birthday;
     private String sex;
     private String address;
+    private String telephone;
+    private String introduce;
     private String avatarUrl;
     private String role;
     private List<Menu> menus;
