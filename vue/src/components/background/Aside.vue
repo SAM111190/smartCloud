@@ -1,7 +1,7 @@
 <!-- 侧边栏 -->
 <template>
   <el-menu
-      style="width:200px;min-height:calc(100vh - 50px);margin-right: 10px"
+      style="width:200px;min-height:calc(100vh - 50px);margin-right: 10px;"
       active-text-color="#1260cc"
       background-color="#fff"
       class="el-menu-vertical-demo"
@@ -73,3 +73,6 @@ export default {
 
 }
 </script>
+
+<style scoped>
+</style>

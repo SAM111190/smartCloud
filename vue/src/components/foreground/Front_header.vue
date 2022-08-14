@@ -17,15 +17,15 @@
         >
           <el-menu-item index="" @click="$router.push('/front/home')">主页</el-menu-item>
           <el-menu-item index="" @click="$router.push('/front/forum')">讨论</el-menu-item>
-          <el-menu-item index="" @click="$router.push('/front/404')">关于</el-menu-item>
+          <el-menu-item index="" @click="dialogVisible=true">联系我们</el-menu-item>
         </el-menu>
         <div class="search">
           <el-input
               v-model="search"
               placeholder="请输入你想要搜索的内容"
-              style="width: 50%"
+              style="width: 40%;"
           />
-          <el-button type="primary" size="default" style="margin-left: 10px">搜索</el-button>
+          <el-button type="primary" size="default" style="margin-left: 10px" @click="$router.push('/front/search')">搜索</el-button>
         </div>
       </div>
             <div class="nickname" style="text-align: right; padding-right: 30px">
@@ -51,6 +51,60 @@
               </el-dropdown>
             </div>
             </div>
+    </div>
+  </div>
+  <div>
+    <el-dialog
+        v-model="dialogVisible"
+        title="联系我们"
+        width="700px"
+        center
+        top="25vh"
+        show-close
+    >
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item label="反馈类型" :label-width="'150px'" prop="type">
+          <el-radio-group v-model="form.type">
+            <el-radio label="界面UI"/>
+            <el-radio label="使用体验"/>
+            <el-radio label="Bug反馈"/>
+            <el-radio label="其他问题"/>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="联系方式" :label-width="'150px'" prop="number">
+          <el-input v-model="form.number" placeholder="请输入您邮箱或者电话" style="width: 80%">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="反馈内容" :label-width="'150px'" prop="content">
+          <el-input type="textarea" v-model="form.content" placeholder="请输入您的反馈内容" style="width: 80%;"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submit"
+        >提交</el-button
+        >
+      </span>
+      </template>
+    </el-dialog>
+    <el-dialog
+        v-model="dialogVisible1"
+        width="700px"
+        center
+        top="25vh"
+    >
+      <el-result
+          icon="success"
+          title="提交成功"
+          sub-title="我们会尽快联系您，请注意查看您的邮箱或来电"
+      >
+        <template #extra>
+          <el-button type="primary" @click="dialogVisible1 = false">返回</el-button>
+        </template>
+      </el-result>
+    </el-dialog>
+    <div>
     </div>
   </div>
 </template>
@@ -120,6 +174,7 @@ export default {
   height: 60px;
   line-height: 60px;
   border-bottom:1px solid #E6E6E6;
+  background-color: white;
 }
 .logo {
   width: 300px;

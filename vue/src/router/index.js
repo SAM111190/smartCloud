@@ -87,6 +87,11 @@ const routes = [
         name: '404',
         component: () => import("@/views/front/404/404")
       },
+      {
+        path: 'search',
+        name: 'search',
+        component: () => import("@/views/front/search/search")
+      },
     ]
   },
 ]

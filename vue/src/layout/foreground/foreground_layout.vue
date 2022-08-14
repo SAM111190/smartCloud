@@ -4,7 +4,7 @@
     <front_header :user="user"></front_header>
   </div>
   <div>
-    <contact_us></contact_us>
+    <Backtop></Backtop>
   </div>
   <div>
     <router-view @refreshUser="getUser"></router-view>
@@ -14,12 +14,14 @@
 <script>
 import Front_header from "@/components/foreground/Front_header";
 import contact_us from "@/components/foreground/contact_us";
+import Backtop from "@/components/foreground/Backtop";
 import request from "@/utils/request";
 export default {
   name: "foreground_layout",
   components:{
     Front_header,
     contact_us,
+    Backtop,
   },
   data(){
     return{

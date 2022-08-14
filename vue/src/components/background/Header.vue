@@ -5,11 +5,12 @@
           <img src="@/assets/logo1.png" alt="" style="width: 20px; position: relative; top: 5px;">
           智慧云实验平台
         </div>
-        <div style="flex: 1"></div>
+        <div style="flex: 1;text-align: right">
+        </div>
         <div style="width: 100px; padding-top:18px">
             <el-dropdown>
                 <span class="el-dropdown-link" style="color:#1260cc;cursor: pointer">
-                 {{ user.username }}
+                  {{ user.username }}
                 <el-icon class="el-icon--right">
                     <arrow-down />
                  </el-icon>
