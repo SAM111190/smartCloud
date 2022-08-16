@@ -5,7 +5,7 @@
     <div class="operation">
       <el-card shadow="always">
           <p style="display: inline-block;line-height:10px;margin-right: 10px">查找题目</p>
-          <el-input v-model="searchData" placeholder="请输入题目序号" style="width: 85%;margin-right: 10px"/>
+          <el-input v-model="searchData" placeholder="请输入题目序号" clearable style="width: 85%;margin-right: 10px"/>
         <el-button :icon="Search" type="primary" size="default" @click="search"/>
       </el-card>
     </div>

@@ -72,7 +72,6 @@
       <div class="bottom_bar">
         <el-button type="info" size="default" @click="back">返回</el-button>
           <el-button type="primary" size="default">上一题</el-button>
-        6/10
           <el-button type="primary" size="default">下一题</el-button>
       </div>
     </div>

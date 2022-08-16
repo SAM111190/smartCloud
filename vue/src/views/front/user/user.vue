@@ -7,17 +7,16 @@
       <div class="info">
 <!--        有昵称则显示昵称，没有则显示用户名-->
       <div class="username">
-        <p>
+        <p v-if="user.nickName">
           {{ user.nickName }}
         </p>
-      </div>
-      <div class="signature">
-      <p v-if="user.introduce">
-        {{user.introduce}}
-      </p>
         <p v-else>
-          这个家伙很懒，什么都没有留下。
+          {{user.username}}
         </p>
+      </div>
+      <div class="identify">
+        <el-tag type="danger" v-if="user.role === 'ROLE_ADMIN'">管理员</el-tag>
+        <el-tag type="primary" v-else>普通用户</el-tag>
       </div>
       </div>
       </div>
@@ -33,9 +32,8 @@
             @select="handSelect"
         >
           <el-menu-item index="1">主页</el-menu-item>
-          <el-menu-item index="2">动态</el-menu-item>
-          <el-menu-item index="3">讨论</el-menu-item>
-          <el-menu-item index="4">收藏</el-menu-item>
+          <el-menu-item index="2">讨论</el-menu-item>
+          <el-menu-item index="3">收藏</el-menu-item>
         </el-menu>
       </div>
     </div>
@@ -47,14 +45,18 @@
         <div class="left">
           <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人介绍</h2>
           <div class="description">
-            <p>わくわく</p>
+            <p v-if="user.introduce">
+              {{user.introduce}}
+            </p>
+            <p v-else>
+              这个家伙很懒，什么都没有留下。
+            </p>
           </div>
         </div>
         <div class="left">
-        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">空间文件</h2>
+        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">题目收藏</h2>
         <div class="description">
           <el-empty description="空空如也" :image-size="100" >
-            <el-button type="primary">上传文件</el-button>
           </el-empty>
         </div>
       </div>
@@ -64,7 +66,11 @@
         <div class="right">
         <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人资料</h2>
         <div class="description">
-          <p>暂无数据</p>
+          <el-row>
+            <el-col :span="12">性别：{{user.sex}}</el-col>
+            <el-col :span="12" v-if="user.birthday">生日：{{user.birthday}}</el-col>
+            <el-col :span="12" v-else>生日：未知</el-col>
+          </el-row>
         </div>
         </div>
         <div class="right">
@@ -72,24 +78,10 @@
           <div class="description">
             <el-input type="textarea" v-model="board" placeholder="编辑我的空间公告" style="width: 100%;"/>
           </div>
-        </div>      <div class="right">
-        <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">题目收藏</h2>
-        <div class="description">
-          <p>暂无数据</p>
         </div>
-      </div>
       </div>
         </div>
       <div v-else-if="activeIndex === '2'">
-        <div class="bottom_content">
-          <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">动态</h2>
-          <div class="description">
-            <el-empty description="空空如也" :image-size="100" >
-            </el-empty>
-          </div>
-        </div>
-      </div>
-      <div v-else-if="activeIndex === '3'">
         <div class="bottom_content">
           <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">讨论</h2>
           <div class="description">
@@ -98,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div v-else-if="activeIndex === '4'">
+      <div v-else-if="activeIndex === '3'">
         <div class="bottom_content">
           <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">收藏</h2>
           <div class="description">
@@ -169,8 +161,7 @@ export default {
  .username {
    margin-bottom: 4px;
  }
- .signature {
-   font-size: 10px;
+ .identify {
  }
  .left_content {
    float: left;
