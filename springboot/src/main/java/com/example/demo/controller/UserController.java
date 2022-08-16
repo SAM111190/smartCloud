@@ -66,6 +66,10 @@ public class UserController {
         {
             userDTO.setRole("ROLE_USER");
         }
+        if( userDTO.getSex()==null)
+        {
+            userDTO.setSex("保密");
+        }
         return Result.success(userService.register(userDTO));
     }
     @GetMapping("/find")
