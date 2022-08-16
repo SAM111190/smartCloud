@@ -67,9 +67,10 @@
         <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">个人资料</h2>
         <div class="description">
           <el-row>
-            <el-col :span="12">性别：{{user.sex}}</el-col>
-            <el-col :span="12" v-if="user.birthday">生日：{{user.birthday}}</el-col>
-            <el-col :span="12" v-else>生日：未知</el-col>
+            <el-col :span="8">用户名：{{user.username}}</el-col>
+            <el-col :span="8">性别：{{user.sex}}</el-col>
+            <el-col :span="8" v-if="user.birthday">生日：{{user.birthday}}</el-col>
+            <el-col :span="8" v-else>生日：未知</el-col>
           </el-row>
         </div>
         </div>
