@@ -62,6 +62,10 @@ public class UserController {
         {
             userDTO.setAvatarUrl("https://inews.gtimg.com/newsapp_bt/0/14881026322/1000");
         }
+        if( userDTO.getRole()==null)
+        {
+            userDTO.setRole("ROLE_USER");
+        }
         return Result.success(userService.register(userDTO));
     }
     @GetMapping("/find")
@@ -119,7 +123,7 @@ public class UserController {
     }
 
     @GetMapping("/page")//分页查询
-    public  IPage<User>  findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam(defaultValue = "") String username)
+    public  IPage<User>  findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam(defaultValue = "") String username,@RequestParam(defaultValue = "") String address)
     {
         IPage<User> page=new Page<>(pageNum,pageSize);
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
@@ -127,6 +131,10 @@ public class UserController {
         {
             queryWrapper.like("username",username);
         }
+//        if (!"".equals(address))
+//        {
+//            queryWrapper.like("address",address);
+//        }
         queryWrapper.orderByDesc("id");
         IPage<User> userPage=userService.page(page,queryWrapper);
         return userPage;
