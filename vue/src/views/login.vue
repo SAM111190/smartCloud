@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="form">
+    <div class="card">
       <div style="color: #1260cc; font-size:30px; text-align: center; padding: 30px; ">智慧云平台</div>
       <el-form :model="form" size="large" :rules="rules" ref="form">
         <el-form-item prop="username">
@@ -9,8 +9,11 @@
         <el-form-item prop="password">
           <el-input v-model="form.password"  show-password :prefix-icon="Lock" placeholder="密码"/>
         </el-form-item>
+        <div class="forget_password">
+          <el-link :underline="false" @click="$router.push('/forget_password')">忘记密码？</el-link>
+        </div>
         <el-form-item>
-          <div style="display: flex">
+          <div class="valid_code">
             <el-input v-model="form.validCode" :prefix-icon="Key" style="width: 50%" placeholder="验证码"/>
             <ValidCode style="margin-left: 60px" @input="createValidCode"/>
           </div>
@@ -93,9 +96,9 @@ export default {
   overflow: hidden;
 }
 
-.form {
-  margin: calc((100vh - 400px)/2) auto;
-  height: 400px;
+.card {
+  margin: calc((100vh - 420px)/2) auto;
+  height: 420px;
   width: 650px;
   border: 1px white solid;
   box-sizing: border-box;
@@ -103,4 +106,14 @@ export default {
   border-radius: 5px;
   padding: 20px 90px;
 }
+ .forget_password {
+   text-align: right;
+   position: relative;
+   bottom: 12px;
+ }
+ .valid_code {
+   display: flex;
+   position: relative;
+   bottom: 20px;
+ }
 </style>

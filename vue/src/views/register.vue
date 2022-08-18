@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="form">
+    <div class="card">
       <div style="color:#1260cc; font-size:30px; text-align: center; padding: 30px">智慧云平台</div>
       <el-form :model="form" size="large" :rules="rules" ref="form">
         <el-form-item prop="username">
@@ -43,6 +43,9 @@ export default {
         confirm: [
           { required: true, message: '请确认密码', trigger: 'blur' },
         ],
+        address: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+        ],
       },
       Avatar,
       Lock,
@@ -83,7 +86,7 @@ export default {
   overflow: hidden;
 }
 
-.form {
+.card {
   margin: calc((100vh - 450px)/2) auto;
   height: 450px;
   width: 650px;

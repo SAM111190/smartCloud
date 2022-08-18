@@ -37,6 +37,11 @@ const routes = [
     component: () => import("@/views/register")
   },
   {
+    path: '/forget_password',
+    name: 'forget_password',
+    component: () => import("@/views/forget_password")
+  },
+  {
     path: '/front',
     name: 'front_layout',
     component: foreground_layout,
