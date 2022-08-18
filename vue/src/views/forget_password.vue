@@ -96,7 +96,7 @@ export default {
             })
             return
           }//判断是否满足验证规则，才能进行下面的请求
-          this.activeIndex++;
+          this.activeIndex++;//进入下一步
         }
       })
     }
