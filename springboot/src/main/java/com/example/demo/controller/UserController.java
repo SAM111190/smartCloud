@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Constants;
 import com.example.demo.common.Result;
 import com.example.demo.controller.dto.UserDTO;
+import com.example.demo.controller.dto.UserPasswordDTO;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.IUserService;
@@ -48,6 +49,18 @@ public class UserController {
         UserDTO dto=userService.login(userDTO);
         return Result.success(dto);
     }
+    @PostMapping("/forget")
+    public Result forget(@RequestBody UserDTO userDTO)
+    {
+        String username=userDTO.getUsername();
+        String address=userDTO.getAddress();
+        if(StrUtil.isBlank(username) || StrUtil.isBlank(address))
+        {
+            return Result.error(Constants.CODE_400,"参数错误");
+        }
+        UserDTO dto=userService.forget(userDTO);
+        return Result.success(dto);
+    }
     @PostMapping("/register")
     public Result register(@RequestBody UserDTO userDTO)//从前端获取数据
     {
@@ -81,13 +94,19 @@ public class UserController {
     @PostMapping
     public Result save(@RequestBody User user) {
         if (user.getId() == null && user.getPassword() == null) {  // 新增用户默认密码
-            user.setPassword("123");
+            user.setPassword("123456");
         }
         if(user.getId() == null && user.getAvatarUrl()==null)
         {
             user.setAvatarUrl("https://inews.gtimg.com/newsapp_bt/0/14881026322/1000");
         }
         return Result.success(userService.saveOrUpdate(user));
+    }
+
+    @PostMapping("/password")
+    public Result password(@RequestBody UserPasswordDTO userPasswordDTO) {
+        userService.updatePassword(userPasswordDTO);
+        return Result.success();
     }
 
 

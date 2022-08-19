@@ -40,21 +40,21 @@
               <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in 灌水区域 @2022.7.30 15:32</p>
             </div>
           </div>
-          <div class="left">
-            <div class="user_information">
-              <el-avatar :size="50" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.bdstatic.com%2F94o3dSag_xI4khGkpoWK1HF6hhy%2Fbaike%2Fw%3D268%3Bg%3D0%2Fsign%3D9f03f75094504fc2a25fb703dde6802c%2Fb151f8198618367a6a99048521738bd4b31ce552.jpg&refer=http%3A%2F%2Fgss0.bdstatic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661759220&t=afbaf3c1bbfe1835776b249f6b23db25" />
-              <div class="info">
-                <div class="username">
-                  <p>任天堂</p>
-                </div>
-                <el-tag type="danger">管理员</el-tag>
-              </div>
-            </div>
-            <div class="post_title">
-              <el-link href="https://www.nintendo.com/" type="primary" style="font-size: 18px" :underline="false">【不转不是地球人】东半球最强法务部准备出击！戦う!</el-link>
-              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in 灌水区域 @2022.7.30 15:50</p>
-            </div>
-          </div>
+<!--          <div class="left">-->
+<!--            <div class="user_information">-->
+<!--              <el-avatar :size="50" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.bdstatic.com%2F94o3dSag_xI4khGkpoWK1HF6hhy%2Fbaike%2Fw%3D268%3Bg%3D0%2Fsign%3D9f03f75094504fc2a25fb703dde6802c%2Fb151f8198618367a6a99048521738bd4b31ce552.jpg&refer=http%3A%2F%2Fgss0.bdstatic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661759220&t=afbaf3c1bbfe1835776b249f6b23db25" />-->
+<!--              <div class="info">-->
+<!--                <div class="username">-->
+<!--                  <p>任天堂</p>-->
+<!--                </div>-->
+<!--                <el-tag type="danger">管理员</el-tag>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="post_title">-->
+<!--              <el-link href="https://www.nintendo.com/" type="primary" style="font-size: 18px" :underline="false">【不转不是地球人】东半球最强法务部准备出击！戦う!</el-link>-->
+<!--              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in 灌水区域 @2022.7.30 15:50</p>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
 <!--          反馈区域-->
           <div v-else-if="activeIndex ==='2'">

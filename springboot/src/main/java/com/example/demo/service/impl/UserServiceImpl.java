@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.common.Constants;
 import com.example.demo.controller.dto.UserDTO;
+import com.example.demo.controller.dto.UserPasswordDTO;
 import com.example.demo.entity.Menu;
 import com.example.demo.entity.User;
 import com.example.demo.exception.ServiceException;
@@ -62,6 +63,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
     }
 
+    @Override
+    public UserDTO forget(UserDTO userDTO) {
+
+        User one = getUserAddress(userDTO);
+
+        if (one != null) {
+            BeanUtil.copyProperties(one, userDTO, true);
+            // 设置token
+            String token = TokenUtils.genToken(one.getId().toString(), one.getPassword());
+            userDTO.setToken(token);
+            return userDTO;
+        } else {
+            throw new ServiceException(Constants.CODE_600, "用户名和邮箱不匹配");
+        }
+    }
+
+    @Override
+    public void updatePassword(UserPasswordDTO userPasswordDTO) {
+        int update = userMapper.updatePassword(userPasswordDTO);
+    }
 
     @Override
     public User register(UserDTO userDTO) {
@@ -80,6 +101,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", userDTO.getUsername());
         queryWrapper.eq("password", userDTO.getPassword());
+        User one;
+        try {
+            one = getOne(queryWrapper);//从数据库查询用户信息
+
+        } catch (Exception e) {
+            throw new ServiceException(Constants.CODE_500, "系统错误");
+        }
+        return one;
+    }
+    private User getUserAddress(UserDTO userDTO)//重复代码写成函数，用于查询用户名以及密码
+    {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", userDTO.getUsername());
+        queryWrapper.eq("address", userDTO.getAddress());
         User one;
         try {
             one = getOne(queryWrapper);//从数据库查询用户信息

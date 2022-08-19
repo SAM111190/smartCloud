@@ -20,7 +20,7 @@
         <el-form-item>
         </el-form-item>
         <el-form-item style="padding: 0px 10%">
-          <el-button style="margin: 10px;width: 40%; float:left; box-sizing: border-box;" type="primary" @click="next">下一步</el-button>
+          <el-button style="margin: 10px;width: 40%; float:left; box-sizing: border-box;" type="primary" @click="next1">下一步</el-button>
           <el-button style="margin: 10px;width: 40%; float: right; box-sizing: border-box;" type="default" @click="$router.push('/login')">返回登录</el-button>
         </el-form-item>
         </div>
@@ -35,7 +35,7 @@
           <el-form-item>
           </el-form-item>
           <el-form-item style="padding: 0px 10%">
-            <el-button style="margin: 10px;width: 40%; float:left; box-sizing: border-box;" type="primary" @click="next">下一步</el-button>
+            <el-button style="margin: 10px;width: 40%; float:left; box-sizing: border-box;" type="primary" @click="next2">下一步</el-button>
             <el-button style="margin: 10px;width: 40%; float: right; box-sizing: border-box;" type="default" @click="$router.push('/login')">返回登录</el-button>
           </el-form-item>
         </div>
@@ -86,7 +86,25 @@ export default {
     }
   },
   methods:{
-    next () {
+
+    next1 () {
+      this.$refs['form'].validate((valid) => {
+            if(valid) {   //判断是否满足验证规则，才能进行下面的请求
+              request.post("/user/forget", this.form).then(res => {
+                sessionStorage.setItem("user",JSON.stringify(res.data))
+                if (res.code === '200') {
+                  this.activeIndex++;//进入下一步
+                } else {
+                  this.$message.error("用户名和邮箱不匹配")
+                }
+              })
+            }
+      })
+
+    },
+
+
+    next2 () {
       this.$refs['form'].validate((valid) => {
         if(valid){
           if(this.form.password != this.form.confirm){
@@ -96,10 +114,21 @@ export default {
             })
             return
           }//判断是否满足验证规则，才能进行下面的请求
+          request.post("/user/password",this.form).then(res => {
+            if(res) {
+              this.$message.success("保存成功")
+            }else
+            {
+              this.$message.error("保存失败")
+            }
+          })
           this.activeIndex++;//进入下一步
         }
       })
     }
+
+
+
   }
 }
 </script>
