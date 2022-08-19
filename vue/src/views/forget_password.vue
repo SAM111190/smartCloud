@@ -116,10 +116,10 @@ export default {
           }//判断是否满足验证规则，才能进行下面的请求
           request.post("/user/password",this.form).then(res => {
             if(res) {
-              this.$message.success("保存成功")
+              this.$message.success("重置成功")
             }else
             {
-              this.$message.error("保存失败")
+              this.$message.error("重置失败")
             }
           })
           this.activeIndex++;//进入下一步

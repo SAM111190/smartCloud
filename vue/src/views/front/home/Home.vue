@@ -1,9 +1,5 @@
 <template>
   <div style="width:1400px;margin: 15px auto;">
-    <div v-if="!user.username" class="notice">
-      <h1>详细内容请登陆后查看</h1>
-    </div>
-    <div v-else>
       <div class="carousel">
       <el-carousel :interval="4000" type="card" height="240px" arrow="never">
         <el-carousel-item v-for="item in imgs" :key="item">
@@ -69,7 +65,6 @@
       </el-col>
     </el-row>
       </div>
-    </div>
   </div>
 
 </template>
