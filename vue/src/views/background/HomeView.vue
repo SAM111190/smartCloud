@@ -93,9 +93,13 @@
 import request from "@/utils/request";
 
 export default {
+  beforeRouteEnter(to,from,next){
+    let user = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {}
+    if(user.role === 'ROLE_ADMIN') next()
+    else next('/front/home')
+  },
   name: 'HomeView',
   components: {
-
   },
   data(){
     return{
