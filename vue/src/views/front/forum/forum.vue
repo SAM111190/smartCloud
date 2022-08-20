@@ -22,9 +22,10 @@
     </div>
     <div class="bottom">
         <!--    左边的内容-->
-        <div class="left_content" v-for="form in forms">
+        <div class="left_content">
+          <div v-for="form in forms">
 <!--          灌水区域-->
-          <div   v-if=" activeIndex === '1' && form.area === '灌水区域'">
+          <div  v-if=" activeIndex === '1' && form.area === '灌水区域'">
           <div class="left">
             <div class="user_information">
               <el-avatar :size="50" :src="form.avatarUrl" />
@@ -100,6 +101,7 @@
             </div>
             </div>
           </div>
+          </div>
         <!--    右边的内容-->
         <div class="right_content">
           <div class="right">
@@ -118,7 +120,7 @@
             </div>
           </div>
         </div>
-    </div>
+        </div>
   </div>
 </template>
 
