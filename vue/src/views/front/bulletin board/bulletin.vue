@@ -7,99 +7,44 @@
         </div>
       </div>
     </div>
-    <div class="bottom">
+    <div class="bottom" >
         <!--    左边的内容-->
         <div class="left_content">
           <div class="left">
-            <el-timeline>
-              <el-timeline-item timestamp="2022/7/31" placement="top">
-                  <h4>修复了一堆Bug，并且杀了前端程序员祭天</h4>
-                  <p>管理员提交于2022/7/31 10:46</p>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2022/7/31" placement="top">
-                <h4>修复了一堆Bug，并且杀了前端程序员祭天</h4>
-                <p>管理员提交于2022/7/31 10:46</p>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2022/7/31" placement="top">
-                <h4>修复了一堆Bug，并且杀了前端程序员祭天</h4>
-                <p>管理员提交于2022/7/31 10:46</p>
-              </el-timeline-item>
-              <el-timeline-item timestamp="2022/7/31" placement="top">
-                <h4>修复了一堆Bug，并且杀了前端程序员祭天</h4>
-                <p>管理员提交于2022/7/31 10:46</p>
+            <el-timeline v-for="form in forms">
+              <el-timeline-item :timestamp="form.time" placement="top">
+                  <h4>{{form.content}}</h4>
+                  <p>管理员提交于{{form.time}}</p>
               </el-timeline-item>
             </el-timeline>
           </div>
         </div>
-        <!--    右边的内容-->
-        <div class="right_content">
-          <div class="right">
-            <div class="user_information">
-              <el-avatar :size="50" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fq_mini%2Cc_zoom%2Cw_640%2Fupload%2F20170802%2Ff65b79abbfae40eea0c74ebf4fbf1776_th.jpg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661842548&t=e53a876006ca8bd1cf1be9ad90fda5c0" />
-              <div class="info">
-                <div class="username">
-                  <p>智慧云平台</p>
-                </div>
-                <el-tag type="danger">管理员</el-tag>
+      <!--    右边的内容-->
+      <div class="right_content" v-for="form in forms">
+        <div class="right">
+          <div class="user_information">
+            <el-avatar :size="50" :src="form.src" />
+            <div class="info">
+              <div class="username">
+                <p>{{form.username}}</p>
               </div>
-            </div>
-            <div class="bulletin_title">
-              <el-link href="https://ys.mihoyo.com/?utm_source=adbdpz&from_channel=adbdpz#/" type="primary" style="font-size: 18px" :underline="false">【2022.7.31】修复了一堆Bug，并且杀了前端程序员祭天</el-link>
-              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">@2022.7.31 15:32</p>
+              <el-tag type="danger">管理员</el-tag>
             </div>
           </div>
-          <div class="right">
-            <div class="user_information">
-              <el-avatar :size="50" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fq_mini%2Cc_zoom%2Cw_640%2Fupload%2F20170802%2Ff65b79abbfae40eea0c74ebf4fbf1776_th.jpg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661842548&t=e53a876006ca8bd1cf1be9ad90fda5c0" />
-              <div class="info">
-                <div class="username">
-                  <p>智慧云平台</p>
-                </div>
-                <el-tag type="danger">管理员</el-tag>
-              </div>
-            </div>
-            <div class="bulletin_title">
-              <el-link href="https://ys.mihoyo.com/?utm_source=adbdpz&from_channel=adbdpz#/" type="primary" style="font-size: 18px" :underline="false">【2022.7.31】修复了一堆Bug，并且杀了前端程序员祭天</el-link>
-              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">@2022.7.31 15:32</p>
-            </div>
-          </div>
-          <div class="right">
-            <div class="user_information">
-              <el-avatar :size="50" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fq_mini%2Cc_zoom%2Cw_640%2Fupload%2F20170802%2Ff65b79abbfae40eea0c74ebf4fbf1776_th.jpg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661842548&t=e53a876006ca8bd1cf1be9ad90fda5c0" />
-              <div class="info">
-                <div class="username">
-                  <p>智慧云平台</p>
-                </div>
-                <el-tag type="danger">管理员</el-tag>
-              </div>
-            </div>
-            <div class="bulletin_title">
-              <el-link href="https://ys.mihoyo.com/?utm_source=adbdpz&from_channel=adbdpz#/" type="primary" style="font-size: 18px" :underline="false">【2022.7.31】修复了一堆Bug，并且杀了前端程序员祭天</el-link>
-              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">@2022.7.31 15:32</p>
-            </div>
-          </div>
-          <div class="right">
-            <div class="user_information">
-              <el-avatar :size="50" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fq_mini%2Cc_zoom%2Cw_640%2Fupload%2F20170802%2Ff65b79abbfae40eea0c74ebf4fbf1776_th.jpg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661842548&t=e53a876006ca8bd1cf1be9ad90fda5c0" />
-              <div class="info">
-                <div class="username">
-                  <p>智慧云平台</p>
-                </div>
-                <el-tag type="danger">管理员</el-tag>
-              </div>
-            </div>
-            <div class="bulletin_title">
-              <el-link href="https://ys.mihoyo.com/?utm_source=adbdpz&from_channel=adbdpz#/" type="primary" style="font-size: 18px" :underline="false">【2022.7.31】修复了一堆Bug，并且杀了前端程序员祭天</el-link>
-              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">@2022.7.31 15:32</p>
-            </div>
+          <div class="bulletin_title">
+            <el-link :href="form.href" type="primary" style="font-size: 18px" :underline="false">【{{form.time}}】{{form.content}}</el-link>
+            <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">@{{form.time}}</p>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
+
 <script>
 import {Tools,Edit,Document} from "@element-plus/icons";
+import request from "@/utils/request";
 export default {
   name: "user",
   data(){
@@ -110,9 +55,27 @@ export default {
       Document,
       board:'',
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
+      form:{},
+      forms: [],
     }
   },
+  created() {
+    this.load();
+  },
   methods:{
+    load(){
+      request.get("/bulletin",{
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              searchData: this.searchData
+            }
+      }).then(res=>{
+        console.log(res)
+        this.forms = res.data
+      })
+    },
     handSelect(key){
       this.activeIndex = key;
     },

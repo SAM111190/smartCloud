@@ -22,73 +22,82 @@
     </div>
     <div class="bottom">
         <!--    左边的内容-->
-        <div class="left_content">
+        <div class="left_content" v-for="form in forms">
 <!--          灌水区域-->
-          <div v-if="activeIndex ==='1'">
+          <div   v-if=" activeIndex === '1' && form.area === '灌水区域'">
           <div class="left">
             <div class="user_information">
-              <el-avatar :size="50" src="http://inews.gtimg.com/newsapp_bt/0/14798561645/641" />
+              <el-avatar :size="50" :src="form.src" />
               <div class="info">
                 <div class="username">
-                  <p>原神官方</p>
+                  <p>{{form.username}}</p>
                 </div>
-                <el-tag>普通用户</el-tag>
+                <el-tag v-if="form.role === '普通用户'">{{form.role}}</el-tag>
+                <el-tag v-if="form.role === '管理员'" type="danger">{{form.role}}</el-tag>
               </div>
             </div>
             <div class="post_title">
-              <el-link href="https://ys.mihoyo.com/?utm_source=adbdpz&from_channel=adbdpz#/" type="primary" style="font-size: 18px" :underline="false">【不转不是中国人】50个塞尔达抄袭原神的铁证！没看过的后悔一辈子</el-link>
-              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in 灌水区域 @2022.7.30 15:32</p>
+              <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
             </div>
           </div>
-<!--          <div class="left">-->
-<!--            <div class="user_information">-->
-<!--              <el-avatar :size="50" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.bdstatic.com%2F94o3dSag_xI4khGkpoWK1HF6hhy%2Fbaike%2Fw%3D268%3Bg%3D0%2Fsign%3D9f03f75094504fc2a25fb703dde6802c%2Fb151f8198618367a6a99048521738bd4b31ce552.jpg&refer=http%3A%2F%2Fgss0.bdstatic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1661759220&t=afbaf3c1bbfe1835776b249f6b23db25" />-->
-<!--              <div class="info">-->
-<!--                <div class="username">-->
-<!--                  <p>任天堂</p>-->
-<!--                </div>-->
-<!--                <el-tag type="danger">管理员</el-tag>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="post_title">-->
-<!--              <el-link href="https://www.nintendo.com/" type="primary" style="font-size: 18px" :underline="false">【不转不是地球人】东半球最强法务部准备出击！戦う!</el-link>-->
-<!--              <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in 灌水区域 @2022.7.30 15:50</p>-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
 <!--          反馈区域-->
-          <div v-else-if="activeIndex ==='2'">
+          <div v-if=" activeIndex === '2' && form.area === '反馈区域'">
             <div class="left">
               <div class="user_information">
-                <el-avatar :size="50" src="https://imgsa.baidu.com/forum/pic/item/e850352ac65c10386762db0bbf119313b17e89de.jpg" />
+                <el-avatar :size="50" :src="form.src" />
                 <div class="info">
                   <div class="username">
-                    <p>APEX</p>
+                    <p>{{form.username}}</p>
                   </div>
-                  <el-tag>普通用户</el-tag>
+                  <el-tag v-if=" form.role === '普通用户'">{{form.role}}</el-tag>
+                  <el-tag v-if= "form.role === '管理员'" type="danger">{{form.role}}</el-tag>
                 </div>
               </div>
               <div class="post_title">
-                <el-link href="https://ys.mihoyo.com/?utm_source=adbdpz&from_channel=adbdpz#/" type="primary" style="font-size: 18px" :underline="false">【SEASON 14】最新赛季爆料，R99恐成最大赢家</el-link>
-                <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in 反馈区域 @2022.7.30 15:32</p>
+                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+                <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
               </div>
             </div>
           </div>
 <!--          问题求助-->
-          <div v-else-if="activeIndex ==='3'">
+          <div v-if=" activeIndex === '3' && form.area === '问题求助'">
             <div class="left">
-              <el-empty>
-                <el-button type="primary">发布帖子</el-button>
-              </el-empty>
+              <div class="user_information">
+                <el-avatar :size="50" :src="form.src" />
+                <div class="info">
+                  <div class="username">
+                    <p>{{form.username}}</p>
+                  </div>
+                  <el-tag v-if=" form.role === '普通用户'">{{form.role}}</el-tag>
+                  <el-tag v-if= "form.role === '管理员'" type="danger">{{form.role}}</el-tag>
+                </div>
+              </div>
+              <div class="post_title">
+                <el-link type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+                <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
+              </div>
             </div>
           </div>
 <!--          其他区域-->
-          <div v-else-if="activeIndex ==='4'">
+          <div v-if=" activeIndex === '4' && form.area === '其他区域'">
             <div class="left">
-                <el-empty>
-                  <el-button type="primary">发布帖子</el-button>
-                </el-empty>
+              <div class="user_information">
+                <el-avatar :size="50" :src="form.src" />
+                <div class="info">
+                  <div class="username">
+                    <p>{{form.username}}</p>
+                  </div>
+                  <el-tag v-if=" form.role === '普通用户'">{{form.role}}</el-tag>
+                  <el-tag v-if= "form.role === '管理员'" type="danger">{{form.role}}</el-tag>
+                </div>
               </div>
+              <div class="post_title">
+                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+                <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
+              </div>
+            </div>
             </div>
           </div>
         <!--    右边的内容-->
@@ -115,6 +124,7 @@
 
 <script>
 import {Tools,Edit,Document} from "@element-plus/icons";
+import request from "@/utils/request";
 export default {
   name: "user",
   data(){
@@ -125,9 +135,27 @@ export default {
       Document,
       board:'',
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
+      form:{},
+      forms: [],
     }
   },
+  created() {
+    this.load();
+  },
   methods:{
+    load(){
+      request.get("/forum",{
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              searchData: this.searchData
+            }
+      }).then(res=>{
+        console.log(res)
+        this.forms = res.data
+      })
+    },
     handSelect(key){
       this.activeIndex = key;
     },
