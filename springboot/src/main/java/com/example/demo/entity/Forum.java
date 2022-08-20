@@ -42,7 +42,7 @@ public class Forum implements Serializable {
       private String area;
 
       @ApiModelProperty("头像")
-      private String src;
+      private String avatarUrl;
 
 
 }

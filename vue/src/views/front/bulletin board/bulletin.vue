@@ -23,7 +23,7 @@
       <div class="right_content" v-for="form in forms">
         <div class="right">
           <div class="user_information">
-            <el-avatar :size="50" :src="form.src" />
+            <el-avatar :size="50" :src="form.avatarUrl" />
             <div class="info">
               <div class="username">
                 <p>{{form.username}}</p>

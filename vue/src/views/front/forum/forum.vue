@@ -27,7 +27,7 @@
           <div   v-if=" activeIndex === '1' && form.area === '灌水区域'">
           <div class="left">
             <div class="user_information">
-              <el-avatar :size="50" :src="form.src" />
+              <el-avatar :size="50" :src="form.avatarUrl" />
               <div class="info">
                 <div class="username">
                   <p>{{form.username}}</p>
@@ -46,7 +46,7 @@
           <div v-if=" activeIndex === '2' && form.area === '反馈区域'">
             <div class="left">
               <div class="user_information">
-                <el-avatar :size="50" :src="form.src" />
+                <el-avatar :size="50" :src="form.avatarUrl" />
                 <div class="info">
                   <div class="username">
                     <p>{{form.username}}</p>
@@ -65,7 +65,7 @@
           <div v-if=" activeIndex === '3' && form.area === '问题求助'">
             <div class="left">
               <div class="user_information">
-                <el-avatar :size="50" :src="form.src" />
+                <el-avatar :size="50" :src="form.avatarUrl" />
                 <div class="info">
                   <div class="username">
                     <p>{{form.username}}</p>
@@ -84,7 +84,7 @@
           <div v-if=" activeIndex === '4' && form.area === '其他区域'">
             <div class="left">
               <div class="user_information">
-                <el-avatar :size="50" :src="form.src" />
+                <el-avatar :size="50" :src="form.avatarUrl" />
                 <div class="info">
                   <div class="username">
                     <p>{{form.username}}</p>
