@@ -15,7 +15,7 @@
               <el-button link @click="$router.push('/front/bulletin')">查看更多</el-button>
             </div>
           </template>
-          <el-table :data="tableData2" stripe style="width: 100%" :show-header="false">
+          <el-table :data="tableData2" style="width: 100%;cursor: pointer" :show-header="false">
             <el-table-column prop="content"  />
           </el-table>
         </el-card>
@@ -26,7 +26,7 @@
               <el-button link @click="$router.push('/front/forum')">查看更多</el-button>
             </div>
           </template>
-          <el-table :data="tableData1" stripe style="width: 100%" :show-header="false">
+          <el-table :data="tableData1" style="width: 100%;cursor: pointer" :show-header="false">
             <el-table-column prop="content"   />
           </el-table>
         </el-card>
@@ -134,23 +134,10 @@ export default {
   margin: 0;
   text-align: center;
 }
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.notice{
-  text-align: center;
-  margin: 35vh auto;
-  color:grey;
 }
 .img{
   border-radius: 8px;
@@ -188,5 +175,11 @@ export default {
   width: 65%;
   box-sizing: border-box;
   padding: 5px 10px;
+}
+.board
+/deep/
+.el-card__body
+{
+  padding-top: 5px;
 }
 </style>

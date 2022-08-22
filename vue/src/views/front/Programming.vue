@@ -1,6 +1,6 @@
 <template>
   <tab></tab>
-  <div style="width:1400px;margin: 15px auto;">
+  <div style="width:90%;margin: 15px auto;">
     <div v-if="!user.username" class="notice">
       <h1>详细内容请登陆后查看</h1>
     </div>

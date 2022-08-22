@@ -1,95 +1,141 @@
 <template>
-  <div style="width: 65%; margin:20px auto;text-align:center;">
-   <el-card class="box-card" >
-    <div slot="header" class="clearfix" style="padding: 15px 0;font-size: large;width: 80%;margin:0 auto;text-align:center;">
-      <span>讨论区</span>
+  <div style="padding: 15px 0;font-size: large;width: 80%;margin:0 auto;">
+    <div style="width: 80%; margin:20px auto;text-align:center" class="page">
+        <el-card>
+          <div class="setting_header">
+            发布帖子
+          </div>
+          <el-form
+              ref="form"
+              :model="form"
+              label-width="100px"
+              style="margin-top: 25px"
+              :rules="rules">
+              <el-row :gutter="0">
+                <el-col :span="8">
+            <el-form-item prop="type">
+              <el-select  clearable placeholder="选择类型" v-model="form.type">
+                <el-option label="灌水区域" value="1"/>
+                <el-option label="反馈区域" value="2"/>
+                <el-option label="问题求助" value="3"/>
+                <el-option label="其他区域" value="4"/>
+              </el-select>
+            </el-form-item>
+                </el-col>
+                <el-col :span="16">
+            <el-form-item style="position: relative;right:120px" prop="title">
+              <el-input v-model="form.title" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
+            </el-form-item>
+                </el-col>
+              </el-row>
+            <el-form-item prop="content">
+              <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
+            </el-form-item>
+            <el-form-item prop="treaty">
+              <el-checkbox v-model="form.treaty" size="large">
+                我同意且遵守
+                <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
+              </el-checkbox>
+            </el-form-item>
+          </el-form>
+          <div style="text-align: center">
+            <el-button type="primary" @click="post">发布</el-button>
+            <el-button type="info" @click="$router.push('/front/forum')">返回</el-button>
+          </div>
+        </el-card>
     </div>
-    <div  class="text item" style="width: 80%; margin:20px auto;">
-        <div style="margin-top: 15px;">
-          <el-input placeholder="请输入标题" v-model="input4" class="input-with-select">
-            <el-select v-model="select" slot="prepend" placeholder="请选择要发表的区域">
-              <el-option label="灌水区域" value="1"></el-option>
-              <el-option label="反馈区域" value="2"></el-option>
-              <el-option label="问题求助" value="3"></el-option>
-              <el-option label="其他区域" value="4"></el-option>
-            </el-select>
-          </el-input>
-        </div>
-      <div style="margin: 20px 0;"></div>
-      <el-input
-          type="textarea"
-          placeholder="请输入内容"
-          v-model="textarea"
-          maxlength="100"
-          show-word-limit
-      >
-      </el-input>
-    </div>
-     <el-button type="primary" @click="open">发布</el-button>
-  </el-card>
   </div>
 </template>
 
 <script>
+
+import request from "@/utils/request";
+
 export default {
-  name: "post",
+  name: "Person",
+  inject:['reload'],
   data() {
     return {
-      text: '',
-      textarea: '',
-      input1: '',
-      input2: '',
-      input3: '',
-      input4: '',
-      select: ''
+      form: {},
+      user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
+      title:'',
+      type:'',
+      treaty: [],
+      rules:{
+        type: [
+          {
+            required: true,
+            message: '请选择发布类型',
+            trigger: 'change',
+          },
+        ],
+        title: [
+          { required: true, message: '请输入帖子的主题', trigger: 'blur' },
+          { min: 5, max: 15, message: '长度应该在5-15之间', trigger: 'blur' },
+        ],
+        content: [
+          { required: true, message: '请输入帖子的内容', trigger: 'blur' },
+          { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
+        ],
+        treaty: [
+          {
+            required: true,
+            message: '请在阅读条例后勾选同意',
+            trigger: 'change',
+          },
+        ],
+      },
     }
   },
+  created() {
+    this.getUser().then(res => {
+      console.log(res)
+      this.form = res
+    })
+  },
   methods: {
-    open() {
-      this.$alert('发布成功', '提示', {
-        confirmButtonText: '确定',
-        callback: action => {
-          this.$message({
-            type: 'info',
-            message: `action: ${ action }`
-          });
+    async getUser() {
+      return (await request.get("/user/username/" + this.user.username)).data
+    },
+    post() {
+      this.$refs['form'].validate((valid) => {
+        if(valid) {   //判断是否满足验证规则，才能进行下面的请求
+          this.$message.success("发布成功")
         }
-      });
-    }
-  }
-
-  }
-
+      })
+    },
+  },
+}
 </script>
 
 <style scoped>
-.text {
-  font-size: 20px;
-  alignment: center;
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
-
-.item {
-  margin-bottom: 100px;
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
 }
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
+.setting_header {
+  font-size: larger;
+  text-align: left;
+  border-bottom: #cccccc 1px solid;
+  margin-bottom: 20px;
+  padding-bottom: 15px ;
 }
-.clearfix:after {
-  clear: both
+a:link {
+  color: #409eff;
 }
-
-.box-card {
-  width: 1000px;
-  text-align: center;
+a:visited{
+  color: #409eff;
 }
-.el-select .el-input {
-  width: 130px;
+a:hover {
+  color: grey;
 }
-.input-with-select .el-input-group__prepend {
-  background-color: #fff;
+a {
+  text-decoration: none;
 }
-
 </style>

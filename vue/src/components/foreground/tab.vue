@@ -26,7 +26,7 @@ export default {
 
 <style scoped>
  .back{
-   width:1400px;
+   width:90%;
    margin: 15px auto;
  }
 </style>

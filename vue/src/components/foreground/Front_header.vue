@@ -22,7 +22,7 @@
         <div class="search">
           <el-input
               v-model="search"
-              placeholder="请输入你想要搜索的内容"
+              placeholder="搜索一下"
               style="width: 40%;"
           />
           <el-button type="primary" size="default" style="margin-left: 10px" @click="$router.push('/front/search')">搜索</el-button>
@@ -193,7 +193,7 @@ export default {
 .search {
   text-align: right;
   float: right;
-  width: 70%;
+  width: 40%;
 }
 a:link {
   color:#000;
@@ -216,7 +216,7 @@ el-dropdown {
 .el-menu-demo {
   height: 60px;
   float:left;
-  width: 30%;
+  width: 60%;
 }
 .bar {
   position: fixed;

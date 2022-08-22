@@ -106,7 +106,7 @@
         <div class="right_content">
           <div class="right">
               <el-row>
-                <el-col :span="12"><el-button type="primary" style="width: 95%" size="large" :icon="Edit">发布帖子</el-button></el-col>
+                <el-col :span="12"><el-button type="primary" style="width: 95%" size="large" :icon="Edit" @click="$router.push('/front/post')">发布帖子</el-button></el-col>
                 <el-col :span="12"><el-button type="primary" style="width: 95%" size="large" :icon="Document">我的帖子</el-button></el-col>
               </el-row>
           </div>
