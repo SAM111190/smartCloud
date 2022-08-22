@@ -78,6 +78,11 @@ const routes = [
         component: () => import("@/views/front/forum/forum")
       },
       {
+        path: 'post',
+        name: 'post',
+        component: () => import("@/views/front/forum/post")
+      },
+      {
         path: 'bulletin',
         name: 'bulletin',
         component: () => import("@/views/front/bulletin board/bulletin")
