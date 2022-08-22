@@ -3,9 +3,12 @@ package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.entity.User;
+import com.example.demo.entity.Bulletin;
+import com.example.demo.mapper.ForumMapper;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.common.Result;
@@ -29,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
     
 @Resource
 private IForumService forumService;
+    @Resource
+    private ForumMapper forumMapper;
 
 // 新增或者更新
 @PostMapping
@@ -60,24 +65,21 @@ public Result findOne(@PathVariable Integer id) {
         }
 
     @GetMapping("/page")//分页查询
-    public IPage<Forum> findPage(@RequestParam  (defaultValue = "1") Integer pageNum,
-                                @RequestParam (defaultValue = "3") Integer pageSize,
-                                @RequestParam(defaultValue = "") String username,
-                                @RequestParam(defaultValue = "") String address)
+    public IPage<Forum> findPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "3") Integer pageSize)
     {
         IPage<Forum> page=new Page<>(pageNum,pageSize);
         QueryWrapper<Forum> queryWrapper=new QueryWrapper<>();
-        if (!"".equals(username))
-        {
-            queryWrapper.like("username",username);
-        }
-//        if (!"".equals(address))
-//        {
-//            queryWrapper.like("address",address);
-//        }
         queryWrapper.orderByDesc("likes");
-        IPage<Forum> forumPage=forumService.page(page,queryWrapper);
-        return forumPage;
+        IPage<Forum> forumIPage=forumService.page(page,queryWrapper);
+        return forumIPage;
+    }
+    @PostMapping("/insert")
+    public Result insert(@RequestBody Forum forum) {
+
+        String current = new SimpleDateFormat("yyyy.MM.dd HH:mm").format( new Date());
+        forum.setTime(current);
+        forumMapper.insert(forum);
+        return Result.success();
     }
 
         }

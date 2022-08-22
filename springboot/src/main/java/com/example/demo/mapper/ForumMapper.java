@@ -2,6 +2,8 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.Forum;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.demo.entity.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,5 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ForumMapper extends BaseMapper<Forum> {
+    @Insert("INSERT into forum(username,role,content,avatar_url,area,time,likes,title)VALUES (#{username},#{role},#{content},#{avatarUrl},#{area},#{time},#{likes},#{title})")
+    int insert(Forum forum);
 
 }

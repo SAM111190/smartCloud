@@ -24,6 +24,11 @@ const routes = [
           name: 'Menu',
           component: () => import("@/views/background/Menu"),
         },
+        {
+          path: 'bulletin',
+          name: 'Bulletin',
+          component: () => import("@/views/background/Bulletin"),
+        },
       ]
   },
   {

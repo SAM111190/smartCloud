@@ -43,9 +43,11 @@ public class Forum implements Serializable {
 
       @ApiModelProperty("头像")
       private String avatarUrl;
+  @ApiModelProperty("点赞")
+  private Integer likes;
 
-       @ApiModelProperty("点赞数")
-       private Integer likes;
+  @ApiModelProperty("标题")
+  private String title;
 
 
 }
