@@ -23,7 +23,7 @@
             </el-form-item>
                 </el-col>
                 <el-col :span="16">
-            <el-form-item style="position: relative;right:120px" prop="title">
+            <el-form-item style="position: relative;right:19%" prop="title">
               <el-input v-model="form.title" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
             </el-form-item>
                 </el-col>
@@ -103,6 +103,7 @@ export default {
           request.post("/forum/insert",this.form).then(res => {
             if(res) {
               this.$message.success("发布成功")
+              this.$router.push('/front/forum')
             }else
             {
               this.$message.error("发布失败")

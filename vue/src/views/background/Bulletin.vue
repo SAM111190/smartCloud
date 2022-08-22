@@ -1,50 +1,26 @@
 <template>
-  <div style="padding: 15px 0;font-size: large;width: 80%;margin:0 auto;">
-    <div style="width: 80%; margin:20px auto;text-align:center" class="page">
-        <el-card>
-          <div class="setting_header">
+    <div class="bulletin">
+          <div class="header">
             发布帖子
           </div>
           <el-form
               ref="form"
               :model="form"
               label-width="100px"
-              style="margin-top: 25px"
+              style="margin-top: 30px"
               :rules="rules">
-              <el-row :gutter="0">
-                <el-col :span="8">
-            <el-form-item prop="area">
-              <el-select  clearable placeholder="选择类型" v-model="form.area">
-                <el-option label="灌水区域" value="灌水区域"/>
-                <el-option label="反馈区域" value="反馈区域"/>
-                <el-option label="问题求助" value="问题求助"/>
-                <el-option label="其他区域" value="其他区域"/>
-              </el-select>
+            <el-form-item prop="title">
+              <el-input v-model="form.title" style="width: 86%" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
             </el-form-item>
-                </el-col>
-                <el-col :span="16">
-            <el-form-item style="position: relative;right:120px" prop="title">
-              <el-input v-model="form.title" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
-            </el-form-item>
-                </el-col>
-              </el-row>
             <el-form-item prop="content">
-              <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
-            </el-form-item>
-            <el-form-item prop="treaty">
-              <el-checkbox v-model="form.treaty" size="large">
-                我同意且遵守
-                <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
-              </el-checkbox>
+              <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的公告" :rows="15" maxlength="1000" show-word-limit></el-input>
             </el-form-item>
           </el-form>
           <div style="text-align: center">
             <el-button type="primary" @click="post">发布</el-button>
-            <el-button type="info" @click="$router.push('/front/forum')">返回</el-button>
+            <el-button type="info">保存</el-button>
           </div>
-        </el-card>
     </div>
-  </div>
 </template>
 
 <script>
@@ -62,27 +38,12 @@ export default {
       area:'',
       treaty: [],
       rules:{
-        area: [
-          {
-            required: true,
-            message: '请选择发布类型',
-            trigger: 'change',
-          },
-        ],
         title: [
-          { required: true, message: '请输入帖子的主题', trigger: 'blur' },
-          { min: 5, max: 15, message: '长度应该在5-15之间', trigger: 'blur' },
+          { required: true, message: '请输入公告的主题', trigger: 'blur' },
         ],
         content: [
-          { required: true, message: '请输入帖子的内容', trigger: 'blur' },
+          { required: true, message: '请输入公告的内容', trigger: 'blur' },
           { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
-        ],
-        treaty: [
-          {
-            required: true,
-            message: '请在阅读条例后勾选同意',
-            trigger: 'change',
-          },
         ],
       },
     }
@@ -116,6 +77,10 @@ export default {
 </script>
 
 <style scoped>
+.bulletin {
+  margin-top: 15px;
+  margin-left: 10px;
+}
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -126,12 +91,13 @@ export default {
 .avatar-uploader .el-upload:hover {
   border-color: #409EFF;
 }
-.setting_header {
+.header {
   font-size: larger;
   text-align: left;
   border-bottom: #cccccc 1px solid;
   margin-bottom: 20px;
   padding-bottom: 15px ;
+  width:98%;
 }
 a:link {
   color: #409eff;

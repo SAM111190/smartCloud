@@ -33,8 +33,8 @@
                 <div class="username">
                   <p>{{form.username}}</p>
                 </div>
-                <el-tag v-if="form.role === '普通用户'">{{form.role}}</el-tag>
-                <el-tag v-if="form.role === '管理员'" type="danger">{{form.role}}</el-tag>
+                <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
+                <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
               </div>
             </div>
             <div class="post_title">
@@ -52,8 +52,8 @@
                   <div class="username">
                     <p>{{form.username}}</p>
                   </div>
-                  <el-tag v-if=" form.role === '普通用户'">{{form.role}}</el-tag>
-                  <el-tag v-if= "form.role === '管理员'" type="danger">{{form.role}}</el-tag>
+                  <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
+                  <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
                 </div>
               </div>
               <div class="post_title">
@@ -71,8 +71,8 @@
                   <div class="username">
                     <p>{{form.username}}</p>
                   </div>
-                  <el-tag v-if=" form.role === '普通用户'">{{form.role}}</el-tag>
-                  <el-tag v-if= "form.role === '管理员'" type="danger">{{form.role}}</el-tag>
+                  <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
+                  <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
                 </div>
               </div>
               <div class="post_title">
@@ -90,8 +90,8 @@
                   <div class="username">
                     <p>{{form.username}}</p>
                   </div>
-                  <el-tag v-if=" form.role === '普通用户'">{{form.role}}</el-tag>
-                  <el-tag v-if= "form.role === '管理员'" type="danger">{{form.role}}</el-tag>
+                  <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
+                  <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
                 </div>
               </div>
               <div class="post_title">
