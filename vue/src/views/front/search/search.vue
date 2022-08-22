@@ -230,8 +230,8 @@ export default {
   }
   .username p {
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   }
   .like {
     position: relative;

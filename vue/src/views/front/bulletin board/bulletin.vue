@@ -92,6 +92,7 @@ export default {
   position: relative;
   padding-left: 10px;
   bottom:2px;
+  width: 100px;
 }
 .top {
   border-radius: 5px;
@@ -126,6 +127,11 @@ export default {
   border-radius: 5px;
   box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.11);
   padding:15px
+}
+.left h4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .right_content{
   float: right;

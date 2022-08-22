@@ -28,6 +28,24 @@
             </el-form-item>
                 </el-col>
               </el-row>
+            <el-form-item prop="pictures">
+              <el-upload
+                  class="upload-demo"
+                  drag
+                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  multiple
+              >
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                  Drop file here or <em>click to upload</em>
+                </div>
+                <template #tip>
+                  <div class="el-upload__tip">
+                    jpg/png files with a size less than 500kb
+                  </div>
+                </template>
+              </el-upload>
+            </el-form-item>
             <el-form-item prop="content">
               <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
             </el-form-item>
@@ -50,7 +68,7 @@
 <script>
 
 import request from "@/utils/request";
-
+import {UploadFilled} from "@element-plus/icons";
 export default {
   name: "Person",
   inject:['reload'],
@@ -60,6 +78,7 @@ export default {
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
       title:'',
       area:'',
+      UploadFilled,
       treaty: [],
       rules:{
         area: [

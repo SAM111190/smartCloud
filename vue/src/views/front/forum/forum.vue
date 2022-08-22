@@ -186,6 +186,7 @@ export default {
     position: relative;
     padding-left: 10px;
     bottom:2px;
+    width: 100px;
   }
   .top {
     border-radius: 5px;
@@ -210,6 +211,11 @@ export default {
   }
   .username {
     margin-bottom: 4px;
+  }
+  .username p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .left_content {
     float: left;
