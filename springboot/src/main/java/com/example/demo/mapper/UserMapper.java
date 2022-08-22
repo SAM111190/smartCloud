@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.controller.dto.UserPasswordDTO;
 import com.example.demo.entity.User;
 import org.apache.ibatis.annotations.*;
 
@@ -20,4 +21,7 @@ public interface UserMapper extends BaseMapper<User> {
 //    List<User> selectPage(Integer pageNum,Integer pageSize,String username);
 //    @Select("select count(*) from user")
 //    Integer selectTotal(String username);
+
+    @Update("update user set password = #{password} where username = #{username} ")
+    int updatePassword(UserPasswordDTO userPasswordDTO);
 }

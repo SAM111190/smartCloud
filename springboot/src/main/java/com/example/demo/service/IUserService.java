@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.common.Result;
 import com.example.demo.controller.dto.UserDTO;
+import com.example.demo.controller.dto.UserPasswordDTO;
 import com.example.demo.entity.User;
 
 
@@ -20,6 +21,9 @@ public interface IUserService extends IService<User> {
 
   UserDTO login(UserDTO userDTO);
 
+  UserDTO forget(UserDTO userDTO);
+
   User register(UserDTO userDTO);
 
+  void updatePassword(UserPasswordDTO userPasswordDTO);
 }
