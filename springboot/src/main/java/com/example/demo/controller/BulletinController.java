@@ -4,8 +4,11 @@ package com.example.demo.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Forum;
+import com.example.demo.mapper.BulletinMapper;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.common.Result;
@@ -29,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
     
 @Resource
 private IBulletinService bulletinService;
+@Resource
+private BulletinMapper bulletinMapper;
 
 // 新增或者更新
 @PostMapping
@@ -72,5 +77,14 @@ public Result findOne(@PathVariable Integer id) {
         return bulletinPage;
     }
 
-        }
+    @PostMapping("/insert")
+    public Result insert(@RequestBody Bulletin bulletin) {
+
+        String current = new SimpleDateFormat("yyyy/MM/dd HH:mm").format( new Date());
+        bulletin .setTime(current);
+        bulletinMapper.insert(bulletin);
+        return Result.success();
+    }
+
+}
 

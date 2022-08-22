@@ -73,6 +73,18 @@ public Result findOne(@PathVariable Integer id) {
         IPage<Forum> forumIPage=forumService.page(page,queryWrapper);
         return forumIPage;
     }
+
+    @GetMapping("/page1")//分页查询
+    public IPage<Forum> findPage1(@RequestParam(defaultValue = "1") Integer pageNum,
+                                 @RequestParam(defaultValue = "7") Integer pageSize)
+    {
+        IPage<Forum> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<Forum> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("likes");
+        IPage<Forum> forumIPage=forumService.page(page,queryWrapper);
+        return forumIPage;
+    }
+
     @PostMapping("/insert")
     public Result insert(@RequestBody Forum forum) {
 

@@ -61,7 +61,7 @@ export default {
     post() {
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求
-          request.post("/forum/insert",this.form).then(res => {
+          request.post("/bulletin/insert",this.form).then(res => {
             if(res) {
               this.$message.success("发布成功")
             }else

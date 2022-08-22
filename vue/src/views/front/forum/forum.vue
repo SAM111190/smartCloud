@@ -113,10 +113,9 @@
           <div class="hot_board">
             <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px;">热门讨论</h2>
             <div class="description">
-              <ul>
-                <li><p>【不转不是中国人】50个塞尔达抄袭原神的铁证！没看过的后悔一辈子</p></li>
-                <li><p>【不转不是地球人】东半球最强法务部准备出击！戦う！</p></li>
-              </ul>
+              <el-table :data="tableData" style="width: 100%;cursor: pointer" :show-header="false">
+                <el-table-column prop="content"  />
+              </el-table>
             </div>
           </div>
         </div>
@@ -139,6 +138,7 @@ export default {
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
       form:{},
       forms: [],
+      tableData: [],
     }
   },
   created() {
@@ -156,6 +156,18 @@ export default {
       }).then(res=>{
         console.log(res)
         this.forms = res.data
+      })
+      request.get("/forum/page1", {
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              search: this.search,
+              username: this.username
+            }
+      }).then(res => {
+        console.log(res)
+        this.tableData = res.records
       })
     },
     handSelect(key){
