@@ -15,9 +15,9 @@
               <el-button link @click="$router.push('/front/bulletin')">查看更多</el-button>
             </div>
           </template>
-          <div>
-            暂无数据
-          </div>
+          <el-table :data="tableData2" stripe style="width: 100%" :show-header="false">
+            <el-table-column prop="content"  />
+          </el-table>
         </el-card>
         <el-card style="margin-bottom:20px">
           <template #header>
@@ -26,9 +26,9 @@
               <el-button link @click="$router.push('/front/forum')">查看更多</el-button>
             </div>
           </template>
-          <div>
-            还没有帖子，快来发布一个吧！
-          </div>
+          <el-table :data="tableData1" stripe style="width: 100%" :show-header="false">
+            <el-table-column prop="content"   />
+          </el-table>
         </el-card>
       </div>
       <div class="content">
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import request from "@/utils/request";
+
 export default {
   name: "FrontHome",
   data() {
@@ -81,12 +83,45 @@ export default {
       ],
       search: '',
       activeIndex: '/front/home',
-      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
+      tableData1:[],
+      tableData2:[],
     }
   },
   created() {
     let userStr = sessionStorage.getItem("user") || "{}"
     this.user = JSON.parse(userStr)
+    this.load()
+  },
+  methods: {
+    load()//显示后台数据
+    {
+      request.get("/forum/page", {
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              search: this.search,
+              username: this.username
+            }
+      }).then(res => {
+        console.log(res)
+        this.tableData1 = res.records
+      })
+
+      request.get("/bulletin/page", {
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              search: this.search,
+              username: this.username
+            }
+      }).then(res => {
+        console.log(res)
+        this.tableData2 = res.records
+      })
+    }
   },
 }
 </script>

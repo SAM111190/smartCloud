@@ -11,8 +11,8 @@
         <!--    左边的内容-->
         <div class="left_content">
           <div class="left">
-            <el-timeline v-for="form in forms">
-              <el-timeline-item :timestamp="form.time" placement="top">
+            <el-timeline  >
+              <el-timeline-item  v-for="form in forms" :timestamp="form.time" placement="top">
                   <h4>{{form.content}}</h4>
                   <p>管理员提交于{{form.time}}</p>
               </el-timeline-item>

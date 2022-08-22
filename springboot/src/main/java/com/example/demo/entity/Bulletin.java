@@ -41,5 +41,7 @@ public class Bulletin implements Serializable {
       @ApiModelProperty("链接")
       private String href;
 
+      @ApiModelProperty("点赞数")
+      private Integer likes;
 
 }

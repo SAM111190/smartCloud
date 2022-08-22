@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.entity.Forum;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
@@ -57,13 +59,18 @@ public Result findOne(@PathVariable Integer id) {
         return Result.success(bulletinService.getById(id));
         }
 
-@GetMapping("/page")
-public Result findPage(@RequestParam Integer pageNum,
-@RequestParam Integer pageSize) {
-        QueryWrapper<Bulletin> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("id");
-        return Result.success(bulletinService.page(new Page<>(pageNum, pageSize), queryWrapper));
-        }
+    @GetMapping("/page")//分页查询
+    public IPage<Bulletin> findPage(@RequestParam  (defaultValue = "1") Integer pageNum,
+                                 @RequestParam (defaultValue = "3") Integer pageSize,
+                                 @RequestParam(defaultValue = "") String username,
+                                 @RequestParam(defaultValue = "") String address)
+    {
+        IPage<Bulletin> page=new Page<>(pageNum,pageSize);
+        QueryWrapper<Bulletin> queryWrapper=new QueryWrapper<>();
+        queryWrapper.orderByDesc("time");
+        IPage<Bulletin> bulletinPage=bulletinService.page(page,queryWrapper);
+        return bulletinPage;
+    }
 
         }
 

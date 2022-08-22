@@ -146,7 +146,10 @@ public class UserController {
     }
 
     @GetMapping("/page")//分页查询
-    public  IPage<User>  findPage(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam(defaultValue = "") String username,@RequestParam(defaultValue = "") String address)
+    public  IPage<User>  findPage(@RequestParam   Integer pageNum,
+                                  @RequestParam  Integer pageSize,
+                                  @RequestParam(defaultValue = "") String username,
+                                  @RequestParam(defaultValue = "") String address)
     {
         IPage<User> page=new Page<>(pageNum,pageSize);
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
