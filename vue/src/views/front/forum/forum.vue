@@ -31,14 +31,14 @@
               <el-avatar :size="50" :src="form.avatarUrl" />
               <div class="info">
                 <div class="username">
-                  <p>{{form.username}}</p>
+                  <p>{{form.nickName}}</p>
                 </div>
                 <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
                 <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
               </div>
             </div>
             <div class="post_title">
-              <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+              <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
               <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
             </div>
           </div>
@@ -57,7 +57,7 @@
                 </div>
               </div>
               <div class="post_title">
-                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
                 <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
               </div>
             </div>
@@ -69,14 +69,14 @@
                 <el-avatar :size="50" :src="form.avatarUrl" />
                 <div class="info">
                   <div class="username">
-                    <p>{{form.username}}</p>
+                    <p>{{form.nickName}}</p>
                   </div>
                   <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
                   <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
                 </div>
               </div>
               <div class="post_title">
-                <el-link type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+                <el-link type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
                 <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
               </div>
             </div>
@@ -88,14 +88,14 @@
                 <el-avatar :size="50" :src="form.avatarUrl" />
                 <div class="info">
                   <div class="username">
-                    <p>{{form.username}}</p>
+                    <p>{{form.nickName}}</p>
                   </div>
                   <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
                   <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
                 </div>
               </div>
               <div class="post_title">
-                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.content}}</el-link>
+                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
                 <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
               </div>
             </div>
@@ -114,7 +114,7 @@
             <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px;">热门讨论</h2>
             <div class="description">
               <el-table :data="tableData" style="width: 100%;cursor: pointer" :show-header="false">
-                <el-table-column prop="content"  />
+                <el-table-column prop="title"  />
               </el-table>
             </div>
           </div>
@@ -163,7 +163,7 @@ export default {
               pageNum: this.currentPage,
               pageSize: this.pageSize,
               search: this.search,
-              username: this.username
+              nickName: this.nickName
             }
       }).then(res => {
         console.log(res)

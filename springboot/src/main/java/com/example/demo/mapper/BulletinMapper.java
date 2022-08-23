@@ -17,6 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BulletinMapper extends BaseMapper<Bulletin> {
 
-    @Insert("INSERT into bulletin(time,username,content,avatar_url,href,likes,title)VALUES (#{time},#{username},#{content},#{avatarUrl},#{href},#{likes},#{title})")
+    @Insert("INSERT into bulletin(time,username,content,avatar_url,href,likes,title,nick_name)VALUES (#{time},#{username},#{content},#{avatarUrl},#{href},#{likes},#{title},#{nickName})")
     int insert(Bulletin bulletin);
 }

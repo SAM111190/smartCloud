@@ -46,4 +46,7 @@ public class Bulletin implements Serializable {
 
       @ApiModelProperty("标题")
      private String title;
+
+  @ApiModelProperty("昵称")
+  private String nickName;
 }

@@ -80,7 +80,7 @@ public Result findOne(@PathVariable Integer id) {
     @PostMapping("/insert")
     public Result insert(@RequestBody Bulletin bulletin) {
 
-        String current = new SimpleDateFormat("yyyy/MM/dd HH:mm").format( new Date());
+        String current = new SimpleDateFormat("yyyy/MM/dd ").format( new Date());
         bulletin .setTime(current);
         bulletinMapper.insert(bulletin);
         return Result.success();

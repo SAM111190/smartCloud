@@ -13,7 +13,7 @@
           <div class="left">
             <el-timeline  >
               <el-timeline-item  v-for="form in forms" :timestamp="form.time" placement="top">
-                  <h4>{{form.content}}</h4>
+                  <h4>{{form.title}}</h4>
                   <p>管理员提交于{{form.time}}</p>
               </el-timeline-item>
             </el-timeline>
@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="bulletin_title">
-            <el-link :href="form.href" type="primary" style="font-size: 18px" :underline="false">【{{form.time}}】{{form.content}}</el-link>
+            <el-link :href="form.href" type="primary" style="font-size: 18px" :underline="false">【{{form.time}}】{{form.title}}</el-link>
             <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">@{{form.time}}</p>
           </div>
         </div>

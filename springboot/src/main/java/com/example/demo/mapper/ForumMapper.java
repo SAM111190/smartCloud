@@ -16,7 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ForumMapper extends BaseMapper<Forum> {
-    @Insert("INSERT into forum(username,role,content,avatar_url,area,time,likes,title)VALUES (#{username},#{role},#{content},#{avatarUrl},#{area},#{time},#{likes},#{title})")
+    @Insert("INSERT into forum(username,role,content,avatar_url,area,time,likes,title,nick_name)VALUES (#{username},#{role},#{content},#{avatarUrl},#{area},#{time},#{likes},#{title},#{nickName})")
     int insert(Forum forum);
 
 }

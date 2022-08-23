@@ -16,7 +16,7 @@
             </div>
           </template>
           <el-table :data="tableData2" style="width: 100%;cursor: pointer" :show-header="false">
-            <el-table-column prop="content"  />
+            <el-table-column prop="title"  />
           </el-table>
         </el-card>
         <el-card style="margin-bottom:20px">
@@ -27,7 +27,7 @@
             </div>
           </template>
           <el-table :data="tableData1" style="width: 100%;cursor: pointer" :show-header="false">
-            <el-table-column prop="content"   />
+            <el-table-column prop="title"   />
           </el-table>
         </el-card>
       </div>

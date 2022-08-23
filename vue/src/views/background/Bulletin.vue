@@ -1,7 +1,7 @@
 <template>
     <div class="bulletin">
           <div class="header">
-            发布帖子
+            发布公告
           </div>
           <el-form
               ref="form"
