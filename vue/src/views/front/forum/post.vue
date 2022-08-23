@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 15px 0;font-size: large;width: 80%;margin:0 auto;">
+  <div style="padding: 15px 0;font-size: large;width: 1300px;margin:0 auto;">
     <div style="width: 80%; margin:20px auto;text-align:center" class="page">
         <el-card>
           <div class="setting_header">
@@ -23,31 +23,13 @@
             </el-form-item>
                 </el-col>
                 <el-col :span="16">
-            <el-form-item style="position: relative;right:19%" prop="title">
+            <el-form-item style="position: relative;right:135px" prop="title">
               <el-input v-model="form.title" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
             </el-form-item>
                 </el-col>
               </el-row>
-            <el-form-item prop="pictures">
-              <el-upload
-                  class="upload-demo"
-                  drag
-                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                  multiple
-              >
-                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-                <div class="el-upload__text">
-                  Drop file here or <em>click to upload</em>
-                </div>
-                <template #tip>
-                  <div class="el-upload__tip">
-                    jpg/png files with a size less than 500kb
-                  </div>
-                </template>
-              </el-upload>
-            </el-form-item>
             <el-form-item prop="content">
-              <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
+              <el-input v-model="form.content" style="width: 85%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
             </el-form-item>
             <el-form-item prop="treaty">
               <el-checkbox v-model="form.treaty" size="large">
