@@ -38,6 +38,8 @@ private BulletinMapper bulletinMapper;
 // 新增或者更新
 @PostMapping
 public Result save(@RequestBody Bulletin bulletin) {
+    String current = new SimpleDateFormat("yyyy/MM/dd ").format( new Date());
+    bulletin .setTime(current);
     bulletinService.saveOrUpdate(bulletin);
         return Result.success();
         }
@@ -67,14 +69,21 @@ public Result findOne(@PathVariable Integer id) {
     @GetMapping("/page")//分页查询
     public IPage<Bulletin> findPage(@RequestParam  (defaultValue = "1") Integer pageNum,
                                  @RequestParam (defaultValue = "3") Integer pageSize,
-                                 @RequestParam(defaultValue = "") String username,
-                                 @RequestParam(defaultValue = "") String address)
+                                 @RequestParam(defaultValue = "") String title
+                                )
     {
         IPage<Bulletin> page=new Page<>(pageNum,pageSize);
         QueryWrapper<Bulletin> queryWrapper=new QueryWrapper<>();
+        if (!"".equals(title))
+        {
+            queryWrapper.like("title",title);
+        }
+
         queryWrapper.orderByDesc("time");
         IPage<Bulletin> bulletinPage=bulletinService.page(page,queryWrapper);
         return bulletinPage;
+
+
     }
 
     @PostMapping("/insert")

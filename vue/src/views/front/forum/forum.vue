@@ -50,7 +50,7 @@
                 <el-avatar :size="50" :src="form.avatarUrl" />
                 <div class="info">
                   <div class="username">
-                    <p>{{form.username}}</p>
+                    <p>{{form.nickName}}</p>
                   </div>
                   <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
                   <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
