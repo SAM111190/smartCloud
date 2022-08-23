@@ -24,7 +24,7 @@
                 </el-col>
                 <el-col :span="16">
             <el-form-item style="position: relative;right:135px" prop="title">
-              <el-input v-model="form.title" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
+              <el-input v-model="form.title" placeholder="标题为5-20个字" maxlength="20" minlength="5" show-word-limit></el-input>
             </el-form-item>
                 </el-col>
               </el-row>
@@ -72,7 +72,7 @@ export default {
         ],
         title: [
           { required: true, message: '请输入帖子的主题', trigger: 'blur' },
-          { min: 5, max: 15, message: '长度应该在5-15之间', trigger: 'blur' },
+          { min: 5, max: 20, message: '长度应该在5-20之间', trigger: 'blur' },
         ],
         content: [
           { required: true, message: '请输入帖子的内容', trigger: 'blur' },

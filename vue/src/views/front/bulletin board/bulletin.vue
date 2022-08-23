@@ -26,7 +26,7 @@
             <el-avatar :size="50" :src="form.avatarUrl" />
             <div class="info">
               <div class="username">
-                <p>{{form.username}}</p>
+                <p>{{form.nickName}}</p>
               </div>
               <el-tag type="danger">管理员</el-tag>
             </div>

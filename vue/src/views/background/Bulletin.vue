@@ -11,11 +11,11 @@
       <el-button type="danger"  @click="reset">重置</el-button>
     </div>
     <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="id" label="ID"  sortable />
+      <el-table-column prop="id" label="ID" sortable />
       <el-table-column prop="time" label="时间"  />
       <el-table-column prop="username" label="管理员"  />
       <el-table-column prop="title" label="公告标题" />
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="content" label="内容" min-width="100"/>
       <el-table-column fixed="right" label="操作">
         <template #default="scope">
           <el-button   @click="handleEdit(scope.row)">编辑</el-button>
@@ -40,40 +40,37 @@
       <el-dialog
           v-model="dialogVisible"
           title="公告发布"
-          width="30%">
+          width="60%">
         <el-form
-                        ref="form"
-                        :model="form"
-                        label-width="100px"
-                        style="margin-top: 30px"
-                        :rules="rules">
-                      <el-form-item prop="title">
-                        <el-input v-model="form.title" style="width: 86%" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
-                      </el-form-item>
-                      <el-form-item prop="content">
-                        <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的公告" :rows="15" maxlength="1000" show-word-limit></el-input>
-                      </el-form-item>
-                    </el-form>
-
+              ref="form"
+              :model="form"
+              label-width="100px"
+              style="margin-top: 30px"
+              :rules="rules">
+            <el-form-item prop="title">
+              <el-input v-model="form.title" style="width: 86%" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
+            </el-form-item>
+            <el-form-item prop="content">
+              <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的公告" :rows="15" maxlength="1000" show-word-limit></el-input>
+            </el-form-item>
+          </el-form>
         <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="post">发布</el-button>
-        <el-button type="info">保存</el-button>
         <el-button @click="dialogVisible = false">取消</el-button>
       </span>
         </template>
       </el-dialog>
-
       <el-dialog
           v-model="dialogVisible1"
           title="公告编辑"
-          width="30%">
+          width="60%">
         <el-form :model="form" label-width="120px">
           <el-form-item label="标题">
-            <el-input v-model="form.title" style="width: 80%"/>
+            <el-input v-model="form.title" style="width: 86%" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="内容">
-            <el-input v-model="form.content" style="width: 80%"/>
+            <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的公告" :rows="15" maxlength="1000" show-word-limit></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -222,6 +219,11 @@ export default {
 </script>
 
 <style scoped>
+ .el-table
+ /deep/
+ .cell {
+   white-space:nowrap;
+ }
 </style>
 
 
