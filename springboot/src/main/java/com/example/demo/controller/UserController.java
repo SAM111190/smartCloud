@@ -109,6 +109,17 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 修改密码
+     * @param userPasswordDTO
+     * @return
+     */
+    @PostMapping("/cpassword")
+    public Result changePassword(@RequestBody UserPasswordDTO userPasswordDTO) {
+        userService.changePassword(userPasswordDTO);
+        return Result.success();
+    }
+
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {

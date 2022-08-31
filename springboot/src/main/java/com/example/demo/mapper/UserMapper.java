@@ -24,4 +24,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     @Update("update user set password = #{password} where username = #{username} ")
     int updatePassword(UserPasswordDTO userPasswordDTO);
+
+    @Update("update user set password = #{newPassword} where username = #{username} and password = #{oldPassword}")
+    int changePassword(UserPasswordDTO userPasswordDTO);
 }

@@ -79,9 +79,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
     }
 
+
     @Override
     public void updatePassword(UserPasswordDTO userPasswordDTO) {
         int update = userMapper.updatePassword(userPasswordDTO);
+    }
+
+    @Override
+    public void changePassword(UserPasswordDTO userPasswordDTO) {
+        int update = userMapper.changePassword(userPasswordDTO);
+        if (update < 1) {
+            throw new ServiceException(Constants.CODE_600, "密码错误");
+        }
     }
 
     @Override

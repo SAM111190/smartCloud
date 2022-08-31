@@ -100,13 +100,37 @@
               <el-button type="danger" style="margin-left: 10px">修改手机号码</el-button>
             </el-form-item>
             <el-form-item label="密码">
-              <el-button type="danger">修改密码</el-button>
+              <el-button type="danger" @click="add" >修改密码</el-button>
             </el-form-item>
           </el-form>
           <div style="text-align: center">
             <el-button type="primary" @click="save">保存</el-button>
             <el-button type="info" @click="$router.push('/front/user')">返回</el-button>
           </div>
+          <el-dialog
+              v-model="dialogVisible"
+              title="修改密码"
+              width="30%">
+            <el-form label-width="120px" size="small" :model="form3" :rules="rules" ref="pass">
+
+              <el-form-item label="原密码"  prop="oldPassword">
+                <el-input v-model="form3.oldPassword" autocomplete="off" show-password></el-input>
+              </el-form-item>
+              <el-form-item label="新密码" prop="newPassword">
+                <el-input v-model="form3.newPassword" autocomplete="off" show-password></el-input>
+              </el-form-item>
+              <el-form-item label="确认新密码" prop="confirmPassword">
+                <el-input v-model="form3.confirmPassword" autocomplete="off" show-password></el-input>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="savePassword">确认</el-button
+        >
+      </span>
+            </template>
+          </el-dialog>
         </el-card>
       </div>
     </div>
@@ -122,8 +146,10 @@ export default {
   inject:['reload'],
   data() {
     return {
+      form3:{},
       form2:{},
       form: {},
+      dialogVisible:false,
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
       activeIndex:'1',
     }
@@ -132,11 +158,18 @@ export default {
     this.getUser().then(res => {
       console.log(res)
       this.form = res
+
     })
   },
   methods: {
     async getUser() {
       return (await request.get("/user/username/" + this.user.username)).data
+    },
+    add(){//修改密码弹窗显示
+      this.dialogVisible =true
+      this.getUser().then(res => {
+        this.form3 =res
+      })
     },
     save() {
       request.post("/user", this.form).then(res => {
@@ -153,6 +186,24 @@ export default {
           })
         } else {
           this.$message.error("保存失败")
+        }
+      })
+    },
+    savePassword() {
+      this.$refs.pass.validate((valid) => {
+        if (valid) {
+          if (this.form3.newPassword !== this.form3.confirmPassword) {
+            this.$message.error("2次输入的新密码不相同")
+            return false
+          }
+          request.post("/user/cpassword", this.form3).then(res => {
+            if (res.code === '200') {
+              this.$message.success("修改成功")
+              this.$router.push("/login")
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         }
       })
     },
