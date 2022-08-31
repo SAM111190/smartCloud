@@ -110,8 +110,10 @@
           <el-dialog
               v-model="dialogVisible"
               title="修改密码"
-              width="30%">
-            <el-form label-width="120px" size="small" :model="form3" :rules="rules" ref="pass">
+              width="30%"
+              :rules="rules"
+          >
+            <el-form label-width="60px" size="small" :model="form3" :rules="rules" ref="pass">
 
               <el-form-item label="原密码"  prop="oldPassword">
                 <el-input v-model="form3.oldPassword" autocomplete="off" show-password></el-input>
@@ -152,6 +154,18 @@ export default {
       dialogVisible:false,
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
       activeIndex:'1',
+      rules:{
+        oldPassword: [
+          { required: true, message: '请输入旧密码', trigger: 'blur' },
+        ],
+        newPassword: [
+          { required: true, message: '请输入新密码', trigger: 'blur' },
+          { min: 6, max: 20, message: '长度应该在6到20个字符', trigger: 'blur' },
+        ],
+        confirmPassword: [
+          { required: true, message: '请确认新密码', trigger: 'blur' },
+        ],
+      },
     }
   },
   created() {
