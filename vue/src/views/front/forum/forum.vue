@@ -14,9 +14,7 @@
             @select="handSelect"
         >
           <el-menu-item index="1">灌水区域</el-menu-item>
-          <el-menu-item index="2">反馈区域</el-menu-item>
-          <el-menu-item index="3">问题求助</el-menu-item>
-          <el-menu-item index="4">其他区域</el-menu-item>
+          <el-menu-item index="2">问题求助</el-menu-item>
         </el-menu>
       </div>
     </div>
@@ -38,32 +36,13 @@
               </div>
             </div>
             <div class="post_title">
-              <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
+              <el-link  type="primary" @click="$router.push('/front/post_detail')" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
               <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
             </div>
           </div>
         </div>
-<!--          反馈区域-->
-          <div v-if=" activeIndex === '2' && form.area === '反馈区域'">
-            <div class="left">
-              <div class="user_information">
-                <el-avatar :size="50" :src="form.avatarUrl" />
-                <div class="info">
-                  <div class="username">
-                    <p>{{form.nickName}}</p>
-                  </div>
-                  <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
-                  <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
-                </div>
-              </div>
-              <div class="post_title">
-                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
-                <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
-              </div>
-            </div>
-          </div>
 <!--          问题求助-->
-          <div v-if=" activeIndex === '3' && form.area === '问题求助'">
+          <div v-if=" activeIndex === '2' && form.area === '问题求助'">
             <div class="left">
               <div class="user_information">
                 <el-avatar :size="50" :src="form.avatarUrl" />
@@ -76,30 +55,11 @@
                 </div>
               </div>
               <div class="post_title">
-                <el-link type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
+                <el-link  type="primary" @click="$router.push('/front/post_detail')" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
                 <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
               </div>
             </div>
           </div>
-<!--          其他区域-->
-          <div v-if=" activeIndex === '4' && form.area === '其他区域'">
-            <div class="left">
-              <div class="user_information">
-                <el-avatar :size="50" :src="form.avatarUrl" />
-                <div class="info">
-                  <div class="username">
-                    <p>{{form.nickName}}</p>
-                  </div>
-                  <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
-                  <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
-                </div>
-              </div>
-              <div class="post_title">
-                <el-link  type="primary" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
-                <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
-              </div>
-            </div>
-            </div>
           </div>
           </div>
         <!--    右边的内容-->

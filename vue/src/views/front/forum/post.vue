@@ -1,6 +1,5 @@
 <template>
-  <div style="padding: 15px 0;font-size: large;width: 1300px;margin:0 auto;">
-    <div style="width: 80%; margin:20px auto;text-align:center" class="page">
+  <div style="padding: 15px 0;font-size: large;width: 1100px;margin:20px auto;">
         <el-card>
           <div class="setting_header">
             发布帖子
@@ -16,14 +15,12 @@
             <el-form-item prop="area">
               <el-select  clearable placeholder="选择类型" v-model="form.area">
                 <el-option label="灌水区域" value="灌水区域"/>
-                <el-option label="反馈区域" value="反馈区域"/>
                 <el-option label="问题求助" value="问题求助"/>
-                <el-option label="其他区域" value="其他区域"/>
               </el-select>
             </el-form-item>
                 </el-col>
                 <el-col :span="16">
-            <el-form-item style="position: relative;right:135px" prop="title">
+            <el-form-item style="position: relative;right:145px" prop="title">
               <el-input v-model="form.title" placeholder="标题为5-20个字" maxlength="20" minlength="5" show-word-limit></el-input>
             </el-form-item>
                 </el-col>
@@ -43,7 +40,6 @@
             <el-button type="info" @click="$router.push('/front/forum')">返回</el-button>
           </div>
         </el-card>
-    </div>
   </div>
 </template>
 
