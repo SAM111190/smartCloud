@@ -14,19 +14,19 @@
 <!--          楼主部分-->
           <div class="page_host">
             <div class="left_info">
-              <el-avatar :size="100" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13192622333%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664348532&t=df3c2dfdf81d88855be03c80b1a04dfc" />
-              <p class="nick_name">宇智波佐助</p>
+              <el-avatar :size="100" :src="forum.avatarUrl"/>
+              <p class="nick_name">{{ forum.username }}</p>
             </div>
             <div class="right_content">
               <p class="title">
-                【不转不是中国人】50个塞尔达抄袭原神的铁证！没看过的后悔一辈子
+                {{ forum.title }}
               </p>
               <div class="post_source">
               <el-tag type="light">楼主</el-tag>
-                发表于2022-08-29 15:18:01 重庆
+                发表于{{forum.time}}
               </div>
               <div class="post_content">
-                对面应该是没开通年费，精灵也没带够，禁了大葱，火王以及天尊，我就明白了对面想用虫子，所以禁了葱螳螂以及虫子，对面能打的也就剩下个轮回妹和萨特，轮回妹对我来说也没什么威胁，所以前面操作的稀里糊涂记忆也不是很清楚，但是如果是解决了轮回妹了，所以剩下一个萨特越发的不在意，于是也就是随随便便的打了，结果差一点被推队，免得萨特在解决掉我的萨特以后，我那时候能选择的阻力也就剩下了轮回妹，但是他已经成型，我知道胜算不大，但也只能硬着头皮上了，可谁知我的轮回妹一上场，还没有点技能，対面萨特以粉份的形式，直接满血死亡，但后来我又再次随意打起来，结果，最后只剩下一个机盖（只剩一血），对面那个水属性守护者好像叫什么苍穹之望，起初，她想要吸死我，因为他全属性加一，她觉得肯定比我快，但我背包里面有帝君，封属了一回合保了一条命，于是对面最后稀里糊涂的直接点了第五技能，把自己弹死了，我在这里比较奇怪的是，为什么满血的萨特会死？我的精灵有黑葱，机盖，螳螂，帝君，萨特，轮回妹妹
+           {{forum.content}}
               </div>
               <div class="likes">
                 <el-button type="success" size="default">
@@ -191,6 +191,7 @@ export default {
     return {
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
       form:{},
+      forum:[],
       rules:{
         content: [
           { required: true, message: '请输入回复的内容', trigger: 'blur' },
@@ -206,7 +207,25 @@ export default {
       },
     }
   },
+  created() {
+    this.load();
+  },
   methods: {
+    load(){
+      this.qid=this.$route.query.index
+      //this.qid=this.$route.query.id
+      request.get("/forum/"+this.qid,{
+        params:
+            {
+              pageNum: this.currentPage,
+              pageSize: this.pageSize,
+              searchData: this.searchData
+            }
+      }).then(res=>{
+        console.log(res)
+        this.forum= res.data
+      })
+    },
     post() {
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求

@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="post_title">
-              <el-link  type="primary" @click="$router.push('/front/post_detail')" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
+              <el-link  type="primary" style="font-size: 18px" :underline="false"><router-link :to="{path:'/front/post_detail',query: {index: form.id}}" >{{form.title}}</router-link></el-link>
               <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
             </div>
           </div>
@@ -55,7 +55,7 @@
                 </div>
               </div>
               <div class="post_title">
-                <el-link  type="primary" @click="$router.push('/front/post_detail')" style="font-size: 18px" :underline="false">{{form.title}}</el-link>
+                <el-link  type="primary"  style="font-size: 18px" :underline="false"><router-link :to="{path:'/front/post_detail',query: {index: form.id}}" >{{form.title}}</router-link></el-link>
                 <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
               </div>
             </div>
@@ -65,10 +65,7 @@
         <!--    右边的内容-->
         <div class="right_content">
           <div class="right">
-              <el-row>
-                <el-col :span="12"><el-button type="primary" style="width: 95%" size="large" :icon="Edit" @click="$router.push('/front/post')">发布帖子</el-button></el-col>
-                <el-col :span="12"><el-button type="primary" style="width: 95%" size="large" :icon="Document">我的帖子</el-button></el-col>
-              </el-row>
+           <el-button type="primary" style="width: 100%" size="large" :icon="Edit" @click="$router.push('/front/post')">发布帖子</el-button>
           </div>
           <div class="hot_board">
             <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px;">热门讨论</h2>
