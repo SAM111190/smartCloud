@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Bulletin;
 import com.example.demo.mapper.ForumMapper;
+import com.example.demo.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -38,9 +40,13 @@ private IForumService forumService;
 // 新增或者更新
 @PostMapping
 public Result save(@RequestBody Forum forum) {
+    if (forum.getId() == null) { // 新增
+        forum.setTime(DateUtil.now());  // new Date()
+        forum.setUsername(TokenUtils.getCurrentUser().getNickName());
+    }
     forumService.saveOrUpdate(forum);
-        return Result.success();
-        }
+    return Result.success();
+}
 
 @DeleteMapping("/{id}")
 public Result delete(@PathVariable Integer id) {

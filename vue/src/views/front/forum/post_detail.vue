@@ -2,7 +2,7 @@
   <div style="padding: 15px 0;font-size: large;width:1200px;margin:20px auto;">
         <el-card>
 <!--          顶部操作部分-->
-          <div class="operation">
+          <div class="operation" >
             <div class="left_operation">
               <el-button type="primary" size="default" @click="$router.push('/front/forum')">返回论坛</el-button>
               <el-button type="default" size="default" @click="reply">回复</el-button>
@@ -15,7 +15,7 @@
           <div class="page_host">
             <div class="left_info">
               <el-avatar :size="100" :src="forum.avatarUrl"/>
-              <p class="nick_name">{{ forum.username }}</p>
+              <p class="nick_name">{{ forum.nickName }}</p>
             </div>
             <div class="right_content">
               <p class="title">
@@ -49,25 +49,25 @@
 <!--          清除浮动效果-->
           <div class="clear_float"/>
 <!--          回帖部分-->
-          <div class="page_host">
+          <div class="page_host" v-for="item in comments" :key="item.id">
             <div class="left_info">
-              <el-avatar :size="100" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13192622333%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664348532&t=df3c2dfdf81d88855be03c80b1a04dfc" />
-              <p class="nick_name">宇智波佐助</p>
+              <el-avatar :size="100" :src="item.avatarUrl" />
+              <p class="nick_name">{{ item.nickName }}</p>
             </div>
             <div class="right_content">
               <div class="post_source_down">
-                <el-tag type="light">楼主</el-tag>
-                发表于2022-08-29 15:18:01 重庆
+                发表于{{ item.time }}
               </div>
               <div class="post_content">
-                顶！！！！
+                {{ item.content }}
               </div>
               <div class="likes">
-                <el-button type="primary" size="default">
+                <el-button type="primary" size="default" @click="handleReply(item.id)">
                   <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
                     <path fill-rule="evenodd" d="M8.995 22a.955.955 0 01-.704-.282.955.955 0 01-.282-.704V18.01H3.972c-.564 0-1.033-.195-1.409-.586A1.99 1.99 0 012 15.99V3.97c0-.563.188-1.032.563-1.408C2.94 2.188 3.408 2 3.972 2h16.056c.564 0 1.033.188 1.409.563.375.376.563.845.563 1.409V15.99a1.99 1.99 0 01-.563 1.432c-.376.39-.845.586-1.409.586h-6.103l-3.709 3.71c-.22.187-.454.281-.704.281h-.517zm.986-6.01v3.1l3.099-3.1h6.948V3.973H3.972V15.99h6.01zm-3.99-9.013h12.018v2.018H5.991V6.977zm0 4.037h9.014v1.972H5.99v-1.972z">
                     </path>
-                  </svg>回复
+                  </svg >
+                  回复
                 </el-button>
                 <el-button type="danger" size="default">
                   <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
@@ -78,75 +78,50 @@
                 </el-button>
               </div>
             </div>
+
+            <div v-if="item.children.length"  style="padding-left: 200px;">
+              <div v-for="subItem in item.children" :key="subItem.id" >
+                <!--          回复列表-->
+                <div style="font-size: 14px; padding: 5px 0; line-height: 25px">
+                  <div>
+                    <b style="color: #3a8ee6" v-if="subItem.pnickName">@{{ subItem.pnickName }}</b>
+                  </div>
+                  <div style="padding-left: 5px">
+                    <b>{{ subItem.nickName }}：</b>
+                    <span>{{ subItem.content }}</span>
+                  </div>
+
+                  <div style="display: flex; line-height: 20px; margin-top: 5px; padding-left: 5px">
+                    <div style="width: 200px;">
+                      <i class="el-icon-time"></i><span style="margin-left: 5px">{{ subItem.time }}</span>
+                    </div>
+                    <div style="text-align: right; flex: 1">
+                      <el-button style="margin-left: 5px" type="text" @click="handleReply(subItem.id)">回复</el-button>
+                    </div>
+                  </div>
+                </div>   <!--  内容-->
+              </div>
+
+            </div>
+<!--            <div v-if="item.children.length"  style="padding-left: 200px;">-->
+<!--              <div v-for="subItem in item.children" :key="subItem.id"  style="padding: 5px 20px">-->
+<!--                &lt;!&ndash;          回复列表&ndash;&gt;-->
+<!--                <div style="font-size: 14px; padding: 5px 0; line-height: 25px">-->
+<!--                  <div>-->
+<!--                    <b style="color: #3a8ee6" v-if="subItem.pnickName">@{{ subItem.pnickName }}</b>-->
+<!--                  </div>-->
+<!--                  <div style="padding-left: 5px">-->
+<!--                    <b>{{ subItem.nickName }}：</b>-->
+<!--                    <span>{{ subItem.content }}</span>-->
+<!--                  </div>-->
+<!--          </div>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
 <!--          清除浮动效果-->
           <div class="clear_float"/>
-          <div class="page_host">
-            <div class="left_info">
-              <el-avatar :size="100" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fnimg.ws.126.net%2F%3Furl%3Dhttp%253A%252F%252Fdingyue.ws.126.net%252F2021%252F0909%252Fe7e57fc6j00qz5rb0001dc000hs00hsc.jpg%26thumbnail%3D650x2147483647%26quality%3D80%26type%3Djpg&refer=http%3A%2F%2Fnimg.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664353590&t=0a54ce28c38541b6cb638407d7f8a731" />
-              <p class="nick_name">漩涡鸣人</p>
-            </div>
-            <div class="right_content">
-              <div class="post_source_down">
-                发表于2022-08-29 15:18:01 重庆
-              </div>
-              <div class="post_content">
-                萨斯给，快跟我回木叶村。
-              </div>
-              <div class="likes">
-                <el-button type="primary" size="default">
-                  <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                    <path fill-rule="evenodd" d="M8.995 22a.955.955 0 01-.704-.282.955.955 0 01-.282-.704V18.01H3.972c-.564 0-1.033-.195-1.409-.586A1.99 1.99 0 012 15.99V3.97c0-.563.188-1.032.563-1.408C2.94 2.188 3.408 2 3.972 2h16.056c.564 0 1.033.188 1.409.563.375.376.563.845.563 1.409V15.99a1.99 1.99 0 01-.563 1.432c-.376.39-.845.586-1.409.586h-6.103l-3.709 3.71c-.22.187-.454.281-.704.281h-.517zm.986-6.01v3.1l3.099-3.1h6.948V3.973H3.972V15.99h6.01zm-3.99-9.013h12.018v2.018H5.991V6.977zm0 4.037h9.014v1.972H5.99v-1.972z">
-                    </path>
-                  </svg>回复
-                </el-button>
-                <el-button type="danger" size="default">
-                  <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                    <path d="M12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2zm6-6l2 2v1H4v-1l2-2v-5c0-3.08 1.64-5.64 4.5-6.32V4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v.68C16.37 5.36 18 7.93 18 11v5zm-2 1v-6c0-2.48-1.51-4.5-4-4.5S8 8.52 8 11v6h8z">
-                    </path>
-                  </svg>
-                  举报
-                </el-button>
-              </div>
-              <div class="reply">
-                <div class="piece_reply">
-                  <el-avatar :size="40" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13192622333%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664348532&t=df3c2dfdf81d88855be03c80b1a04dfc" />
-                  <p class="reply_username">宇智波佐助:</p>
-                  <p class="reply_content"> 别在这里发癫</p>
-                  <p class="reply_source">（1个小时前）重庆</p>
-                  <div class="piece_reply_operation">
-                    <el-button link type="primary">回复</el-button>
-                    <el-button link type="primary">举报</el-button>
-                  </div>
-                </div>
-                <div class="piece_reply">
-                  <el-avatar :size="40" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13192622333%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664348532&t=df3c2dfdf81d88855be03c80b1a04dfc" />
-                  <p class="reply_username">宇智波佐助:</p>
-                  <p class="reply_content"> 1!5!</p>
-                  <p class="reply_source">（1个小时前）重庆</p>
-                  <div class="piece_reply_operation">
-                    <el-button link type="primary">回复</el-button>
-                    <el-button link type="primary">举报</el-button>
-                  </div>
-                </div>
-                <div class="piece_reply">
-                  <el-avatar :size="40" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13192622333%2F641&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1664348532&t=df3c2dfdf81d88855be03c80b1a04dfc" />
-                  <p class="reply_username">宇智波佐助:</p>
-                  <p class="reply_content"> 哥们儿在这跟你说唱</p>
-                  <p class="reply_source">（1个小时前）重庆</p>
-                  <div class="piece_reply_operation">
-                    <el-button link type="primary">回复</el-button>
-                    <el-button link type="primary">举报</el-button>
-                  </div>
-                </div>
-                <div style="text-align: right">
-                  <el-button link type="primary" style="padding: 15px 30px 15px 0">发表评论</el-button>
-                </div>
-              </div>
-            </div>
-          </div>
-<!--          清除浮动效果-->
-          <div class="clear_float"/>
+
+
 <!--          分页-->
           <div class="pagination">
             <el-pagination background layout="prev, pager, next" :total="1000" />
@@ -180,6 +155,21 @@
 <!--          清除浮动效果-->
           <div class="clear_float"/>
         </el-card>
+
+
+
+    <el-dialog title="回复" v-model="dialogFormVisible" width="50%" >
+      <el-form label-width="80px" size="small">
+        <el-form-item label="回复内容">
+          <el-input type="textarea" v-model="form.contentReply" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="post"  size="small">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -192,6 +182,9 @@ export default {
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
       form:{},
       forum:[],
+      comments: [],
+      id:this.$route.query.index,
+      dialogFormVisible: false,
       rules:{
         content: [
           { required: true, message: '请输入回复的内容', trigger: 'blur' },
@@ -209,12 +202,13 @@ export default {
   },
   created() {
     this.load();
+    this.loadComment()
   },
   methods: {
     load(){
-      this.qid=this.$route.query.index
-      //this.qid=this.$route.query.id
-      request.get("/forum/"+this.qid,{
+      // this.qid=this.$route.query.index
+       //this.qid=this.$route.query.id
+      request.get("/forum/"+this.id,{
         params:
             {
               pageNum: this.currentPage,
@@ -226,15 +220,38 @@ export default {
         this.forum= res.data
       })
     },
+    loadComment() {
+     request.get("/comment/tree/" + this.id).then(res => {
+        this.comments = res.data
+      })
+    },
     post() {
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求
         }
       })
+        this.form.forumId = this.id
+        if (this.form.contentReply) {
+          this.form.content = this.form.contentReply
+        }
+       request.post("/comment", this.form).then(res => {
+          if (res.code === '200') {
+            this.$message.success("评论成功")
+            this.form = {}  // 初始化评论对象内容
+            this.loadComment()
+            this.dialogFormVisible = false
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
     },
     reply() {
       reply_form.scrollIntoView();
     },
+    handleReply(pid) {
+      this.form = { pid: pid }
+      this.dialogFormVisible = true
+    }
   },
 }
 </script>
