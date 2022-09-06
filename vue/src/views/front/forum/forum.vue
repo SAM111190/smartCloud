@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="post_title">
-              <el-link  type="primary" style="font-size: 18px" :underline="false"><router-link :to="{path:'/front/post_detail',query: {index: form.id}}" >{{form.title}}</router-link></el-link>
+              <router-link :to="{path:'/front/post_detail',query: {index: form.id}}" >{{form.title}}</router-link>
               <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
             </div>
           </div>
@@ -55,7 +55,7 @@
                 </div>
               </div>
               <div class="post_title">
-                <el-link  type="primary"  style="font-size: 18px" :underline="false"><router-link :to="{path:'/front/post_detail',query: {index: form.id}}" >{{form.title}}</router-link></el-link>
+                <router-link :to="{path:'/front/post_detail',query: {index: form.id}}" >{{form.title}}</router-link>
                 <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">in {{form.area}} @{{form.time}}</p>
               </div>
             </div>
@@ -222,5 +222,17 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:link {
+    color: #409eff;
+  }
+  a:visited{
+    color: #409eff;
+  }
+  a:hover {
+    color: grey;
   }
 </style>

@@ -1,163 +1,137 @@
 <template>
-  <div style="padding: 15px 0;font-size: large;width:1200px;margin:20px auto;">
-        <el-card>
-<!--          顶部操作部分-->
-          <div class="operation" >
-            <div class="left_operation">
-              <el-button type="primary" size="default" @click="$router.push('/front/forum')">返回论坛</el-button>
-              <el-button type="default" size="default" @click="reply">回复</el-button>
-            </div>
-            <div class="right_operation">
-              <el-button type="default" size="default">只看楼主</el-button>
+  <div style="padding: 15px 0;font-size: large;width:1150px;margin:20px auto;">
+    <el-card>
+      <!--          顶部操作部分-->
+      <div class="operation">
+        <div class="left_operation">
+          <el-button type="primary" size="default" @click="$router.push('/front/forum')">返回论坛</el-button>
+          <el-button type="default" size="default" @click="reply">回复</el-button>
+        </div>
+        <div class="right_operation">
+          <el-button type="default" size="default">只看楼主</el-button>
+        </div>
+      </div>
+      <!--          清除浮动效果-->
+      <div class="clear_float"/>
+      <!--          楼主部分-->
+      <div class="page_host">
+        <div class="left_info">
+          <el-avatar :size="100" :src="forum.avatarUrl" />
+          <p class="nick_name">{{forum.nickName}}</p>
+        </div>
+        <div class="right_content">
+          <p class="title">
+            {{forum.title}}
+          </p>
+          <div class="post_source">
+            <el-tag type="light">楼主</el-tag>
+           {{forum.time}}
+          </div>
+          <div class="post_content">
+          {{forum.content}}
+          </div>
+          <div class="likes">
+            <el-button type="success" size="default">
+              <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
+                <path
+                    d="M7 19v-8H4v8h3zM7 9c0-.55.22-1.05.58-1.41L14.17 1l1.06 1.05c.27.27.44.65.44 1.06l-.03.32L14.69 8H21c1.1 0 2 .9 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21H4a2 2 0 01-2-2v-8a2 2 0 012-2h3zm2 0v10h9l3-7v-2h-9l1.34-5.34L9 9z">
+                </path>
+              </svg>赞同
+            </el-button>
+            <el-button type="danger" size="default">
+              <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
+                <path d="M12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2zm6-6l2 2v1H4v-1l2-2v-5c0-3.08 1.64-5.64 4.5-6.32V4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v.68C16.37 5.36 18 7.93 18 11v5zm-2 1v-6c0-2.48-1.51-4.5-4-4.5S8 8.52 8 11v6h8z">
+                </path>
+              </svg>
+              举报
+            </el-button>
+          </div>
+        </div>
+      </div>
+      <!--          清除浮动效果-->
+      <div class="clear_float"/>
+      <!--          回帖部分-->
+      <div v-for="item in comments" :key="item.id">
+      <div class="page_host">
+        <div class="left_info">
+          <el-avatar :size="100" :src="item.avatarUrl" />
+          <p class="nick_name">{{item.nickName}}</p>
+        </div>
+        <div class="right_content">
+          <div class="post_source_down">
+            {{item.time }}
+          </div>
+          <div class="post_content">
+            {{item.content }}
+          </div>
+          <div class="likes">
+            <el-button type="primary" size="default" @click="handleReply(item.id)">
+              <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
+                <path fill-rule="evenodd" d="M8.995 22a.955.955 0 01-.704-.282.955.955 0 01-.282-.704V18.01H3.972c-.564 0-1.033-.195-1.409-.586A1.99 1.99 0 012 15.99V3.97c0-.563.188-1.032.563-1.408C2.94 2.188 3.408 2 3.972 2h16.056c.564 0 1.033.188 1.409.563.375.376.563.845.563 1.409V15.99a1.99 1.99 0 01-.563 1.432c-.376.39-.845.586-1.409.586h-6.103l-3.709 3.71c-.22.187-.454.281-.704.281h-.517zm.986-6.01v3.1l3.099-3.1h6.948V3.973H3.972V15.99h6.01zm-3.99-9.013h12.018v2.018H5.991V6.977zm0 4.037h9.014v1.972H5.99v-1.972z">
+                </path>
+              </svg>回复
+            </el-button>
+            <el-button type="danger" size="default">
+              <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
+                <path d="M12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2zm6-6l2 2v1H4v-1l2-2v-5c0-3.08 1.64-5.64 4.5-6.32V4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v.68C16.37 5.36 18 7.93 18 11v5zm-2 1v-6c0-2.48-1.51-4.5-4-4.5S8 8.52 8 11v6h8z">
+                </path>
+              </svg>
+              举报
+            </el-button>
+          </div>
+          <div class="reply" v-if="item.children.length" >
+            <div class="piece_reply" v-for="subItem in item.children" :key="subItem.id">
+              <el-avatar :size="40" :src="subItem.avatarUrl" />
+              <p class="reply_username">{{subItem.nickName}}</p>
+              <p class="reply_object" v-if="subItem.pnickName">回复{{ subItem.pnickName }} :</p>
+              <p class="reply_content">{{subItem.content }}</p>
+              <p class="reply_source">{{subItem.time}}</p>
+              <div class="piece_reply_operation">
+                <el-button type="text" style="color: red" @click="del(subItem.id)" v-if="user.id === subItem.userId">删除</el-button>
+                <el-button link type="primary" @click="handleReply(subItem.id)">回复</el-button>
+                <el-button link type="primary">举报</el-button>
+              </div>
             </div>
           </div>
-<!--          楼主部分-->
-          <div class="page_host">
-            <div class="left_info">
-              <el-avatar :size="100" :src="forum.avatarUrl"/>
-              <p class="nick_name">{{ forum.nickName }}</p>
-            </div>
-            <div class="right_content">
-              <p class="title">
-                {{ forum.title }}
-              </p>
-              <div class="post_source">
-              <el-tag type="light">楼主</el-tag>
-                发表于{{forum.time}}
-              </div>
-              <div class="post_content">
-           {{forum.content}}
-              </div>
-              <div class="likes">
-                <el-button type="success" size="default">
-                  <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                    <path
-                        d="M7 19v-8H4v8h3zM7 9c0-.55.22-1.05.58-1.41L14.17 1l1.06 1.05c.27.27.44.65.44 1.06l-.03.32L14.69 8H21c1.1 0 2 .9 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21H4a2 2 0 01-2-2v-8a2 2 0 012-2h3zm2 0v10h9l3-7v-2h-9l1.34-5.34L9 9z">
-                    </path>
-                  </svg>赞同
-                </el-button>
-                <el-button type="danger" size="default">
-                  <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                    <path d="M12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2zm6-6l2 2v1H4v-1l2-2v-5c0-3.08 1.64-5.64 4.5-6.32V4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v.68C16.37 5.36 18 7.93 18 11v5zm-2 1v-6c0-2.48-1.51-4.5-4-4.5S8 8.52 8 11v6h8z">
-                    </path>
-                  </svg>
-                  举报
-                </el-button>
-              </div>
-            </div>
-          </div>
-<!--          清除浮动效果-->
-          <div class="clear_float"/>
-<!--          回帖部分-->
-          <div class="page_host" v-for="item in comments" :key="item.id">
-            <div class="left_info">
-              <el-avatar :size="100" :src="item.avatarUrl" />
-              <p class="nick_name">{{ item.nickName }}</p>
-            </div>
-            <div class="right_content">
-              <div class="post_source_down">
-                发表于{{ item.time }}
-              </div>
-              <div class="post_content">
-                {{ item.content }}
-              </div>
-              <div class="likes">
-                <el-button type="primary" size="default" @click="handleReply(item.id)">
-                  <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                    <path fill-rule="evenodd" d="M8.995 22a.955.955 0 01-.704-.282.955.955 0 01-.282-.704V18.01H3.972c-.564 0-1.033-.195-1.409-.586A1.99 1.99 0 012 15.99V3.97c0-.563.188-1.032.563-1.408C2.94 2.188 3.408 2 3.972 2h16.056c.564 0 1.033.188 1.409.563.375.376.563.845.563 1.409V15.99a1.99 1.99 0 01-.563 1.432c-.376.39-.845.586-1.409.586h-6.103l-3.709 3.71c-.22.187-.454.281-.704.281h-.517zm.986-6.01v3.1l3.099-3.1h6.948V3.973H3.972V15.99h6.01zm-3.99-9.013h12.018v2.018H5.991V6.977zm0 4.037h9.014v1.972H5.99v-1.972z">
-                    </path>
-                  </svg >
-                  回复
-                </el-button>
-                <el-button type="danger" size="default">
-                  <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                    <path d="M12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2zm6-6l2 2v1H4v-1l2-2v-5c0-3.08 1.64-5.64 4.5-6.32V4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v.68C16.37 5.36 18 7.93 18 11v5zm-2 1v-6c0-2.48-1.51-4.5-4-4.5S8 8.52 8 11v6h8z">
-                    </path>
-                  </svg>
-                  举报
-                </el-button>
-              </div>
-            </div>
+        </div>
+      </div>
+      <!--          清除浮动效果-->
+      <div class="clear_float"/>
+      </div>
+      <!--          分页-->
+      <div class="pagination">
+        <el-pagination background layout="prev, pager, next" :total="1000" />
+      </div>
+      <!--          用户回复-->
+      <div class="page_host">
+        <div class="left_info">
+          <el-avatar :size="100" :src="user.avatarUrl" />
+          <p class="nick_name">{{user.nickName}}</p>
+        </div>
+        <div class="right_content">
+          <el-form
+              ref="form"
+              :model="form"
+              style="margin-top: 25px"
+              id="reply_form"
+              :rules="rules">
+            <el-form-item prop="content">
+              <el-input v-model="form.content" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
+            </el-form-item>
+            <el-form-item prop="treaty">
+              <el-checkbox v-model="form.treaty" size="large">
+                我同意且遵守
+                <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
+              </el-checkbox>
+            </el-form-item>
+          </el-form>
+          <el-button type="primary" size="default" @click="post">发布</el-button>
+        </div>
+      </div>
+      <!--          清除浮动效果-->
+      <div class="clear_float"/>
 
-            <div v-if="item.children.length"  style="padding-left: 200px;">
-              <div v-for="subItem in item.children" :key="subItem.id" >
-                <!--          回复列表-->
-                <div style="font-size: 14px; padding: 5px 0; line-height: 25px">
-                  <div>
-                    <b style="color: #3a8ee6" v-if="subItem.pnickName">@{{ subItem.pnickName }}</b>
-                  </div>
-                  <div style="padding-left: 5px">
-                    <b>{{ subItem.nickName }}：</b>
-                    <span>{{ subItem.content }}</span>
-                  </div>
-
-                  <div style="display: flex; line-height: 20px; margin-top: 5px; padding-left: 5px">
-                    <div style="width: 200px;">
-                      <i class="el-icon-time"></i><span style="margin-left: 5px">{{ subItem.time }}</span>
-                    </div>
-                    <div style="text-align: right; flex: 1">
-                      <el-button style="margin-left: 5px" type="text" @click="handleReply(subItem.id)">回复</el-button>
-                    </div>
-                  </div>
-                </div>   <!--  内容-->
-              </div>
-
-            </div>
-<!--            <div v-if="item.children.length"  style="padding-left: 200px;">-->
-<!--              <div v-for="subItem in item.children" :key="subItem.id"  style="padding: 5px 20px">-->
-<!--                &lt;!&ndash;          回复列表&ndash;&gt;-->
-<!--                <div style="font-size: 14px; padding: 5px 0; line-height: 25px">-->
-<!--                  <div>-->
-<!--                    <b style="color: #3a8ee6" v-if="subItem.pnickName">@{{ subItem.pnickName }}</b>-->
-<!--                  </div>-->
-<!--                  <div style="padding-left: 5px">-->
-<!--                    <b>{{ subItem.nickName }}：</b>-->
-<!--                    <span>{{ subItem.content }}</span>-->
-<!--                  </div>-->
-<!--          </div>-->
-<!--              </div>-->
-<!--            </div>-->
-          </div>
-<!--          清除浮动效果-->
-          <div class="clear_float"/>
-
-
-<!--          分页-->
-          <div class="pagination">
-            <el-pagination background layout="prev, pager, next" :total="1000" />
-          </div>
-<!--          用户回复-->
-          <div class="page_host">
-            <div class="left_info">
-              <el-avatar :size="100" :src="user.avatarUrl" />
-              <p class="nick_name">{{user.nickName}}</p>
-            </div>
-            <div class="right_content">
-              <el-form
-                  ref="form"
-                  :model="form"
-                  style="margin-top: 25px"
-                  id="reply_form"
-                  :rules="rules">
-                <el-form-item prop="content">
-                  <el-input v-model="form.content" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item prop="treaty">
-                  <el-checkbox v-model="form.treaty" size="large">
-                    我同意且遵守
-                    <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
-                  </el-checkbox>
-                </el-form-item>
-              </el-form>
-              <el-button type="primary" size="default" @click="post">发布</el-button>
-            </div>
-          </div>
-<!--          清除浮动效果-->
-          <div class="clear_float"/>
-        </el-card>
-
-
-
+    </el-card>
     <el-dialog title="回复" v-model="dialogFormVisible" width="50%" >
       <el-form label-width="80px" size="small">
         <el-form-item label="回复内容">
@@ -169,7 +143,6 @@
         <el-button type="primary" @click="post"  size="small">确 定</el-button>
       </div>
     </el-dialog>
-
   </div>
 </template>
 
@@ -251,7 +224,17 @@ export default {
     handleReply(pid) {
       this.form = { pid: pid }
       this.dialogFormVisible = true
-    }
+    },
+    del(id) {
+   request.delete("/comment/" + id).then(res => {
+        if (res.code === '200') {
+          this.$message.success("删除成功")
+          this.loadComment()
+        } else {
+          this.$message.error("删除失败")
+        }
+      })
+    },
   },
 }
 </script>
@@ -336,6 +319,7 @@ a {
 }
 .reply {
   border: 1px solid #cccccc;
+  border-bottom: none;
   background-color: #f5f5f5;
   margin-bottom: 10px;
 }
@@ -369,10 +353,19 @@ a {
   display: inline-block;
   position: relative;
   bottom: 15px;
-  left: 10px;
+  left: 15px;
   font-size: 12px;
   letter-spacing: 1px;
   color: #cccccc;
+}
+.reply_object {
+  display: inline-block;
+  position: relative;
+  bottom: 15px;
+  left: 10px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #3a8ee6;
 }
 .piece_reply_operation {
   text-align: right;
