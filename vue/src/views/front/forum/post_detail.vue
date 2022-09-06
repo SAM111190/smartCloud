@@ -40,7 +40,7 @@
             </el-button>
             <el-button type="danger" size="default">
               <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                <path d="M12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2zm6-6l2 2v1H4v-1l2-2v-5c0-3.08 1.64-5.64 4.5-6.32V4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v.68C16.37 5.36 18 7.93 18 11v5zm-2 1v-6c0-2.48-1.51-4.5-4-4.5S8 8.52 8 11v6h8z">
+                <path fill-rule="evenodd" d="M1 22L12 2l11 20H1zm18.617-2L12 6.15 4.383 20h15.234zM13 19h-2v-2h2v2zm0-3h-2v-5h2v5z">
                 </path>
               </svg>
               举报
@@ -71,23 +71,38 @@
                 </path>
               </svg>回复
             </el-button>
-            <el-button type="danger" size="default">
+            <el-button v-if="user.id !== item.userId" type="danger" size="default">
               <svg viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
-                <path d="M12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2zm6-6l2 2v1H4v-1l2-2v-5c0-3.08 1.64-5.64 4.5-6.32V4c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v.68C16.37 5.36 18 7.93 18 11v5zm-2 1v-6c0-2.48-1.51-4.5-4-4.5S8 8.52 8 11v6h8z">
-                </path>
+                <path fill-rule="evenodd" d="M1 22L12 2l11 20H1zm18.617-2L12 6.15 4.383 20h15.234zM13 19h-2v-2h2v2zm0-3h-2v-5h2v5z">
+              </path>
               </svg>
               举报
             </el-button>
+            <el-popconfirm title="确认删除？" @confirm="del(item.id)">
+              <template #reference>
+                <el-button type="danger" size="default" v-if="user.id === item.userId">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="white" style="margin-right: 5px">
+                    <path fill-rule="evenodd" d="M12 11a1 1 0 011 1v4a1 1 0 11-2 0v-4a1 1 0 011-1zm0-3a1 1 0 110 2 1 1 0 010-2zm0 14C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd">
+                  </path>
+                  </svg>
+                  删除
+                </el-button>
+              </template>
+            </el-popconfirm>
           </div>
           <div class="reply" v-if="item.children.length" >
             <div class="piece_reply" v-for="subItem in item.children" :key="subItem.id">
               <el-avatar :size="40" :src="subItem.avatarUrl" />
               <p class="reply_username">{{subItem.nickName}}</p>
-              <p class="reply_object" v-if="subItem.pnickName">回复{{ subItem.pnickName }} :</p>
+              <p class="reply_object" v-if="subItem.pnickName">回复 {{ subItem.pnickName }} :</p>
               <p class="reply_content">{{subItem.content }}</p>
               <p class="reply_source">{{subItem.time}}</p>
               <div class="piece_reply_operation">
-                <el-button type="text" style="color: red" @click="del(subItem.id)" v-if="user.id === subItem.userId">删除</el-button>
+                <el-popconfirm title="确认删除？" @confirm="del(subItem.id)">
+                  <template #reference>
+                   <el-button link type="danger" v-if="user.id === subItem.userId">删除</el-button>
+                  </template>
+                </el-popconfirm>
                 <el-button link type="primary" @click="handleReply(subItem.id)">回复</el-button>
                 <el-button link type="primary">举报</el-button>
               </div>
@@ -132,10 +147,10 @@
       <div class="clear_float"/>
 
     </el-card>
-    <el-dialog title="回复" v-model="dialogFormVisible" width="50%" >
-      <el-form label-width="80px" size="small">
+    <el-dialog title="回复" v-model="dialogFormVisible" width="30%" >
+      <el-form label-width="100px" size="small">
         <el-form-item label="回复内容">
-          <el-input type="textarea" v-model="form.contentReply" autocomplete="off"></el-input>
+          <el-input style="width: 80%" type="textarea" v-model="form.contentReply" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -368,6 +383,10 @@ a {
   color: #3a8ee6;
 }
 .piece_reply_operation {
+  text-align: right;
+}
+.dialog-footer {
+  margin-top: 50px;
   text-align: right;
 }
 </style>

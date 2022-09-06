@@ -68,7 +68,7 @@ export default {
               this.$router.push("/login")
               this.$message.success("注册成功")
             }else {
-              this.$message.error("注册失败")
+              this.$message.error("用户名已存在")
               //登录成功后页面跳转到主页
             }
           })

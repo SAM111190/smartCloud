@@ -29,7 +29,8 @@
               <el-avatar :size="50" :src="form.avatarUrl" />
               <div class="info">
                 <div class="username">
-                  <p>{{form.nickName}}</p>
+                  <p v-if="form.nickName">{{form.nickName}}</p>
+                  <p v-else>{{form.username}}</p>
                 </div>
                 <el-tag v-if="form.role === 'ROLE_USER'">普通用户</el-tag>
                 <el-tag v-if="form.role === 'ROLE_ADMIN'" type="danger">管理员</el-tag>
@@ -65,12 +66,19 @@
         <!--    右边的内容-->
         <div class="right_content">
           <div class="right">
-           <el-button type="primary" style="width: 100%" size="large" :icon="Edit" @click="$router.push('/front/post')">发布帖子</el-button>
+            <el-row>
+              <el-col :span="12">
+                <el-button type="primary" style="width: 96%" size="large" :icon="Edit" @click="$router.push('/front/post')">发布帖子</el-button>
+              </el-col>
+              <el-col :span="12">
+                <el-button type="primary" style="width: 96%" size="large" :icon="Document" @click="$router.push('/front/user')">我的帖子</el-button>
+              </el-col>
+            </el-row>
           </div>
           <div class="hot_board">
             <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px;">热门讨论</h2>
             <div class="description">
-              <el-table :data="tableData" style="width: 100%;cursor: pointer" :show-header="false">
+              <el-table :data="tableData" min-width="100" style="cursor: pointer" :show-header="false">
                 <el-table-column prop="title"  />
               </el-table>
             </div>
@@ -135,6 +143,11 @@ export default {
 </script>
 
 <style scoped>
+  .el-table
+  /deep/
+  .cell {
+    white-space:nowrap;
+  }
   .user_information {
     display: inline-block;
   }
@@ -227,12 +240,12 @@ export default {
     text-decoration: none;
   }
   a:link {
-    color: #409eff;
+    color: #444444;
   }
   a:visited{
-    color: #409eff;
+    color: #444444;
   }
   a:hover {
-    color: grey;
+    color: #409eff;
   }
 </style>
