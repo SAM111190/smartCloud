@@ -51,14 +51,13 @@ public class Comment implements Serializable {
       @ApiModelProperty("关联文章的id")
       private Integer forumId;
 
-  @ApiModelProperty("评论人用户名")
-  private Integer username;
 
       @TableField(exist = false) //标定不在数据库
       private String nickName;
       @TableField(exist = false)
       private String avatarUrl;
-
+    @TableField(exist = false)
+    private String username;
       @TableField(exist = false)
       private List<Comment> children;
 

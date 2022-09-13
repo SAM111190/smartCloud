@@ -88,6 +88,7 @@ public Result deleteBatch(@RequestBody List<Integer> ids) {
                 pComment.ifPresent((v -> {  // 找到父级评论的用户id和用户昵称，并设置给当前的回复对象
                     comment.setPuserId(v.getUserId());
                     comment.setPnickName(v.getNickName());
+                    comment.setUsername(v.getUsername());
                 }));
             });
         }

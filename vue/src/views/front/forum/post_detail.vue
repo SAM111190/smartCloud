@@ -57,8 +57,9 @@
           <p class="nick_name">{{item.nickName}}</p>
         </div>
         <div class="right_content">
-          <div class="post_source_down">
-            {{item.time }}
+          <div class="post_source">
+            <el-tag v-if="item.username===forum.username" type="light">楼主</el-tag>
+            {{item.time}}
           </div>
           <div class="post_content" v-html="item.content">
           </div>

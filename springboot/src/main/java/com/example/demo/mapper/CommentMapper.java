@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Mapper
 public interface CommentMapper extends BaseMapper<Comment> {
-    @Select("select c.*,u.nick_name,u.avatar_url from comment c left join user u on c.user_id = u.id where c.forum_id = #{forumId}")
+    @Select("select c.*,u.nick_name,u.avatar_url,u.username from comment c left join user u on c.user_id = u.id where c.forum_id = #{forumId}")
 //    根据id排序
     List<Comment> findCommentDetail(@Param("forumId") Integer forumId);
 }
