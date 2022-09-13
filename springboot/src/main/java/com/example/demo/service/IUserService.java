@@ -28,4 +28,8 @@ public interface IUserService extends IService<User> {
   void updatePassword(UserPasswordDTO userPasswordDTO);
 
   void changePassword(UserPasswordDTO userPasswordDTO);
+
+    UserDTO loginAddress(UserDTO userDTO);
+
+  void sendAddressCode(String address);
 }

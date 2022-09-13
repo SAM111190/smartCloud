@@ -5,15 +5,30 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url:  jdbc:mysql://localhost:3306/springboot-vue?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
     username: root
-    password: jhjywsy123
+    password: zw1564335
     hikari:
       max-lifetime: 120000
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+  mail:
+    protocol: smtps
+    #配置SMTP服务器地址
+    host: smtp.163.com
+    #发送者邮箱
+    username: z1736482740w@163.com
+    #配置密码：注意不是真正的密码，而是刚刚申请到的授权码
+    password: IUANYROUEGYZOIAZ
+    #端口号465或587
+    port: 587
+    #默认的邮件编码位UTF-8
+    default-encoding: UTF-8
 mybatis:
   type-aliases-package: com.example.core.**.model
   mapper-locations:  classpath*:mapper/*.xml
 files:
   upload:
-    path: C:/Users/JHJ/Desktop/大创/files/
+    path: E:/springboot SY/files/
+
+

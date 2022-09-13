@@ -7,16 +7,22 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Constants;
 import com.example.demo.common.Result;
+import com.example.demo.config.AuthAccess;
 import com.example.demo.controller.dto.UserDTO;
 import com.example.demo.controller.dto.UserPasswordDTO;
 import com.example.demo.entity.User;
+import com.example.demo.entity.Validation;
+import com.example.demo.exception.ServiceException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.IUserService;
+import com.example.demo.service.IValidationService;
 import com.example.demo.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.rmi.server.ServerCloneException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,6 +33,9 @@ public class UserController {
     UserMapper userMapper;
     @Autowired
     private IUserService userService;
+
+    @Resource
+    private IValidationService validationService;
 
     //    @PostMapping("/login")
 //    public Result<?> login(@RequestBody User user)//从前端获取数据
@@ -49,6 +58,31 @@ public class UserController {
         UserDTO dto=userService.login(userDTO);
         return Result.success(dto);
     }
+
+    @AuthAccess
+    @PostMapping("/loginAddress")
+    public Result loginAddress(@RequestBody UserDTO userDTO)
+    {
+        String address=userDTO.getAddress();
+        String code=userDTO.getCode();
+        if(StrUtil.isBlank(address) || StrUtil.isBlank(code))
+        {
+            return Result.error(Constants.CODE_400,"参数错误");
+        }
+        UserDTO dto=userService.loginAddress(userDTO);
+        return Result.success(dto);
+    }
+
+    @AuthAccess //无token也可以访问
+    @GetMapping("/address/{address}")
+    public Result sendAddresCode(@PathVariable String address) {
+        if(StrUtil.isBlank(address)){
+            throw new ServiceException(Constants.CODE_400,"参数错误");
+        }
+        userService.sendAddressCode(address);
+        return Result.success();
+    }
+
     @PostMapping("/forget")
     public Result forget(@RequestBody UserDTO userDTO)
     {
@@ -60,6 +94,30 @@ public class UserController {
         }
         UserDTO dto=userService.forget(userDTO);
         return Result.success(dto);
+    }
+    @PostMapping("/reset")
+    public Result reset(@RequestBody UserPasswordDTO userPasswordDTO)
+    {
+        String username=userPasswordDTO.getUsername();
+        String address=userPasswordDTO.getAddress();
+        String code = userPasswordDTO.getCode();
+        if(StrUtil.isBlank(username) || StrUtil.isBlank(address) || StrUtil.isBlank(code))
+        {
+            return Result.error(Constants.CODE_400,"参数错误");
+        }
+
+        QueryWrapper<Validation> validationQueryWrapper = new QueryWrapper<>();
+        validationQueryWrapper.eq("address",address);
+        validationQueryWrapper.eq("code",code);
+        validationQueryWrapper.ge("time",new Date());//查询数据库没过期的code 数据库存入的是过期时间>=当前时间 则过期
+        Validation one = validationService.getOne(validationQueryWrapper);
+        if(one == null){
+            throw new ServiceException("-1","验证码过期，请重新获取");
+        }
+        //如果验证通过了
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("address", address);//根据邮箱查询用户信息
+        return Result.success();
     }
     @PostMapping("/register")
     public Result register(@RequestBody UserDTO userDTO)//从前端获取数据
@@ -108,6 +166,7 @@ public class UserController {
         userService.updatePassword(userPasswordDTO);
         return Result.success();
     }
+
 
     /**
      * 修改密码

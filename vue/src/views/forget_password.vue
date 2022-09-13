@@ -17,6 +17,10 @@
         <el-form-item prop="address">
           <el-input v-model="form.address"   :prefix-icon="Message" placeholder="邮箱"/>
         </el-form-item>
+          <el-form-item prop="code">
+            <el-input v-model="form.code"  style="width: 355px" :prefix-icon="Message" placeholder="请输入验证码"/>
+            <el-button type="primary" @click="sendAddressCode(form.address)" >获取验证码</el-button>
+          </el-form-item>
         <el-form-item>
         </el-form-item>
         <el-form-item style="padding: 0px 10%">
@@ -64,6 +68,11 @@ export default {
   data(){
     return{
       form:{},
+      code:'3456789ABCDEFGHGKMNPQRSTUVWXY',
+      //图片验证码
+      identifyCode:'',
+      //验证码规则
+      identifyCodes:'',
       rules: {  //验证规则
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -78,6 +87,10 @@ export default {
         confirm: [
           { required: true, message: '请确认密码', trigger: 'blur' },
         ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { min: 1, max: 20, message: '长度4位', trigger: 'blur' },
+        ],
       },
       activeIndex:1,
       Avatar,
@@ -85,50 +98,76 @@ export default {
       Message,
     }
   },
-  methods:{
+  methods: {
 
-    next1 () {
+    next1() {
       this.$refs['form'].validate((valid) => {
-            if(valid) {   //判断是否满足验证规则，才能进行下面的请求
-              request.post("/user/forget", this.form).then(res => {
-                sessionStorage.setItem("user",JSON.stringify(res.data))
+        if (valid) {   //判断是否满足验证规则，才能进行下面的请求
+
+          request.post("/user/forget", this.form).then(res => {
+            sessionStorage.setItem("user", JSON.stringify(res.data))
+            if (res.code === '200') {
+              request.post("/user/reset", this.form).then(res => {
                 if (res.code === '200') {
                   this.activeIndex++;//进入下一步
                 } else {
-                  this.$message.error("用户名和邮箱不匹配")
+                  this.$message.error("验证码不匹配")
                 }
               })
+
+            } else {
+              this.$message.error("用户名和邮箱不匹配")
             }
+          })
+        }
       })
 
     },
 
 
-    next2 () {
+    next2() {
       this.$refs['form'].validate((valid) => {
-        if(valid){
-          if(this.form.password != this.form.confirm){
+        if (valid) {
+          if (this.form.password != this.form.confirm) {
             this.$message({
               type: "error",
               message: '两次密码输入不一致'
             })
             return
           }//判断是否满足验证规则，才能进行下面的请求
-          request.post("/user/password",this.form).then(res => {
-            if(res) {
+          request.post("/user/password", this.form).then(res => {
+            if (res) {
               this.$message.success("重置成功")
-            }else
-            {
+            } else {
               this.$message.error("重置失败")
             }
           })
           this.activeIndex++;//进入下一步
         }
       })
+    },
+
+
+    sendAddressCode(address) {
+      //判断是否满足验证规则，才能进行下面的请求
+
+      request.post("/user/forget", this.form).then(res => {
+        sessionStorage.setItem("user", JSON.stringify(res.data))
+        if (res.code === '200') {
+          //发送邮箱验证码
+          request.get("/user/address/" + address).then(res => {
+            if (res.code === '200') {
+              this.$message.success("发送成功")
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+
+        } else {
+          this.$message.error("用户名和邮箱不匹配")
+        }
+      })
     }
-
-
-
   }
 }
 </script>
