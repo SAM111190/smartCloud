@@ -4,6 +4,9 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -102,6 +105,62 @@ public class FileController {
         // 最简单的方式：直接清空缓存
 
         return url;
+    }
+    @PostMapping("/uploadImg")
+    public Object uploadImg(@RequestParam MultipartFile file) throws IOException {
+        String originalFilename = file.getOriginalFilename();
+        String type = FileUtil.extName(originalFilename);
+        long size = file.getSize();
+
+        // 定义一个文件唯一的标识码
+        String fileUUID = IdUtil.fastSimpleUUID() + StrUtil.DOT + type;
+
+        File uploadFile = new File(fileUploadPath + fileUUID);
+        // 判断配置的文件目录是否存在，若不存在则创建一个新的文件目录
+        File parentFile = uploadFile.getParentFile();
+        if(!parentFile.exists()) {
+            parentFile.mkdirs();
+        }
+
+        String url;
+        // 获取文件的md5
+        String md5 = SecureUtil.md5(file.getInputStream());
+        // 从数据库查询是否存在相同的记录
+        Files dbFiles = getFileByMd5(md5);
+        if (dbFiles != null) {
+            url = dbFiles.getUrl();
+        } else {
+            // 上传文件到磁盘
+            file.transferTo(uploadFile);
+            // 数据库若不存在重复文件，则不删除刚才上传的文件
+            url = "http://localhost:9091/file/" + fileUUID;
+        }
+
+
+        // 存储数据库
+        Files saveFile = new Files();
+        saveFile.setName(originalFilename);
+        saveFile.setType(type);
+        saveFile.setSize(size/1024); // 单位 kb
+        saveFile.setUrl(url);
+        saveFile.setMd5(md5);
+        fileMapper.insert(saveFile);
+
+        // 从redis取出数据，操作完，再设置（不用查询数据库）
+//        String json = stringRedisTemplate.opsForValue().get(Constants.FILES_KEY);
+//        List<Files> files1 = JSONUtil.toBean(json, new TypeReference<List<Files>>() {
+//        }, true);
+//        files1.add(saveFile);
+//        setCache(Constants.FILES_KEY, JSONUtil.toJsonStr(files1));
+
+
+        // 从数据库查出数据
+//        List<Files> files = fileMapper.selectList(null);
+//        // 设置最新的缓存
+//        setCache(Constants.FILES_KEY, JSONUtil.toJsonStr(files));
+
+        // 最简单的方式：直接清空缓存
+        return JSONUtil.parseObj("{\"errno\":0,\"data\":[{\"url\":\""+url+"\"}]}");
     }
 
     /**

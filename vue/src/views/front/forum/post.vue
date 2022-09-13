@@ -1,46 +1,46 @@
 <template>
   <div style="padding: 15px 0;font-size: large;width: 1100px;margin:20px auto;">
-        <el-card>
-          <div class="setting_header">
-            发布帖子
-          </div>
-          <el-form
-              ref="form"
-              :model="form"
-              label-width="100px"
-              style="margin-top: 25px"
-              :rules="rules">
-              <el-row :gutter="0">
-                <el-col :span="8">
+    <el-card>
+      <div class="setting_header">
+        发布帖子
+      </div>
+      <el-form
+          ref="form"
+          :model="form"
+          label-width="100px"
+          style="margin-top: 25px"
+          :rules="rules">
+        <el-row :gutter="0">
+          <el-col :span="8">
             <el-form-item prop="area">
               <el-select  clearable placeholder="选择类型" v-model="form.area">
                 <el-option label="灌水区域" value="灌水区域"/>
                 <el-option label="问题求助" value="问题求助"/>
               </el-select>
             </el-form-item>
-                </el-col>
-                <el-col :span="16">
+          </el-col>
+          <el-col :span="16">
             <el-form-item style="position: relative;right:145px" prop="title">
               <el-input v-model="form.title" placeholder="标题为5-20个字" maxlength="20" minlength="5" show-word-limit></el-input>
             </el-form-item>
-                </el-col>
-              </el-row>
-            <el-form-item prop="content">
-              <div id="richText" style="width: 85%;z-index: 1"></div>
-<!--              <el-input v-model="form.content" style="width: 85%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>-->
-            </el-form-item>
-            <el-form-item prop="treaty">
-              <el-checkbox v-model="form.treaty" size="large">
-                我同意且遵守
-                <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
-              </el-checkbox>
-            </el-form-item>
-          </el-form>
-          <div style="text-align: center">
-            <el-button type="primary" @click="post">发布</el-button>
-            <el-button type="info" @click="$router.push('/front/forum')">返回</el-button>
-          </div>
-        </el-card>
+          </el-col>
+        </el-row>
+        <el-form-item prop="content">
+          <div id="richText" style="width: 85%;z-index: 1"></div>
+          <!--              <el-input v-model="form.content" style="width: 85%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>-->
+        </el-form-item>
+        <el-form-item prop="treaty">
+          <el-checkbox v-model="form.treaty" size="large">
+            我同意且遵守
+            <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
+          </el-checkbox>
+        </el-form-item>
+      </el-form>
+      <div style="text-align: center">
+        <el-button type="primary" @click="post">发布</el-button>
+        <el-button type="info" @click="$router.push('/front/forum')">返回</el-button>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -48,6 +48,7 @@
 import wangEditor from "wangeditor"
 import request from "@/utils/request";
 import {UploadFilled} from "@element-plus/icons";
+let editor;
 export default {
   name: "Person",
   inject:['reload'],
@@ -92,8 +93,8 @@ export default {
     })
   },
   mounted() {
-    this.editor = new wangEditor("#richText");
-    this.editor.config.excludeMenus = [
+    editor = new wangEditor("#richText");
+    editor.config.excludeMenus = [
       'video',
       'backColor',
       'link',
@@ -104,14 +105,16 @@ export default {
       'table',
       'code',
     ]
-    this.editor.create();
+    editor.config.uploadImgServer = 'http://localhost:9091/file/uploadImg'
+    editor.config.uploadFileName='file'
+    editor.create();
   },
   methods: {
     async getUser() {
       return (await request.get("/user/username/" + this.user.username)).data
     },
     post() {
-      const content = this.editor.txt.html()
+      const content = editor.txt.html()
       //富文本框手动赋值
       this.form.content = content
       this.$refs['form'].validate((valid) => {

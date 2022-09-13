@@ -168,6 +168,7 @@
 <script>
 import wangEditor from "wangeditor"
 import request from "@/utils/request";
+let editor;
 export default {
   name: "post_detail",
   inject:['reload'],
@@ -199,8 +200,8 @@ export default {
     this.loadComment()
   },
   mounted() {
-    this.editor = new wangEditor("#richText");
-    this.editor.config.excludeMenus = [
+    editor = new wangEditor("#richText");
+    editor.config.excludeMenus = [
       'video',
       'backColor',
       'link',
@@ -211,8 +212,9 @@ export default {
       'table',
       'code',
     ]
-    this.editor.create();
-    this.editor.config.uploadVideoServer = 'http://localhost:9876/file/uploadImg'
+    editor.config.uploadImgServer = 'http://localhost:9091/file/uploadImg'
+    editor.config.uploadFileName='file'
+    editor.create();
   },
   methods: {
     load(){
@@ -243,7 +245,7 @@ export default {
             this.form.content = this.form.contentReply
           }
           else{
-            const content = this.editor.txt.html()
+            const content = editor.txt.html()
             console.log(content)
             //富文本框手动赋值
             this.form.content = content
@@ -252,7 +254,7 @@ export default {
             if (res.code === '200') {
               this.$message.success("评论成功")
               this.form = {}  // 初始化评论对象内容
-              this.editor.txt.html('')// 清除富文本框的内容
+              editor.txt.html('')// 清除富文本框的内容
               this.loadComment()
               this.dialogFormVisible = false
             } else {
