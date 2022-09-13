@@ -10,7 +10,7 @@
       </div>
       <el-form :model="form" size="large" :rules="rules" ref="form" class="form">
 <!--        第一步-->
-        <div v-if="activeIndex === 1" class="step">
+        <div v-if="activeIndex === 1" class="step1">
         <el-form-item prop="username">
           <el-input v-model="form.username" :prefix-icon="Avatar" placeholder="用户名"/>
         </el-form-item>
@@ -18,8 +18,8 @@
           <el-input v-model="form.address"   :prefix-icon="Message" placeholder="邮箱"/>
         </el-form-item>
           <el-form-item prop="code">
-            <el-input v-model="form.code"  style="width: 355px" :prefix-icon="Message" placeholder="请输入验证码"/>
-            <el-button type="primary" @click="sendAddressCode(form.address)" >获取验证码</el-button>
+            <el-input v-model="form.code"  style="width: 348px" :prefix-icon="Files" placeholder="请输入验证码"/>
+            <el-button style="margin-left: 10px" type="primary" @click="sendAddressCode(form.address)" >获取验证码</el-button>
           </el-form-item>
         <el-form-item>
         </el-form-item>
@@ -29,7 +29,7 @@
         </el-form-item>
         </div>
 <!--        第二步-->
-        <div v-else-if="activeIndex === 2" class="step">
+        <div v-else-if="activeIndex === 2" class="step2">
           <el-form-item prop="password">
             <el-input v-model="form.password" show-password :prefix-icon="Lock" placeholder="新密码"/>
           </el-form-item>
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { Avatar,Lock,Message } from '@element-plus/icons-vue'
+import { Avatar,Lock,Message,Files } from '@element-plus/icons-vue'
 import request from "@/utils/request";
 export default {
   name: "forget_password",
@@ -89,13 +89,14 @@ export default {
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { min: 1, max: 20, message: '长度4位', trigger: 'blur' },
+          { min: 4, max: 4, message: '长度4位', trigger: 'blur' },
         ],
       },
       activeIndex:1,
       Avatar,
       Lock,
       Message,
+      Files,
     }
   },
   methods: {
@@ -180,8 +181,8 @@ export default {
 }
 
 .card {
-  margin: calc((100vh - 420px)/2) auto;
-  height: 420px;
+  margin: calc((100vh - 450px)/2) auto;
+  height: 450px;
   width: 650px;
   border: 1px white solid;
   box-sizing: border-box;
@@ -194,7 +195,10 @@ export default {
 }
 .form {
 }
-.step {
-  margin-top: 60px;
+.step1 {
+  margin-top: 40px;
+}
+.step2{
+  margin-top: 80px;
 }
 </style>
