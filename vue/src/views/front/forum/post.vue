@@ -26,7 +26,8 @@
                 </el-col>
               </el-row>
             <el-form-item prop="content">
-              <el-input v-model="form.content" style="width: 85%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
+              <div id="richText" style="width: 85%;z-index: 1"></div>
+<!--              <el-input v-model="form.content" style="width: 85%" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>-->
             </el-form-item>
             <el-form-item prop="treaty">
               <el-checkbox v-model="form.treaty" size="large">
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-
+import wangEditor from "wangeditor"
 import request from "@/utils/request";
 import {UploadFilled} from "@element-plus/icons";
 export default {
@@ -70,10 +71,10 @@ export default {
           { required: true, message: '请输入帖子的主题', trigger: 'blur' },
           { min: 5, max: 20, message: '长度应该在5-20之间', trigger: 'blur' },
         ],
-        content: [
-          { required: true, message: '请输入帖子的内容', trigger: 'blur' },
-          { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
-        ],
+        // content: [
+        //   { required: true, message: '请输入帖子的内容', trigger: 'blur' },
+        //   { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
+        // ],
         treaty: [
           {
             required: true,
@@ -90,11 +91,29 @@ export default {
       this.form = res
     })
   },
+  mounted() {
+    this.editor = new wangEditor("#richText");
+    this.editor.config.excludeMenus = [
+      'video',
+      'backColor',
+      'link',
+      'list',
+      'todo',
+      'justify',
+      'quote',
+      'table',
+      'code',
+    ]
+    this.editor.create();
+  },
   methods: {
     async getUser() {
       return (await request.get("/user/username/" + this.user.username)).data
     },
     post() {
+      const content = this.editor.txt.html()
+      //富文本框手动赋值
+      this.form.content = content
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求
           request.post("/forum/insert",this.form).then(res => {

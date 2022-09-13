@@ -17,9 +17,9 @@
           :ellipsis="false"
           style="border: 1px solid #ededed;border-radius: 8px;height: 50px;"
       >
-        <el-menu-item index="1" style="border-right:1px solid #ededed;box-sizing:border-box;width:33%;border-bottom: none;"><img src="https://js.lintcode.com/react/assets/2dda933de47e369fc233768004aea60f.svg" style="padding-right: 10px">题目类型</el-menu-item>
+        <el-menu-item index="1" style="border-right:1px solid #ededed;box-sizing:border-box;width:33%;border-bottom: none;"><img src="https://jstc.lintcode.com/lintcode-react/assets/2dda933de47e369fc233768004aea60f.svg" style="padding-right: 10px">题目类型</el-menu-item>
         <el-menu-item index="2" style="border-right:1px solid #ededed;box-sizing:border-box;width:33%;border-bottom: none"><img src="https://js.lintcode.com/react/assets/7cd6346ec22d7ad180e2a2747830a45e.svg" style="padding-right: 10px">公告通知</el-menu-item>
-        <el-menu-item index="3" style="width:34%;border-bottom: none"><img src="https://js.lintcode.com/react/assets/71cd1f5d55eade3e0628e512425433cd.svg" style="padding-right: 10px">讨论交流</el-menu-item>
+        <el-menu-item index="3" style="width:34%;border-bottom: none"><img src="https://jstc.lintcode.com/lintcode-react/assets/71cd1f5d55eade3e0628e512425433cd.svg" style="padding-right: 10px">讨论交流</el-menu-item>
       </el-menu>
     </div>
     <!--    题目类型-->

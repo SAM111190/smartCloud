@@ -27,8 +27,7 @@
             <el-tag type="light">楼主</el-tag>
            {{forum.time}}
           </div>
-          <div class="post_content">
-          {{forum.content}}
+          <div class="post_content" v-html="forum.content">
           </div>
           <div class="likes">
             <el-button type="success" size="default">
@@ -61,8 +60,7 @@
           <div class="post_source_down">
             {{item.time }}
           </div>
-          <div class="post_content">
-            {{item.content }}
+          <div class="post_content" v-html="item.content">
           </div>
           <div class="likes">
             <el-button type="primary" size="default" @click="handleReply(item.id)">
@@ -131,7 +129,8 @@
               id="reply_form"
               :rules="rules">
             <el-form-item prop="content">
-              <el-input v-model="form.content" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>
+              <div id="richText" style="z-index: 1;width: 100%"></div>
+<!--              <el-input v-model="form.content" type="textarea" placeholder="在这里输入你要发布的内容" :rows="15" maxlength="1000" show-word-limit></el-input>-->
             </el-form-item>
             <el-form-item prop="treaty">
               <el-checkbox v-model="form.treaty" size="large">
@@ -145,26 +144,33 @@
       </div>
       <!--          清除浮动效果-->
       <div class="clear_float"/>
-
     </el-card>
     <el-dialog title="回复" v-model="dialogFormVisible" width="30%" >
-      <el-form label-width="100px" size="small">
+      <el-form label-width="100px">
         <el-form-item label="回复内容">
           <el-input style="width: 80%" type="textarea" v-model="form.contentReply" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="treaty">
+          <el-checkbox v-model="form.treaty">
+            我同意且遵守
+            <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
+          </el-checkbox>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="post"  size="small">确 定</el-button>
+        <el-button type="primary" @click="post"  size="small">回复</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import wangEditor from "wangeditor"
 import request from "@/utils/request";
 export default {
   name: "post_detail",
+  inject:['reload'],
   data() {
     return {
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
@@ -174,10 +180,10 @@ export default {
       id:this.$route.query.index,
       dialogFormVisible: false,
       rules:{
-        content: [
-          { required: true, message: '请输入回复的内容', trigger: 'blur' },
-          { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
-        ],
+        // content: [
+        //   { required: true, message: '请输入回复的内容', trigger: 'blur' },
+        //   { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
+        // ],
         treaty: [
           {
             required: true,
@@ -191,6 +197,22 @@ export default {
   created() {
     this.load();
     this.loadComment()
+  },
+  mounted() {
+    this.editor = new wangEditor("#richText");
+    this.editor.config.excludeMenus = [
+      'video',
+      'backColor',
+      'link',
+      'list',
+      'todo',
+      'justify',
+      'quote',
+      'table',
+      'code',
+    ]
+    this.editor.create();
+    this.editor.config.uploadVideoServer = 'http://localhost:9876/file/uploadImg'
   },
   methods: {
     load(){
@@ -216,22 +238,30 @@ export default {
     post() {
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求
+          this.form.forumId = this.id
+          if (this.form.contentReply) {
+            this.form.content = this.form.contentReply
+          }
+          else{
+            const content = this.editor.txt.html()
+            console.log(content)
+            //富文本框手动赋值
+            this.form.content = content
+          }
+          request.post("/comment", this.form).then(res => {
+            if (res.code === '200') {
+              this.$message.success("评论成功")
+              this.form = {}  // 初始化评论对象内容
+              this.editor.txt.html('')// 清除富文本框的内容
+              this.loadComment()
+              this.dialogFormVisible = false
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+          this.reload()
         }
       })
-        this.form.forumId = this.id
-        if (this.form.contentReply) {
-          this.form.content = this.form.contentReply
-        }
-       request.post("/comment", this.form).then(res => {
-          if (res.code === '200') {
-            this.$message.success("评论成功")
-            this.form = {}  // 初始化评论对象内容
-            this.loadComment()
-            this.dialogFormVisible = false
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
     },
     reply() {
       reply_form.scrollIntoView();
@@ -312,8 +342,6 @@ export default {
 }
 .post_content {
   margin-top: 20px;
-  font-size: 14px;
-  letter-spacing: 2px;
   margin-bottom: 200px;
 }
 .likes {
