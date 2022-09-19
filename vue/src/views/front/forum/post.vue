@@ -119,15 +119,21 @@ export default {
       this.form.content = content
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求
-          request.post("/forum/insert",this.form).then(res => {
-            if(res) {
-              this.$message.success("发布成功")
-              this.$router.push('/front/forum')
-            }else
-            {
-              this.$message.error("发布失败")
-            }
-          })
+          if(!content)
+          {
+            this.$message.error("请填写内容")
+          }
+          else {
+            request.post("/forum/insert",this.form).then(res => {
+              if(res) {
+                this.$message.success("发布成功")
+                this.$router.push('/front/forum')
+              }else
+              {
+                this.$message.error("发布失败")
+              }
+            })
+          }
         }
       })
     },

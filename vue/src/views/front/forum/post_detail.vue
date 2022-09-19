@@ -147,12 +147,16 @@
       <div class="clear_float"/>
     </el-card>
     <el-dialog title="回复" v-model="dialogFormVisible" width="30%" >
-      <el-form label-width="100px">
-        <el-form-item label="回复内容">
+      <el-form
+          label-width="100px"
+          ref="form"
+          :model="form"
+          :rules="rules">
+        <el-form-item label="回复内容" prop="contentReply">
           <el-input style="width: 80%" type="textarea" v-model="form.contentReply" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item prop="treaty">
-          <el-checkbox v-model="form.treaty">
+        <el-form-item prop="treaty1">
+          <el-checkbox v-model="form.treaty1">
             我同意且遵守
             <a href="https://www.baidu.com">智慧云平台讨论区管理条约</a>
           </el-checkbox>
@@ -192,6 +196,16 @@ export default {
             message: '请在阅读条例后勾选同意',
             trigger: 'change',
           },
+        ],
+        treaty1: [
+          {
+            required: true,
+            message: '请在阅读条例后勾选同意',
+            trigger: 'change',
+          },
+        ],
+        contentReply: [
+          { required: true, message: '请输入回复的内容', trigger: 'blur' },
         ],
       },
     }
@@ -251,18 +265,23 @@ export default {
             //富文本框手动赋值
             this.form.content = content
           }
-          request.post("/comment", this.form).then(res => {
-            if (res.code === '200') {
-              this.$message.success("评论成功")
-              this.form = {}  // 初始化评论对象内容
-              editor.txt.html('')// 清除富文本框的内容
-              this.loadComment()
-              this.dialogFormVisible = false
-            } else {
-              this.$message.error(res.msg)
-            }
-          })
-          this.reload()
+          if(!this.form.content) {
+            this.$message.error("请输入回复内容")
+          }
+          else {
+            request.post("/comment", this.form).then(res => {
+              if (res.code === '200') {
+                this.$message.success("评论成功")
+                this.form = {}  // 初始化评论对象内容
+                editor.txt.html('')// 清除富文本框的内容
+                this.loadComment()
+                this.dialogFormVisible = false
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+            this.reload()
+          }
         }
       })
     },

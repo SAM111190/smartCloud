@@ -15,7 +15,7 @@
           <el-input v-model="form.username" :prefix-icon="Avatar" placeholder="用户名"/>
         </el-form-item>
         <el-form-item prop="address">
-          <el-input v-model="form.address"   :prefix-icon="Message" placeholder="邮箱"/>
+          <el-input v-model="form.address" :prefix-icon="Message" placeholder="邮箱"/>
         </el-form-item>
           <el-form-item prop="code">
             <el-input v-model="form.code"  style="width: 348px" :prefix-icon="Files" placeholder="请输入验证码"/>

@@ -81,7 +81,7 @@
     <div class="mid">
 <!--      遮罩层-->
       <div  class="iframeDiv"></div>
-      <iframe src="http://localhost:8889/lab"  frameborder="0" width="100%" height="100%"> </iframe>
+      <iframe src="http://localhost:8888/lab"  frameborder="0" width="100%" height="100%"> </iframe>
     </div>
   </div>
 </template>
