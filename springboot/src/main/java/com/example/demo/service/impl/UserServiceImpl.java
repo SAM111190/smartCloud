@@ -156,7 +156,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);//发送人(必须写)
         message.setTo(address);//收件人
-        message.setSubject("【智能云实验平台】忘记密码验证");//主题
+        message.setSubject("【智慧云实验平台】忘记密码验证");//主题
         String code = RandomUtil.randomNumbers(4);//随机生成一个4位的验证码
         message.setText("您本次忘记密码的验证码是：" + code + "，有效期5分钟，请妥善保管，切勿泄露。");//内容
         message.setSentDate(now);//发送日期
