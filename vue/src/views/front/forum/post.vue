@@ -103,7 +103,6 @@ export default {
       'justify',
       'quote',
       'table',
-      'code',
     ]
     editor.config.uploadImgServer = 'http://localhost:9091/file/uploadImg'
     editor.config.uploadFileName='file'

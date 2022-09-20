@@ -5,11 +5,13 @@
         <div style="margin: 10px">
         <h1>{{questions.number+'    '+questions.name}}</h1>
         <div class="bar">
-          <span style="font-size: 15px;padding-right: 10px;cursor: pointer">难度：<el-tag :type="(questions.difficulty == '入门'?'':(questions.difficulty == '简单'?'warning':(questions.difficulty == '进阶'?'success':(questions.difficulty == '困难'?'danger':'info'))))" effect="dark">{{questions.difficulty}}</el-tag></span>
+          难度：<el-tag :type="(questions.difficulty == '入门'?'':(questions.difficulty == '简单'?'warning':(questions.difficulty == '进阶'?'success':(questions.difficulty == '困难'?'danger':'info'))))" effect="dark">{{questions.difficulty}}</el-tag>
             <el-rate @click="save" v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                     :max="5"
+                     :max="4"
                      show-text
-                     :texts="['入门', '简单', '进阶', '困难','非常困难']"></el-rate>
+                     :texts="['入门', '简单', '进阶', '困难']"
+                     style="position: relative;left: 10px;top: 5px"
+            />
 
         </div>
         <el-divider />
@@ -54,8 +56,8 @@
       </el-scrollbar>
       <div class="bottom_bar">
         <el-button type="info" size="default" @click="back">返回</el-button>
-          <el-button type="primary" size="default">上一题</el-button>
-          <el-button type="primary" size="default">下一题</el-button>
+          <el-button type="primary" size="default" @click="drawer = true">查看题解</el-button>
+          <el-button type="primary" size="default" @click="submitCoding = true">提交代码</el-button>
       </div>
     </div>
     <div class="resize" @mouseup="changeIframeDivStyle('none')" @mousedown="changeIframeDivStyle('')">
@@ -66,6 +68,30 @@
       <div  class="iframeDiv"></div>
       <iframe src="http://localhost:8888/lab"  frameborder="0" width="100%" height="100%"> </iframe>
     </div>
+    <!--  题解-->
+    <el-drawer v-model="drawer" direction="ltr" title="题解">
+      <div class="answer">
+        这里放题解
+      </div>
+    </el-drawer>
+<!--    提交-->
+    <el-dialog v-model="submitCoding" title="提交代码">
+      <el-form
+          ref="form"
+          :model="form"
+          label-width="10px"
+          style="margin-top: 25px"
+          :rules="rules"
+      >
+        <el-form-item prop="content">
+          <el-input v-model="form.content" type="textarea" placeholder="在这里输入你的代码" :rows="15" maxlength="1000" show-word-limit></el-input>
+        </el-form-item>
+      </el-form>
+      <div style="text-align: center">
+        <el-button type="primary" @click="submit">提交</el-button>
+        <el-button type="info" @click="submitCoding = false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -75,10 +101,19 @@ export default {
   name: "question_doing",
   data() {
     return {
+      submitCoding:false,
       form:{},
       loading:'',
       questions:[],
       id:'',
+      drawer:false,
+      form:{},
+      rules:{
+        content: [
+          { required: true, message: '请输入代码', trigger: 'blur' },
+          { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
+        ],
+      },
       value:0,
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
     }
@@ -94,9 +129,14 @@ export default {
   mounted() {
     this.dragControllerDiv();
     this.changeIframeDivStyle('none');
-
   },
   methods: {
+    submit() {
+      this.$refs['form'].validate((valid) => {
+        if(valid) {   //判断是否满足验证规则，才能进行下面的请求
+        }
+      })
+    },
     async getUser() {
       return (await request.get("/user/username/" + this.user.username)).data
     },

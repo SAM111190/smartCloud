@@ -63,7 +63,7 @@ import {ArrowLeft,Search} from "@element-plus/icons";
 import request from "@/utils/request";
 import tab from "@/components/foreground/tab"
 export default {
-  name: "C++",
+  name: "Python",
   components:{
     tab,
   },

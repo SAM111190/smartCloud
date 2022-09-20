@@ -27,8 +27,8 @@
     <div class="header">各类题目齐上阵，快速提高编程能力</div>
       <el-row>
         <el-col :span="5">
-          <div @click="$router.push('/front/C++')" class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/202206/bd0f7b39-8c44-4da0-9990-d2f7cae50c7f.png')">
-            <span class="title">C++</span>
+          <div @click="$router.push('/front/Python')" class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/4/2/c212b0ce-938f-11eb-83d2-0242ac1d0002/Python%E7%B1%BB%E5%9E%8B%E5%8D%A1%E7%89%87%E8%83%8C%E6%99%AF.png')">
+            <span class="title">Python</span>
             <span class="number">6道题</span>
           </div>
         </el-col>

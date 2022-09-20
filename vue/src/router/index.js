@@ -78,9 +78,9 @@ const routes = [
         component: () => import("@/views/front/Programming")
       },
       {
-        path: 'C++',
-        name: 'C++',
-        component: () => import("@/views/front/list/C++")
+        path: 'Python',
+        name: 'Python',
+        component: () => import("@/views/front/list/Python")
       },
       {
         path: 'forum',
