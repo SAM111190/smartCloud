@@ -45,7 +45,9 @@
 </template>
 
 <script>
-import wangEditor from "wangeditor"
+import wangEditor from "wangeditor";
+import hljs from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
 import request from "@/utils/request";
 import {UploadFilled} from "@element-plus/icons";
 let editor;
@@ -94,9 +96,12 @@ export default {
   },
   mounted() {
     editor = new wangEditor("#richText");
+    editor.config.focus = false
+    editor.highlight = hljs
     editor.config.excludeMenus = [
       'video',
       'backColor',
+
       'link',
       'list',
       'todo',

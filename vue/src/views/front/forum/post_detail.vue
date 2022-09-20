@@ -172,6 +172,8 @@
 
 <script>
 import wangEditor from "wangeditor"
+import hljs from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
 import request from "@/utils/request";
 let editor;
 export default {
@@ -216,6 +218,8 @@ export default {
   },
   mounted() {
     editor = new wangEditor("#richText");
+    editor.config.focus = false
+    editor.highlight = hljs
     editor.config.excludeMenus = [
       'video',
       'backColor',
@@ -225,7 +229,6 @@ export default {
       'justify',
       'quote',
       'table',
-      'code',
     ]
     editor.config.uploadImgServer = 'http://localhost:9091/file/uploadImg'
     editor.config.uploadFileName='file'
