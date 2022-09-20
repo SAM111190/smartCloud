@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -55,6 +56,10 @@ public class Question implements Serializable {
   private String output;
   @ApiModelProperty("提示")
   private String tips;
+  @ApiModelProperty("评分")
+  private BigDecimal rate;
+  @ApiModelProperty("评分点击次数")
+  private Integer rClick;
 
 
 }

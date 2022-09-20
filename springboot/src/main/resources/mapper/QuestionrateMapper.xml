@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.QuestionrateMapper">
+    <select id="selectflag" parameterType="Integer" resultType="com.example.demo.entity.Questionrate">
+        select
+            *
+        from
+            questionrate
+        where question_id = #{questionId} and user_id=#{userId}
+    </select>
+    <update id="update">
+        update questionrate
+        set
+            rate=#{rate}
+         where   question_id = #{questionId} and user_id=#{userId}
+    </update>
+</mapper>

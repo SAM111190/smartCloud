@@ -6,28 +6,11 @@
         <h1>{{questions.number+'    '+questions.name}}</h1>
         <div class="bar">
           <span style="font-size: 15px;padding-right: 10px;cursor: pointer">难度：<el-tag :type="(questions.difficulty == '入门'?'':(questions.difficulty == '简单'?'warning':(questions.difficulty == '进阶'?'success':(questions.difficulty == '困难'?'danger':'info'))))" effect="dark">{{questions.difficulty}}</el-tag></span>
-          <button class="button">
-            <svg viewBox="0 0 24 24" width="1em" height="1em" class="css-1lc17o4-icon">
-              <path
-                  d="M7 19v-8H4v8h3zM7 9c0-.55.22-1.05.58-1.41L14.17 1l1.06 1.05c.27.27.44.65.44 1.06l-.03.32L14.69 8H21c1.1 0 2 .9 2 2v2c0 .26-.05.5-.14.73l-3.02 7.05C19.54 20.5 18.83 21 18 21H4a2 2 0 01-2-2v-8a2 2 0 012-2h3zm2 0v10h9l3-7v-2h-9l1.34-5.34L9 9z">
-              </path>
-            </svg>
-            <span>114514</span>
-          </button>
-          <button class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="css-1rhb60f-Svg ea8ky5j0">
-              <path d="M15.392 8.23l5.695.832a.942.942 0 01.521 1.607l-4.12 4.013.972 5.67a.942.942 0 01-1.367.993L12 18.667l-5.093 2.678a.942.942 0 01-1.367-.993l.972-5.67-4.12-4.013a.942.942 0 01.52-1.607l5.696-.833 2.547-5.16a.942.942 0 011.69 0l2.547 5.16zm-1.329 1.826L12 5.876l-2.063 4.18-4.615.675 3.34 3.252-.789 4.594L12 16.407l4.127 2.17-.788-4.594 3.34-3.252-4.616-.675z">
-              </path>
-            </svg>
-            <span>16168</span>
-          </button>
-          <button class="button">
-            <svg viewBox="0 0 24 24" width="1em" height="1em" class="css-1lc17o4-icon">
-              <path d="M17 5V2l5 5h-9a2 2 0 00-2 2v8H9V9a4 4 0 014-4h4zm3 14V9h2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h3v2H4v14h16z">
-              </path>
-            </svg>
-            <span>分享</span>
-          </button>
+            <el-rate @click="save" v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                     :max="5"
+                     show-text
+                     :texts="['入门', '简单', '进阶', '困难','非常困难']"></el-rate>
+
         </div>
         <el-divider />
         <div class="content">
@@ -92,14 +75,21 @@ export default {
   name: "question_doing",
   data() {
     return {
+      form:{},
       loading:'',
       questions:[],
       id:'',
+      value:0,
+      user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
     }
   },
   created() {
     this.getData();
     this.load();
+    this.getUser().then(res => {
+      console.log(res)
+      this.questions.userId=res.id
+    })
   },
   mounted() {
     this.dragControllerDiv();
@@ -107,6 +97,42 @@ export default {
 
   },
   methods: {
+    async getUser() {
+      return (await request.get("/user/username/" + this.user.username)).data
+    },
+    save(){
+      // this.getUser().then(res => {
+      //   console.log(res)
+      //   this.questions.userId=res.id
+      // })
+      this.qid=this.$route.query.index
+      this.questions.rate=this.value
+      this.questions.questionId=this.qid
+      request.get("/questionrate/"+this.questions.questionId+"/"+this.questions.userId).then(res => {
+        if(res.data!='') {
+          res.data.rate=this.value
+          request.post("/questionrate/update",this.questions).then(res => {
+            if(res) {
+              this.$message.success("评分成功")
+            }else
+            {
+              this.$message.error("发布失败")
+            }
+          })
+        }
+        else
+        {
+          request.post("/questionrate/insert",this.questions).then(res => {
+            if(res) {
+              this.$message.success("评分成功")
+            }else
+            {
+              this.$message.error("发布失败")
+            }
+          })
+        }
+      })
+    },
     load(){
       this.qid=this.$route.query.index
       //this.qid=this.$route.query.id
