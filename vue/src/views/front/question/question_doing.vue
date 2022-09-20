@@ -1,6 +1,31 @@
 <template>
   <div class="box" ref="box">
+    <el-menu
+        :default-active="activeIndex"
+        mode="horizontal"
+        @select="handleSelect"
+        background-color="#f7f7f7"
+        text-color="#a29890"
+        active-text-color="#777763"
+        style="height: 40px"
+    >
+      <el-menu-item index="1">
+        <svg viewBox="0 0 24 24" width="1em" height="1em" fill="#777763" style="margin-right: 5px">
+          <path fill-rule="evenodd" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6v-2zm0 4h8v2H6v-2zm10 0h2v2h-2v-2zm-6-4h8v2h-8v-2z">
+        </path>
+        </svg>
+        题目描述
+      </el-menu-item>
+      <el-menu-item index="2">
+        <svg viewBox="0 0 24 24" width="1em" height="1em" fill="#777763" style="margin-right: 5px">
+          <path fill-rule="evenodd" d="M5.016 17.995c0 .282.093.517.28.705.188.187.423.297.704.328h12a1.14 1.14 0 00.703-.328.902.902 0 00.281-.658c0-.25-.062-.454-.187-.61l-5.813-9.094V3.972h-1.968v4.366l-5.813 9.094a.875.875 0 00-.187.563zM6 21c-.844 0-1.547-.282-2.11-.845-.562-.563-.859-1.283-.89-2.16 0-.594.172-1.126.516-1.596L9 7.822V5.99a.953.953 0 01-.703-.282.956.956 0 01-.281-.704V3.972c0-.564.187-1.033.562-1.409C8.953 2.188 9.422 2 9.984 2h4.032c.562 0 1.03.188 1.406.563.375.376.562.845.562 1.409v1.033a.956.956 0 01-.28.704.953.953 0 01-.704.282v1.83l5.484 8.578c.344.47.516 1.002.516 1.596-.031.877-.328 1.597-.89 2.16-.563.563-1.266.845-2.11.845H6z">
+          </path>
+        </svg>
+        题目题解
+      </el-menu-item>
+    </el-menu>
     <div class="left" v-loading="loading">
+      <div v-if="activeIndex === '1'">
       <el-scrollbar height="100%">
         <div style="margin: 10px">
         <h1>{{questions.number+'    '+questions.name}}</h1>
@@ -54,9 +79,16 @@
         </div>
         </div>
       </el-scrollbar>
+      </div>
+      <div v-else-if="activeIndex === '2'">
+        <el-scrollbar height="100%">
+          <div style="margin: 10px">
+            这里是题解
+          </div>
+        </el-scrollbar>
+      </div>
       <div class="bottom_bar">
         <el-button type="info" size="default" @click="back">返回</el-button>
-          <el-button type="primary" size="default" @click="drawer = true">查看题解</el-button>
           <el-button type="primary" size="default" @click="submitCoding = true">提交代码</el-button>
       </div>
     </div>
@@ -68,12 +100,6 @@
       <div  class="iframeDiv"></div>
       <iframe src="http://localhost:8888/lab"  frameborder="0" width="100%" height="100%"> </iframe>
     </div>
-    <!--  题解-->
-    <el-drawer v-model="drawer" direction="ltr" title="题解">
-      <div class="answer">
-        这里放题解
-      </div>
-    </el-drawer>
 <!--    提交-->
     <el-dialog v-model="submitCoding" title="提交代码">
       <el-form
@@ -101,13 +127,13 @@ export default {
   name: "question_doing",
   data() {
     return {
+      activeIndex:'1',
       submitCoding:false,
       form:{},
       loading:'',
       questions:[],
       id:'',
       drawer:false,
-      form:{},
       rules:{
         content: [
           { required: true, message: '请输入代码', trigger: 'blur' },
@@ -131,6 +157,9 @@ export default {
     this.changeIframeDivStyle('none');
   },
   methods: {
+    handleSelect(key){
+      this.activeIndex = key;
+    },
     submit() {
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求
@@ -249,7 +278,7 @@ export default {
   .bottom_bar {
     height: 20px;
     border-top: 1px solid #ccc;
-    padding: 5px 5px;
+    padding: 10px 5px;
   }
   .bar {
     margin-top: 10px;
@@ -309,7 +338,7 @@ export default {
   /*左侧div样式*/
   .left {
     width: calc(50vw - 10px);  /*左侧初始化宽度*/
-    height: calc(100vh - 120px);
+    height: calc(100vh - 160px);
     background: #FFFFFF;
     float: left;
     padding-right: 0;
@@ -341,7 +370,7 @@ export default {
   .mid {
     float: right;
     width: 50vw;   /*右侧初始化宽度*/
-    height: calc(100vh - 60px);
+    height: calc(100vh - 100px);
     background: #fff;
     box-shadow: -1px 4px 5px 3px rgba(0, 0, 0, 0.11);
   }
