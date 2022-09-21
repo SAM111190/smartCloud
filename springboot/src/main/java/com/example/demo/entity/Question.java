@@ -60,6 +60,8 @@ public class Question implements Serializable {
   private BigDecimal rate;
   @ApiModelProperty("评分点击次数")
   private Integer rClick;
+  @ApiModelProperty("题解")
+  private String solve;
 
 
 }

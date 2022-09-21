@@ -83,7 +83,7 @@
       <div v-else-if="activeIndex === '2'">
         <el-scrollbar height="100%">
           <div style="margin: 10px">
-            这里是题解
+            {{questions.solve}}
           </div>
         </el-scrollbar>
       </div>
