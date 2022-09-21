@@ -30,7 +30,7 @@
                          :filter-method="filterHandler"
         >
           <template #default="scope">
-            <el-tag :type="(scope.row.difficulty == '入门'?'':(scope.row.difficulty == '简单'?'warning':(scope.row.difficulty == '进阶'?'success':(scope.row.difficulty == '困难'?'danger':'info'))))" effect="dark">{{scope.row.difficulty}}</el-tag>
+            <el-tag :type="(scope.row.difficulty === '入门'?'':(scope.row.difficulty === '简单'?'warning':(scope.row.difficulty === '进阶'?'success':(scope.row.difficulty === '困难'?'danger':'info'))))" effect="dark">{{scope.row.difficulty}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="name" label="题目" width="200px"/>
