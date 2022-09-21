@@ -14,4 +14,15 @@
             rate=#{rate}
          where   question_id = #{questionId} and user_id=#{userId}
     </update>
+    <update id="updaterate">
+        UPDATE question x
+        SET x.rate =
+                (
+                    SELECT RESULT.avg
+                    FROM(SELECT AVG(questionrate.rate) AS avg
+                         FROM question,questionrate
+                         WHERE question.id = questionrate.question_id AND x.id = question.id
+                         GROUP BY questionrate.question_id ) RESULT
+                )
+    </update>
 </mapper>
