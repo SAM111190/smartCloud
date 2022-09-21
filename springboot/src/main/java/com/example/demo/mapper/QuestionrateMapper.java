@@ -25,4 +25,5 @@ public interface QuestionrateMapper extends BaseMapper<Questionrate> {
     int insert(Questionrate questionrate);
 List<Questionrate> selectflag(Integer questionId, Integer userId);
 boolean update(Questionrate questionrate);
+boolean updaterate(Questionrate questionrate);
 }

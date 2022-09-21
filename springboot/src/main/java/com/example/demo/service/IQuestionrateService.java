@@ -17,4 +17,5 @@ import java.util.List;
 public interface IQuestionrateService extends IService<Questionrate> {
     List<Questionrate> selectflag(Integer questionId, Integer userId);
     boolean update(Questionrate questionrate);
+    boolean updaterate(Questionrate questionrate);
 }

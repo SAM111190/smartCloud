@@ -33,4 +33,10 @@ private QuestionrateMapper questionrateMapper;
         return questionrateMapper.update(questionrate);
     }
 
+    @Override
+    public boolean updaterate(Questionrate questionrate)
+    {
+        return questionrateMapper.updaterate(questionrate);
+    }
+
 }

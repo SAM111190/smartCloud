@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("//questionrate")
         public class QuestionrateController {
-    
+
 @Resource
 private IQuestionrateService questionrateService;
     @Resource
@@ -48,6 +48,7 @@ public Result save(@RequestBody Questionrate questionrate) {
         String current = new SimpleDateFormat("yyyy.MM.dd HH:mm").format( new Date());
         questionrate.setTime(current);
         questionrateService.update(questionrate);
+        questionrateService.updaterate(questionrate);
         return Result.success();
     }
 

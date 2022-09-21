@@ -29,31 +29,26 @@
         <el-col :span="5">
           <div @click="$router.push('/front/Python')" class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/4/2/c212b0ce-938f-11eb-83d2-0242ac1d0002/Python%E7%B1%BB%E5%9E%8B%E5%8D%A1%E7%89%87%E8%83%8C%E6%99%AF.png')">
             <span class="title">Python</span>
-            <span class="number">6道题</span>
           </div>
         </el-col>
         <el-col :span="5">
           <div class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/4/2/b421c05e-938f-11eb-83d2-0242ac1d0002/JAVA%E7%B1%BB%E5%9E%8B%E5%8D%A1%E7%89%87%E8%83%8C%E6%99%AF.png')">
             <span class="title">Java</span>
-            <span class="number">6道题</span>
           </div>
         </el-col>
         <el-col :span="5">
           <div class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/4/2/39854fcc-9390-11eb-9724-0242ac1d0002/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8D%A1%E7%89%87%E8%83%8C%E6%99%AF.png')">
             <span class="title">大数据</span>
-            <span class="number">6道题</span>
           </div>
         </el-col>
         <el-col :span="5">
           <div class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/4/2/f68e063e-9374-11eb-83d2-0242ac1d0002/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%B1%BB%E5%9E%8B%E5%8D%A1%E7%89%87%E8%83%8C%E6%99%AF.png')">
             <span class="title">人工智能</span>
-            <span class="number">6道题</span>
           </div>
         </el-col>
         <el-col :span="4">
           <div class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/3/29/b9e2950a-9041-11eb-9724-0242ac1d0002/2021329-114850.png')">
             <span class="title">算法汇总</span>
-            <span class="number">6道题</span>
           </div>
         </el-col>
       </el-row>

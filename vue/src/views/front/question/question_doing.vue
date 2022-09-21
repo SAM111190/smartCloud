@@ -1,5 +1,5 @@
 <template>
-  <div class="box" ref="box">
+  <div class="menu">
     <el-menu
         :default-active="activeIndex"
         mode="horizontal"
@@ -12,7 +12,7 @@
       <el-menu-item index="1">
         <svg viewBox="0 0 24 24" width="1em" height="1em" fill="#777763" style="margin-right: 5px">
           <path fill-rule="evenodd" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6v-2zm0 4h8v2H6v-2zm10 0h2v2h-2v-2zm-6-4h8v2h-8v-2z">
-        </path>
+          </path>
         </svg>
         题目描述
       </el-menu-item>
@@ -24,9 +24,11 @@
         题目题解
       </el-menu-item>
     </el-menu>
+  </div>
+  <div class="box" ref="box">
     <div class="left" v-loading="loading">
-      <div v-if="activeIndex === '1'">
       <el-scrollbar height="100%">
+      <div v-if="activeIndex === '1'">
         <div style="margin: 10px">
         <h1>{{questions.number+'    '+questions.name}}</h1>
         <div class="bar">
@@ -37,7 +39,6 @@
                      :texts="['入门', '简单', '进阶', '困难']"
                      style="position: relative;left: 10px;top: 5px"
             />
-
         </div>
         <el-divider />
         <div class="content">
@@ -78,15 +79,13 @@
           <img  :src="questions.src">
         </div>
         </div>
-      </el-scrollbar>
       </div>
+<!--        题解-->
       <div v-else-if="activeIndex === '2'">
-        <el-scrollbar height="100%">
-          <div style="margin: 10px">
-            {{questions.solve}}
+          <div style="margin: 10px" v-html="questions.solve">
           </div>
-        </el-scrollbar>
       </div>
+      </el-scrollbar>
       <div class="bottom_bar">
         <el-button type="info" size="default" @click="back">返回</el-button>
           <el-button type="primary" size="default" @click="submitCoding = true">提交代码</el-button>
@@ -330,7 +329,7 @@ export default {
   /*包围div样式*/
   .box {
     width: 100vw;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 100px);
     margin: 0px;
     overflow: hidden;
     box-shadow: -1px 9px 10px 3px rgba(0, 0, 0, 0.11);
