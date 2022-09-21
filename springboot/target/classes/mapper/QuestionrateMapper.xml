@@ -25,4 +25,20 @@
                          GROUP BY questionrate.question_id ) RESULT
                 )
     </update>
+    <update id="updated1">
+        UPDATE question x
+        SET x.difficulty ='入门' where x.rate=1;
+    </update>
+    <update id="updated2">
+        UPDATE question x
+        SET x.difficulty ='简单' where x.rate=2;
+    </update>
+    <update id="updated3">
+        UPDATE question x
+        SET x.difficulty ='进阶' where x.rate=3;
+    </update>
+    <update id="updated4">
+        UPDATE question x
+        SET x.difficulty ='困难' where x.rate=4;
+    </update>
 </mapper>

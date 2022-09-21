@@ -49,6 +49,10 @@ public Result save(@RequestBody Questionrate questionrate) {
         questionrate.setTime(current);
         questionrateService.update(questionrate);
         questionrateService.updaterate(questionrate);
+        questionrateService.updated1(questionrate);
+        questionrateService.updated2(questionrate);
+        questionrateService.updated3(questionrate);
+        questionrateService.updated4(questionrate);
         return Result.success();
     }
 

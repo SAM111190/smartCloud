@@ -26,4 +26,8 @@ public interface QuestionrateMapper extends BaseMapper<Questionrate> {
 List<Questionrate> selectflag(Integer questionId, Integer userId);
 boolean update(Questionrate questionrate);
 boolean updaterate(Questionrate questionrate);
+    boolean updated1(Questionrate questionrate);
+    boolean updated2(Questionrate questionrate);
+    boolean updated3(Questionrate questionrate);
+    boolean updated4(Questionrate questionrate);
 }

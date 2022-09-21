@@ -1,5 +1,4 @@
 <template>
-  <div>
   <div class="menu">
     <el-menu
         :default-active="activeIndex"
@@ -34,7 +33,7 @@
         <h1>{{questions.number+'    '+questions.name}}</h1>
         <div class="bar">
           难度：<el-tag :type="(questions.rate === 1?'':(questions.rate === 2?'warning':(questions.rate === 3?'success':(questions.rate === 4?'danger':'info'))))" effect="dark">
-          {{difficulty}}
+          {{questions.difficulty}}
         </el-tag>
             <el-rate @click="save" v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
                      :max="4"
@@ -121,7 +120,6 @@
       </div>
     </el-dialog>
   </div>
-  </div>
 </template>
 
 <script>
@@ -147,7 +145,6 @@ export default {
       },
       value:0,
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
-      difficulty:'',
     }
   },
   created() {
@@ -221,7 +218,6 @@ export default {
             }
       }).then(res=>{
         this.questions = res.data
-        this.difficulty = (res.data.rate === 1?'入门':(res.data.rate === 2?'简单':(res.data.rate  === 3?'进阶':(res.data.rate  === 4?'困难':'暂无'))));
       })
     },
     changeIframeDivStyle(display) {

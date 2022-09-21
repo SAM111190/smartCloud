@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -57,7 +58,7 @@ public class Question implements Serializable {
   @ApiModelProperty("提示")
   private String tips;
   @ApiModelProperty("评分")
-  private BigDecimal rate;
+  private Integer rate;
   @ApiModelProperty("评分点击次数")
   private Integer rClick;
   @ApiModelProperty("题解")
