@@ -1,5 +1,5 @@
 <template>
-<!--  前台头部导航栏和右底部联系我们-->
+<!--  前台头部导航栏-->
   <div>
     <front_header :user="user"></front_header>
   </div>

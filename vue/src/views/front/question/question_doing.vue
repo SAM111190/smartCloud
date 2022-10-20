@@ -99,7 +99,7 @@
     <div class="mid">
 <!--      遮罩层-->
       <div  class="iframeDiv"></div>
-      <iframe src="http://localhost:8888/lab"  frameborder="0" width="100%" height="100%"> </iframe>
+      <iframe src="" id="ide"  frameborder="0" width="100%" height="100%"> </iframe>
     </div>
 <!--    提交-->
     <el-dialog v-model="submitCoding" title="提交代码">
@@ -144,22 +144,49 @@ export default {
         ],
       },
       value:0,
+      website:'http://',
+      website2:'',
+      status:'Creating',
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
     }
   },
   created() {
     this.getData();
     this.load();
-    this.getUser().then(res => {
-      console.log(res)
-      this.questions.userId=res.id
-    })
   },
   mounted() {
+    this.getWebsite();
     this.dragControllerDiv();
     this.changeIframeDivStyle('none');
   },
   methods: {
+    async getWebsite() {
+      await this.getStatus();
+      let i = 300;
+      while(!this.website.startsWith("http://www.voyager-alpha.com/jupyter/") && i >= 0) {
+        await fetch("http://47.103.2.253:30035/trainplat/getPodStatus?userId=001").then(res => res.json()).then(res => {
+          this.website += res.data.autoscalerIp;
+          if(this.website.startsWith("http://www.voyager-alpha.com/jupyter/")){
+            setTimeout(() => {
+              document.getElementById("ide").src = this.website;
+              console.log(document.getElementById("ide").src,"src")
+            })
+          }
+        })
+        i--;
+        this.sleep(100);
+      }
+    },
+    getStatus() { //获取创建状态
+      fetch("http://47.103.2.253:30035/trainplat/createPod?userId=001",{method:'POST'}).then(res => res.json()).then(res => {
+        if(res.data !== '容器已被创建') {
+          this.$message.info("正在初始化IDE，请稍候")
+        }
+        else {
+          this.$message.success("IDE启动成功")
+        }
+      });
+    },
     handleSelect(key){
       this.activeIndex = key;
     },
@@ -169,8 +196,8 @@ export default {
         }
       })
     },
-    async getUser() {
-      return (await request.get("/user/username/" + this.user.username)).data
+    sleep(ms) {
+      for (let t = Date.now(); Date.now() - t <= ms;);
     },
     save(){
       // this.getUser().then(res => {
@@ -181,7 +208,7 @@ export default {
       this.questions.rate=this.value
       this.questions.questionId=this.qid
       request.get("/questionrate/"+this.questions.questionId+"/"+this.questions.userId).then(res => {
-        if(res.data!='') {
+        if(res.data !== '') {
           res.data.rate=this.value
           request.post("/questionrate/update",this.questions).then(res => {
             if(res) {

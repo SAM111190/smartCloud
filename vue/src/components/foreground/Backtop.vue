@@ -13,7 +13,7 @@
 import {ArrowUpBold} from "@element-plus/icons-vue";
 export default {
   name: "Backtop",
-  date() {
+  data() {
     return{
       ArrowUpBold,
     }

@@ -18,7 +18,7 @@
           style="border: 1px solid #ededed;border-radius: 8px;height: 50px;"
       >
         <el-menu-item index="1" style="border-right:1px solid #ededed;box-sizing:border-box;width:33%;border-bottom: none;"><img src="https://jstc.lintcode.com/lintcode-react/assets/2dda933de47e369fc233768004aea60f.svg" style="padding-right: 10px">题目类型</el-menu-item>
-        <el-menu-item index="2" style="border-right:1px solid #ededed;box-sizing:border-box;width:33%;border-bottom: none"><img src="https://js.lintcode.com/react/assets/7cd6346ec22d7ad180e2a2747830a45e.svg" style="padding-right: 10px">公告通知</el-menu-item>
+        <el-menu-item index="2" style="border-right:1px solid #ededed;box-sizing:border-box;width:33%;border-bottom: none"><img src="https://jstc.lintcode.com/lintcode-react/assets/7cd6346ec22d7ad180e2a2747830a45e.svg" style="padding-right: 10px">公告通知</el-menu-item>
         <el-menu-item index="3" style="width:34%;border-bottom: none"><img src="https://jstc.lintcode.com/lintcode-react/assets/71cd1f5d55eade3e0628e512425433cd.svg" style="padding-right: 10px">讨论交流</el-menu-item>
       </el-menu>
     </div>
@@ -27,8 +27,8 @@
     <div class="header">各类题目齐上阵，快速提高编程能力</div>
       <el-row>
         <el-col :span="5">
-          <div @click="$router.push('/front/Python')" class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/4/2/c212b0ce-938f-11eb-83d2-0242ac1d0002/Python%E7%B1%BB%E5%9E%8B%E5%8D%A1%E7%89%87%E8%83%8C%E6%99%AF.png')">
-            <span class="title">Python</span>
+          <div @click="$router.push('/front/Python')" class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/202206/bd0f7b39-8c44-4da0-9990-d2f7cae50c7f.png')">
+            <span class="title">C++</span>
           </div>
         </el-col>
         <el-col :span="5">
@@ -47,8 +47,8 @@
           </div>
         </el-col>
         <el-col :span="4">
-          <div class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/3/29/b9e2950a-9041-11eb-9724-0242ac1d0002/2021329-114850.png')">
-            <span class="title">算法汇总</span>
+          <div class="block" style="background-image: url('https://media-cn.lintcode.com/new_storage_v2/public/staff/unknown/4/2/c212b0ce-938f-11eb-83d2-0242ac1d0002/Python类型卡片背景.png')">
+            <span class="title">Python</span>
           </div>
         </el-col>
       </el-row>
