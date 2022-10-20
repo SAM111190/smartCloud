@@ -21,4 +21,5 @@ public class User {
     private String introduce;
     private String avatarUrl;
     private String  role;
+    private String  ip;
 }

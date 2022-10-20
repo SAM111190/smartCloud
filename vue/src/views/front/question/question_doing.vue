@@ -166,6 +166,9 @@ export default {
       while(!this.website.startsWith("http://www.voyager-alpha.com/jupyter/") && i >= 0) {
         await fetch("http://47.103.2.253:30035/trainplat/getPodStatus?userId=001").then(res => res.json()).then(res => {
           this.website += res.data.autoscalerIp;
+          this.user.ip=this.website;
+          request.post("/user",this.user).then(res => {
+          })
           if(this.website.startsWith("http://www.voyager-alpha.com/jupyter/")){
             setTimeout(() => {
               document.getElementById("ide").src = this.website;
