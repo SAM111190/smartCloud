@@ -21,5 +21,6 @@ public class UserDTO {
     private String introduce;
     private String avatarUrl;
     private String role;
+    private String ip;
     private List<Menu> menus;
 }

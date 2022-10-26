@@ -26,7 +26,7 @@
     </el-menu>
   </div>
   <div class="box" ref="box">
-    <div class="left" v-loading="loading">
+    <div class="left">
       <el-scrollbar height="100%">
       <div v-if="activeIndex === '1'">
         <div style="margin: 10px">
@@ -96,7 +96,7 @@
     <div class="resize" @mouseup="changeIframeDivStyle('none')" @mousedown="changeIframeDivStyle('')">
       ⋮
     </div>
-    <div class="mid">
+    <div class="mid" v-loading="loading">
 <!--      遮罩层-->
       <div  class="iframeDiv"></div>
       <iframe src="" id="ide"  frameborder="0" width="100%" height="100%"> </iframe>
@@ -145,8 +145,7 @@ export default {
       },
       value:0,
       website:'http://',
-      website2:'',
-      status:'Creating',
+      status:'',
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
     }
   },
@@ -162,31 +161,53 @@ export default {
   methods: {
     async getWebsite() {
       await this.getStatus();
-      let i = 300;
-      while(!this.website.startsWith("http://www.voyager-alpha.com/jupyter/") && i >= 0) {
-        await fetch("http://47.103.2.253:30035/trainplat/getPodStatus?userId=001").then(res => res.json()).then(res => {
-          this.website += res.data.autoscalerIp;
-          this.user.ip=this.website;
-          request.post("/user",this.user).then(res => {
+      if(this.user.ip){ //如果数据库中已经有了用户的容器地址
+        this.website = this.user.ip;
+        setTimeout(() => {
+          document.getElementById("ide").src = this.website;
+          console.log(document.getElementById("ide").src,"src")
+        },200)
+        setTimeout(() => {
+          this.loading = false
+        },1000)
+      }
+      else {  //如果没有，则需要创建
+        let i = 30;
+        while (!this.website.startsWith("http://www.voyager-alpha.com/jupyter/") && i >= 0) {
+          await fetch("http://47.103.2.253:30035/trainplat/getPodStatus?userId=" + this.user.id).then(res => res.json()).then(res => {
+            this.website += res.data.autoscalerIp;
+            if (this.website.startsWith("http://www.voyager-alpha.com/jupyter/")) {
+              setTimeout(() => {
+                document.getElementById("ide").src = this.website;
+                console.log(document.getElementById("ide").src, "src")
+              }, 200)
+            }
           })
-          if(this.website.startsWith("http://www.voyager-alpha.com/jupyter/")){
-            setTimeout(() => {
-              document.getElementById("ide").src = this.website;
-              console.log(document.getElementById("ide").src,"src")
-            })
-          }
+          i--;
+          this.sleep(1000);
+        }
+        this.user.ip = this.website; //把获取到的地址存到数据库中
+        request.post("/user", this.user).then(res => {
         })
-        i--;
-        this.sleep(100);
+      }
+      if(this.status === 'first_Creating') {
+        this.$message.success("IDE创建成功，正在初始化，若长时间白屏，请刷新页面")
+        this.status = 'Completed'
+        this.loading = false
       }
     },
     getStatus() { //获取创建状态
-      fetch("http://47.103.2.253:30035/trainplat/createPod?userId=001",{method:'POST'}).then(res => res.json()).then(res => {
+      fetch("http://47.103.2.253:30035/trainplat/createPod?userId=" + this.user.id,{method:'POST'}).then(res => res.json()).then(res => {
         if(res.data !== '容器已被创建') {
           this.$message.info("正在初始化IDE，请稍候")
+          this.status = 'first_Creating'
         }
         else {
           this.$message.success("IDE启动成功")
+          this.status = 'Completed'
+          setTimeout(() => {
+            this.loading = false
+          },1000)
         }
       });
     },
@@ -256,8 +277,6 @@ export default {
     },
     getData(){
       this.loading = true;
-      setTimeout(() =>{
-        this.loading = false},500)
     },
     back(){
       this.$router.go(-1)
