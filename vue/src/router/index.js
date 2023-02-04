@@ -29,6 +29,11 @@ const routes = [
           name: 'Bulletin',
           component: () => import("@/views/background/Bulletin"),
         },
+        {
+          path: 'forum',
+          name: 'Forum1',
+          component: () => import("@/views/background/Forum"),
+        },
       ]
   },
   {
