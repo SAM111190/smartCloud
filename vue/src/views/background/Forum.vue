@@ -146,7 +146,6 @@ export default {
           this.form = {}
         },
         save(){
-
           //有id更新
           request.post("/forum",this.form).then(res => {
             if(res) {

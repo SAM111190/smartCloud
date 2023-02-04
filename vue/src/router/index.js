@@ -31,7 +31,7 @@ const routes = [
         },
         {
           path: 'forum',
-          name: 'Forum',
+          name: 'Forum1',
           component: () => import("@/views/background/Forum"),
         },
       ]
