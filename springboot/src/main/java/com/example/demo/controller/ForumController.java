@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.Bulletin;
+import com.example.demo.entity.User;
 import com.example.demo.mapper.ForumMapper;
 import com.example.demo.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
@@ -82,11 +83,14 @@ public Result findOne(@PathVariable Integer id) {
 
     @GetMapping("/page1")//分页查询
     public IPage<Forum> findPage1(@RequestParam(defaultValue = "1") Integer pageNum,
-                                 @RequestParam(defaultValue = "7") Integer pageSize)
+                                 @RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "") String username)
     {
         IPage<Forum> page=new Page<>(pageNum,pageSize);
         QueryWrapper<Forum> queryWrapper=new QueryWrapper<>();
-        queryWrapper.orderByDesc("likes");
+        if (!"".equals(username))
+        {
+            queryWrapper.like("title",username);
+        }
         IPage<Forum> forumIPage=forumService.page(page,queryWrapper);
         return forumIPage;
     }
