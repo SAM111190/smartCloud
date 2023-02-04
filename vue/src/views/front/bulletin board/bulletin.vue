@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="bulletin_title">
-            <el-link :href="form.href" type="primary" style="font-size: 18px" :underline="false">【{{form.time}}】{{form.title}}</el-link>
+            <router-link :to="{path:'/front/bulletin_detail',query: {index: form.id}}" >【{{form.time}}】{{form.title}}</router-link>
             <p style="text-align: center;color: grey;font-size: 12px;padding-top: 5px">@{{form.time}}</p>
           </div>
         </div>
@@ -150,5 +150,17 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+a {
+  text-decoration: none;
+}
+a:link {
+  color: #444444;
+}
+a:visited{
+  color: #444444;
+}
+a:hover {
+  color: #409eff;
 }
 </style>

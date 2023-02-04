@@ -161,17 +161,6 @@ export default {
   methods: {
     async getWebsite() {
       await this.getStatus();
-      if(this.user.ip){ //如果数据库中已经有了用户的容器地址
-        this.website = this.user.ip;
-        setTimeout(() => {
-          document.getElementById("ide").src = this.website;
-          console.log(document.getElementById("ide").src,"src")
-        },200)
-        setTimeout(() => {
-          this.loading = false
-        },1000)
-      }
-      else {  //如果没有，则需要创建
         let i = 30;
         while (!this.website.startsWith("http://www.voyager-alpha.com/jupyter/") && i >= 0) {
           await fetch("http://47.103.2.253:30035/trainplat/getPodStatus?userId=" + this.user.id).then(res => res.json()).then(res => {
@@ -186,10 +175,9 @@ export default {
           i--;
           this.sleep(1000);
         }
-        this.user.ip = this.website; //把获取到的地址存到数据库中
-        request.post("/user", this.user).then(res => {
-        })
-      }
+        // this.user.ip = this.website; //把获取到的地址存到数据库中
+        // request.post("/user", this.user).then(res => {
+        // })
       if(this.status === 'first_Creating') {
         this.$message.success("IDE创建成功，正在初始化，若长时间白屏，请刷新页面")
         this.status = 'Completed'

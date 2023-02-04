@@ -14,7 +14,7 @@
     </div>
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="id" label="ID"  sortable />
-      <el-table-column prop="title" label="贴子名"  />
+      <el-table-column prop="title" label="贴子名"  min-width="100"/>
       <el-table-column prop="nickName" label="发帖人" />
       <el-table-column prop="time" label="发帖时间" />
       <el-table-column prop="postcontent" label="帖子内容">
@@ -194,4 +194,9 @@ export default {
 </script>
 
 <style scoped>
+.el-table
+/deep/
+.cell {
+  white-space:nowrap;
+}
 </style>

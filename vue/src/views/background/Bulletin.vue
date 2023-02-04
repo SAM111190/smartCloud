@@ -15,7 +15,11 @@
       <el-table-column prop="time" label="时间"  />
       <el-table-column prop="username" label="管理员"  />
       <el-table-column prop="title" label="公告标题" />
-      <el-table-column prop="content" label="内容" min-width="100"/>
+      <el-table-column prop="content" label="内容">
+        <template v-slot="scope">
+          <el-button type="text" @click="view(scope.row.content)">查看内容</el-button>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template #default="scope">
           <el-button   @click="handleEdit(scope.row)">编辑</el-button>
@@ -39,56 +43,47 @@
       </el-pagination>
       <el-dialog
           v-model="dialogVisible"
-          title="公告发布"
-          width="60%">
+          title="公告操作"
+          width="80%">
         <el-form
               ref="form"
               :model="form"
-              label-width="100px"
+              label-width="10px"
               style="margin-top: 30px"
               :rules="rules">
             <el-form-item prop="title">
-              <el-input v-model="form.title" style="width: 86%" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
+              <el-input v-model="form.title" style="width: 100%" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
             </el-form-item>
             <el-form-item prop="content">
-              <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的公告" :rows="15" maxlength="1000" show-word-limit></el-input>
+              <div id="richText" style="width: 100%"></div>
             </el-form-item>
           </el-form>
         <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="post">发布</el-button>
+        <el-button type="primary" @click="save">确认</el-button>
         <el-button @click="dialogVisible = false">取消</el-button>
       </span>
         </template>
       </el-dialog>
-      <el-dialog
-          v-model="dialogVisible1"
-          title="公告编辑"
-          width="60%">
-        <el-form :model="form" label-width="120px">
-          <el-form-item label="标题">
-            <el-input v-model="form.title" style="width: 86%" placeholder="标题为5-15个字" maxlength="15" minlength="5" show-word-limit></el-input>
-          </el-form-item>
-          <el-form-item label="内容">
-            <el-input v-model="form.content" style="width: 86%" type="textarea" placeholder="在这里输入你要发布的公告" :rows="15" maxlength="1000" show-word-limit></el-input>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible1 = false">取消</el-button>
-        <el-button type="primary" @click="save">确认</el-button>
-      </span>
-        </template>
-      </el-dialog>
     </div>
+
+    <!--    查看内容弹窗-->
+    <el-dialog
+        title="查看内容"
+        width="80%"
+        v-model="dialogVisible1"
+    >
+      <div v-html="content" style="border: 1px solid #ccc;padding: 10px"></div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 
-
+import wangEditor from "wangeditor"
 import request from "@/utils/request";
-
+let editor;
 export default {
   name: 'Bulletin',
   components: {
@@ -98,6 +93,7 @@ export default {
       form:{},
       dialogVisible:false,
       dialogVisible1:false,
+      content:'',
       search:'',
       title:'',
       currentPage:1,
@@ -112,7 +108,6 @@ export default {
         ],
         content: [
           { required: true, message: '请输入帖子的内容', trigger: 'blur' },
-          { max: 1000, message: '长度应该在1000之内', trigger: 'blur' },
         ],
       },
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
@@ -125,6 +120,10 @@ export default {
       {
         async getUser() {
           return (await request.get("/user/username/" + this.user.username)).data
+        },
+        view(content) {
+          this.content = content
+          this.dialogVisible1 = true
         },
         load()//显示后台数据
         {
@@ -143,7 +142,9 @@ export default {
           })
         },
         save(){
-
+          const content = editor.txt.html()
+          //富文本框手动赋值
+          this.form.content = content
           //有id更新
           request.post("/bulletin",this.form).then(res => {
             if(res) {
@@ -153,23 +154,7 @@ export default {
               this.$message.error("保存失败")
             }
             this.load()//刷新表格的数据
-            this.dialogVisible1=false//关闭弹窗
-          })
-        },
-        post() {
-          this.$refs['form'].validate((valid) => {
-            if(valid) {   //判断是否满足验证规则，才能进行下面的请求
-              request.post("/bulletin/insert",this.form).then(res => {
-                if(res) {
-                  this.$message.success("发布成功")
-                  this.load()//刷新表格的数据
-                  this.dialogVisible=false//关闭弹窗
-                }else
-                {
-                  this.$message.error("发布失败")
-                }
-              })
-            }
+            this.dialogVisible = false//关闭弹窗
           })
         },
         reset(){
@@ -177,16 +162,34 @@ export default {
           this.load()
         },
         add(){//增加新数据
-          this.getUser().then(res => {
-            console.log(res)
-            this.form = res
+          this.dialogVisible = true;
+          this.form = {};
+          this.$nextTick(() => {
+            if(!editor) {
+              editor = new wangEditor("#richText");
+              editor.config.focus = false
+              editor.config.zIndex = 1
+              editor.config.uploadImgServer = 'http://localhost:9091/file/uploadImg'
+              editor.config.uploadFileName='file'
+              editor.create();
+            }
+            editor.txt.html('');
           })
-          this.dialogVisible =true
-          this.form = {}
         },
         handleEdit(row){
-          this.form =JSON.parse(JSON.stringify(row))
-          this.dialogVisible1=true
+          this.form = row;
+          this.dialogVisible = true;
+          this.$nextTick(() => {
+            if(!editor) {
+              editor = new wangEditor("#richText");
+              editor.config.focus = false
+              editor.config.zIndex = 1
+              editor.config.uploadImgServer = 'http://localhost:9094/file/uploadImg'
+              editor.config.uploadFileName='file'
+              editor.create();
+            }
+            editor.txt.html(this.form.content);
+          })
         },
 
         handleDelete(id)

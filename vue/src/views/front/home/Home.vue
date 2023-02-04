@@ -230,6 +230,8 @@ export default {
   border-radius: 2px;
   display:flex;
   background-size: 100% 100%;
+  transition-property: all;
+  transition-duration: 0.2s;
 }
 .block:hover{
   box-shadow: 0 16px 32px 0 rgba(48, 55, 66, 0.3);/* 鼠标悬浮时盒子出现的阴影 */
