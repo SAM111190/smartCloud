@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.SearchMapper">
+    <select id="searchQuestion" resultType="com.example.demo.entity.Question">
+        select
+            *
+        from
+            question
+        where name like #{name}
+    </select>
+    <select id="searchUser" resultType="com.example.demo.entity.User">
+        select
+            *
+        from
+            user
+        where username like #{name}
+    </select>
+    <select id="searchForum" resultType="com.example.demo.entity.Forum">
+        select
+            *
+        from
+           forum
+        where title like #{name}
+    </select>
+    <select id="searchBulletin" resultType="com.example.demo.entity.Bulletin">
+        select
+            *
+        from
+            bulletin
+        where title like #{name}
+    </select>
+</mapper>
+
