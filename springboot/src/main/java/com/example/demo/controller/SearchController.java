@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
-import com.example.demo.entity.Forum;
-import com.example.demo.entity.Question;
-import com.example.demo.entity.Search;
+import com.example.demo.entity.*;
 import com.example.demo.mapper.SearchMapper;
 import com.example.demo.service.IQuestionService;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +45,32 @@ public class SearchController {
         name = "%"+ name +"%";
         List<Question> res=new ArrayList<>();
         res=searchMapper.searchQuestion(name);
+        return res;
+    }
+
+    @GetMapping("/user")//分页查询
+    public List<User> searchUser(@RequestParam(defaultValue = "") String name)
+    {
+        name = "%"+ name +"%";
+        List<User> res=new ArrayList<>();
+        res=searchMapper.searchUser(name);
+        return res;
+    }
+    @GetMapping("/forum")//分页查询
+    public List<Forum> searchForum(@RequestParam(defaultValue = "") String name)
+    {
+        name = "%"+ name +"%";
+        List<Forum> res=new ArrayList<>();
+        res=searchMapper.searchForum(name);
+        return res;
+    }
+
+    @GetMapping("/bulletin")//分页查询
+    public List<Bulletin> searchBulletin(@RequestParam(defaultValue = "") String name)
+    {
+        name = "%"+ name +"%";
+        List<Bulletin> res=new ArrayList<>();
+        res=searchMapper.searchBulletin(name);
         return res;
     }
 
