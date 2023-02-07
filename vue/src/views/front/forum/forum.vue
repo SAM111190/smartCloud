@@ -92,7 +92,8 @@
 import {Tools,Edit,Document} from "@element-plus/icons";
 import request from "@/utils/request";
 export default {
-  name: "user",
+  name: "forum"
+  ,
   data(){
     return {
       activeIndex:'1',

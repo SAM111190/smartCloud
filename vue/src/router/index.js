@@ -108,6 +108,11 @@ const routes = [
         component: () => import("@/views/front/bulletin board/bulletin")
       },
       {
+        path: 'bulletin_detail',
+        name: 'bulletin_detail',
+        component: () => import("@/views/front/bulletin board/bulletin_detail")
+      },
+      {
         path: '404',
         name: '404',
         component: () => import("@/views/front/404/404")
