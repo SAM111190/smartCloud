@@ -25,7 +25,7 @@
               placeholder="搜索一下"
               style="width: 40%;"
           />
-          <el-button type="primary" size="default" style="margin-left: 10px" @click="$router.push('/front/search')">搜索</el-button>
+          <el-button type="primary" size="default" style="margin-left: 10px" @click="goToSearch">搜索</el-button>
         </div>
       </div>
             <div class="nickname" style="text-align: right; padding-right: 30px">
@@ -150,6 +150,10 @@ export default {
   created() {
   },
   methods: {
+    goToSearch() {
+      this.$emit('getSearchContent',this.search)//将输入框的search传值到layout中，子传父
+      this.$router.push("/front/search")//跳转到搜索页面
+    },
     submit() {
       this.$refs['form'].validate((valid) => {
         if(valid) {   //判断是否满足验证规则，才能进行下面的请求
