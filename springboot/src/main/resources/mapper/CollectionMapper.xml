@@ -7,5 +7,9 @@
     <delete id="delete">
     delete  from collection where user_id=#{userId} and question_id=#{questionId}
     </delete>
-    
+    <select id="selectAllcollections" resultType="com.example.demo.entity.Question">
+        select question.*
+        from collection,question
+        where collection.user_id=#{userId}  and question.id=collection.question_id
+    </select>
 </mapper>

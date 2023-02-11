@@ -76,5 +76,10 @@ public Result findPage(@RequestParam Integer pageNum,
     public Result delete(@RequestParam Integer userId, @RequestParam Integer questionId) {
         return Result.success(collectionMapper.delete(userId,questionId));
     }
-        }
+    @GetMapping("/findall/{userId}")
+    public Result findAll(@PathVariable Integer userId) {
+        return Result.success(collectionMapper.selectAllcollections(userId));
+    }
+
+}
 
