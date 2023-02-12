@@ -33,7 +33,6 @@
         >
           <el-menu-item index="1">主页</el-menu-item>
           <el-menu-item index="2">讨论</el-menu-item>
-          <el-menu-item index="3">收藏</el-menu-item>
         </el-menu>
       </div>
     </div>
@@ -56,8 +55,40 @@
         <div class="left">
         <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">题目收藏</h2>
         <div class="description">
-          <el-empty description="空空如也" :image-size="100" >
-          </el-empty>
+          <el-table
+              :data="collectionList"
+              stripe
+              style="font-size: 12px"
+              ref="filterTable"
+              v-loading="loading"
+          >
+            <el-table-column prop="submitStatus" label="状态" width="100px"/>
+            <el-table-column prop="number" label="序号" width="100px"/>
+            <el-table-column prop="difficulty" label="难度" column-key="difficulty" width="100px"
+                             :filters="[
+                          { text: '入门', value: '入门' },
+                          { text: '简单', value: '简单' },
+                          { text: '进阶', value: '进阶' },
+                          { text: '困难', value: '困难' },
+                          ]"
+                             :filter-method="filterHandler"
+            >
+              <template #default="scope">
+                <el-tag :type="(scope.row.difficulty === '入门'?'':(scope.row.difficulty === '简单'?'warning':(scope.row.difficulty === '进阶'?'success':(scope.row.difficulty === '困难'?'danger':'info'))))" effect="dark">{{scope.row.difficulty}}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="题目"/>
+            <el-table-column label="操作">
+              <template #default="scope">
+                <div style="margin-right:100px">
+                  <el-button size="small" link><router-link :to="{path:'/front/question',query: {index: scope.row.id}}" >开始做题</router-link></el-button>
+                  <el-button size="small" link type="danger" @click="deleteCollectioin(scope.row.id)">取消收藏</el-button>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+<!--          <el-empty description="空空如也" :image-size="100" >-->
+<!--          </el-empty>-->
         </div>
       </div>
       </div>
@@ -91,35 +122,52 @@
           </div>
         </div>
       </div>
-      <div v-else-if="activeIndex === '3'">
-        <div class="bottom_content">
-          <h2 style="border-bottom:1px solid #ccc;padding-bottom: 10px">收藏</h2>
-          <div class="description">
-            <el-empty description="空空如也" :image-size="100" >
-            </el-empty>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import {Tools} from "@element-plus/icons";
+import request from "@/utils/request";
 export default {
   name: "user",
   data(){
     return {
+      collectionList:[],
       activeIndex:'1',
       Tools,
       board:'',
       user: sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {},
     }
   },
+  created() {
+    this.getCollection();
+  },
   methods:{
     handSelect(key){
       this.activeIndex = key;
     },
+    getCollection() {
+      request.get("/collection/findall/" + this.user.id).then(res => {
+        this.collectionList = res.data;
+      })
+    },
+    deleteCollectioin(qid) {
+      request.delete("/collection/delete",{
+        params:{
+          userId:Number(this.user.id),
+          questionId:Number(qid)
+        }
+      }).then(res => {
+        if(res){
+          this.$message.info("已取消收藏")
+          this.getCollection()
+        }
+        else{
+          this.$message.error("取消收藏失败")
+        }
+      })
+    }
   },
 }
 </script>
@@ -193,4 +241,16 @@ export default {
    box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.11);
    padding:15px
  }
+  a {
+    text-decoration: none;
+  }
+  a:link {
+    color: #409eff;
+  }
+  a:visited{
+    color: #409eff;
+  }
+  a:hover {
+    color: grey;
+  }
 </style>

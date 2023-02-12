@@ -35,12 +35,10 @@
           难度：<el-tag :type="(questions.rate === 1?'':(questions.rate === 2?'warning':(questions.rate === 3?'success':(questions.rate === 4?'danger':'info'))))" effect="dark">
           {{questions.difficulty}}
         </el-tag>
-            <el-rate @click="save" v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                     :max="4"
-                     show-text
-                     :texts="['入门', '简单', '进阶', '困难']"
-                     style="position: relative;left: 10px;top: 5px"
-            />
+          <div class="collection">
+            <el-button text v-if="collection === 1" @click="toCollect"><el-rate v-model="collection" :max="1" style="scale: 1.2" disabled  @click="toCollect"></el-rate>取消收藏</el-button>
+            <el-button text v-else-if="collection === 0" @click="toCollect"><el-rate v-model="collection" :max="1" style="scale: 1.2" disabled  @click="toCollect"></el-rate>收藏该题</el-button>
+          </div>
         </div>
         <el-divider />
         <div class="content">
@@ -90,7 +88,7 @@
       </el-scrollbar>
       <div class="bottom_bar">
         <el-button type="info" size="default" @click="back">返回</el-button>
-          <el-button type="primary" size="default" @click="submitCoding = true">提交代码</el-button>
+          <el-button type="primary" size="default" @click="submitCoding = true">题目打分</el-button>
       </div>
     </div>
     <div class="resize" @mouseup="changeIframeDivStyle('none')" @mousedown="changeIframeDivStyle('')">
@@ -102,22 +100,28 @@
       <iframe src="" id="ide"  frameborder="0" width="100%" height="100%"> </iframe>
     </div>
 <!--    提交-->
-    <el-dialog v-model="submitCoding" title="提交代码">
-      <el-form
-          ref="form"
-          :model="form"
-          label-width="10px"
-          style="margin-top: 25px"
-          :rules="rules"
-      >
-        <el-form-item prop="content">
-          <el-input v-model="form.content" type="textarea" placeholder="在这里输入你的代码" :rows="15" maxlength="1000" show-word-limit></el-input>
-        </el-form-item>
-      </el-form>
-      <div style="text-align: center">
-        <el-button type="primary" @click="submit">提交</el-button>
-        <el-button type="info" @click="submitCoding = false">取消</el-button>
+    <el-dialog v-model="submitCoding" title="题目打分" width="35%">
+<!--      <el-form-->
+<!--          ref="form"-->
+<!--          :model="form"-->
+<!--          :rules="rules"-->
+<!--          style="display: flex;justify-content: center;margin-bottom: 20px"-->
+<!--      >-->
+<!--        <el-from-item prpo="rate">-->
+      <div style="display:flex;justify-content: center">
+          <el-rate @click="save" v-model="value" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                   :max="4"
+                   show-text
+                   :texts="['入门', '简单', '进阶', '困难']"
+                   style="scale:1.2 "
+          />
       </div>
+<!--        </el-from-item>-->
+<!--      </el-form>-->
+<!--      <div style="text-align: center">-->
+<!--        <el-button type="primary" @click="submit">提交</el-button>-->
+<!--        <el-button type="info" @click="submitCoding = false">取消</el-button>-->
+<!--      </div>-->
     </el-dialog>
   </div>
 </template>
@@ -130,6 +134,8 @@ export default {
   inject:['reload'],
   data() {
     return {
+      collectedList:[],
+      collection:0,
       activeIndex:'1',
       submitCoding:false,
       form:{},
@@ -154,7 +160,7 @@ export default {
     this.load();
   },
   mounted() {
-    this.getWebsite();
+    // this.getWebsite();
     this.dragControllerDiv();
     this.changeIframeDivStyle('none');
   },
@@ -182,6 +188,42 @@ export default {
         this.$message.success("IDE创建成功，正在初始化，若长时间白屏，请刷新页面")
         this.status = 'Completed'
         this.loading = false
+      }
+    },
+    toCollect() { //收藏题目
+      //未收藏过改题目，则要请求/insert接口进行收藏
+      if(Number(this.collection) === 0){
+        request.post("/collection/insert",null,{
+          params:{
+            userId:Number(this.user.id),
+            questionId:Number(this.qid)
+          }
+        }).then(res => {
+          if(res){
+            this.$message.success("收藏成功")
+            this.collection = 1;
+          }
+          else{
+            this.$message.error("收藏失败")
+          }
+        })
+      }
+      //收藏过题目，则请求/delete接口取消收藏
+      else if(Number(this.collection) === 1) {
+        request.delete("/collection/delete",{
+          params:{
+            userId:Number(this.user.id),
+            questionId:Number(this.qid)
+          }
+        }).then(res => {
+          if(res){
+            this.$message.info("已取消收藏")
+            this.collection = 0;
+          }
+          else{
+            this.$message.error("取消收藏失败")
+          }
+        })
       }
     },
     getStatus() { //获取创建状态
@@ -243,9 +285,10 @@ export default {
           })
         }
       })
-      this.reload()
+      this.submitCoding = false;
     },
     load(){
+      //请求得到该问题信息
       this.qid=this.$route.query.index
       //this.qid=this.$route.query.id
       request.get("/question/"+this.qid,{
@@ -257,6 +300,24 @@ export default {
             }
       }).then(res=>{
         this.questions = res.data
+      })
+      this.getCollectionStatus();
+    },
+    getCollectionStatus() {
+      //请求得到该用户收藏过的题目
+      request.get("/collection/findall/" + this.user.id).then(res => {
+        for(let i = 0;i<res.data.length;i++){
+          this.collectedList[i] = res.data[i].id;
+          //判断该题目用户是否收藏过
+          this.collection = 0;
+          for(let j = 0;j<this.collectedList.length;j++){
+            //如果收藏过该题目
+            if(Number(this.qid) === this.collectedList[j]){
+              this.collection = 1;
+              break;
+            }
+          }
+        }
       })
     },
     changeIframeDivStyle(display) {
@@ -322,6 +383,14 @@ export default {
   }
   .bar {
     margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+  .collection {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
   }
   .left h1 {
     font-size: 18px;
