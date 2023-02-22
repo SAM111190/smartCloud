@@ -94,10 +94,10 @@
     <div class="resize" @mouseup="changeIframeDivStyle('none')" @mousedown="changeIframeDivStyle('')">
       ⋮
     </div>
-    <div class="mid" v-loading="loading">
+    <div class="mid">
 <!--      遮罩层-->
       <div  class="iframeDiv"></div>
-      <iframe src="" id="ide"  frameborder="0" width="100%" height="100%"> </iframe>
+      <iframe src="http://localhost:8888/lab" id="ide"  frameborder="0" width="100%" height="100%"> </iframe>
     </div>
 <!--    提交-->
     <el-dialog v-model="submitCoding" title="题目打分" width="35%">
